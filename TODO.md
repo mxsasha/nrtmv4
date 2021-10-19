@@ -23,7 +23,30 @@
   feel nice.
 * Recommending GZIP seems useful especially for snapshots. RPSL compresses well.
   Should this be done by the HTTP server? Served as gzipped files? Hash/signature
-  of plaintext or gzipped content?
+  of plaintext or gzipped content? If widely supported, recommending gzip
+  compression at the HTTP server level seems easiest.
+* When generating the first snapshot, it would have version 1, with no delta for
+  version 1. This is inconsistent with later snapshots, where the snapshot version
+  matches the version of a delta. Maybe this is not an issue because when "updating"
+  to version 1, a client always needs the snapshot anyways, and then resumes with
+  delta version 2, etc.
+* IRR tends to have relatively frequent but small changes. Delta expiry (when
+  combined deltas are larger than the snapshot) will therefore be very rare.
+  This can cause clients to need to download thousands of delta files,
+  which may be less data transfer than reloading from snapshot, but are still
+  slow due to the number. Either delta expiry, forcing snapshot reload, needs to
+  happen earlier or, more ideal, we need a mechanism for servers to aggregate old
+  delta files. This would require the Update Notification File to refer to a file
+  that contains a range of versions, retrievable with a single HTTP request.
+  The individual versions should still be split in that file, so that clients at
+  intermediate versions can correctly update. Sasha has ideas on the details here.
+* We need good key management. Do we recommend/require periodic rollovers? How often?
+  What is the process? How is this communicated to users? Perhaps keys can be stored
+  with IANA same as certificate transparency which would solve a lot of issues.
+  Job is exploring this more.
+* Perhaps we need an in-band signalling mechanism to admins. Key rotation could
+  be a case, but also maybe a change of URL. Question: how would IRRd communicate
+  this to the admins effectively?
 * Work out more details for the HTTPS section.
 * Add proper references (e.g. to RFC 2622 section 2 for "valid RPSL name")
 * Write a proper JSON schema? https://json-schema.org/
