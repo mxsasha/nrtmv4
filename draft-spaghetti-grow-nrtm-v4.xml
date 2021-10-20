@@ -31,7 +31,6 @@
       <email>sasha@dashcare.nl</email>
     </address>
   </author>
-  <date />
 
   <author fullname="Job Snijders" initials="J." surname="Snijders">
     <organization>Fastly</organization>
@@ -59,6 +58,8 @@
     </address>
   </author>
  
+  <date />
+
   <area>OPS</area>
   <workgroup>GROW</workgroup>
   <keyword>NRTM</keyword>
@@ -142,7 +143,6 @@
        This minimises data transfer.
        Deltas have sequential versions. <!-- note: negative cache attack? -->
      </t>
-     <t>
      <t>
        A mirror client is configured with a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
      </t>
@@ -257,10 +257,12 @@
           <t>
             The version number of the new snapshot MUST be equal to the last Delta File version.
           </t>
-            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
           <t>
+            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
           </t>
+          <t>
             The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+          </t>
           <t>
             If, after generating the Snapshot File, the total size of all current Delta Files up to the snapshot version, exceeds the size of the snapshot, older Delta Files MUST be removed, until the total size of the deltas is less than the size of the snapshot.
             This avoids mirror clients downloading more data than necessary.
@@ -354,7 +356,6 @@
           <t>
             The client MUST update its most recent version to the version of the Update Notification File.
           </t>
-          <t>
         </list>
       </t>
       <t>
@@ -743,8 +744,6 @@
 
   <references title="Normative References">
     <?rfc include="reference.RFC.2119.xml"?>
-    <?rfc include="reference.RFC.4271.xml"?>
-    <?rfc include="reference.RFC.0793.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
   </references>
 
