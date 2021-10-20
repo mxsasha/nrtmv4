@@ -301,7 +301,7 @@
       <t>
         Clients MUST initialise from a snapshot when initially configured, or if they are not able to update their local data from the provided Delta Files.
       </t>
-      <list>
+      <list style="symbols">
         <t>
           The client MUST retrieve the Update Notification File.
         </t>
@@ -325,7 +325,7 @@
         If a mirror client has previously initialised from a snapshot:
       </t>
       <t>
-        <list>
+        <list style="symbols">
           <t>
             The client MUST verify that the configured Update Notification File URL matches the previously known URL. If this does not match, the client MUST reinitialise from the Snapshot File, using the new Update Notification File URL.
           </t>
@@ -541,7 +541,7 @@
         The following validation rules MUST be observed when creating or parsing Snapshot Files:
       </t>
       <t>
-        <list>
+        <list style="symbols">
           <t>
             The nrtm_version MUST be 4.
           </t>
