@@ -48,10 +48,15 @@
   be a case, but also maybe a change of URL. Question: how would IRRd communicate
   this to the admins effectively?
 * Work out more details for the HTTPS section.
-* Add proper references (e.g. to RFC 2622 section 2 for "valid RPSL name")
 * Write a proper JSON schema? https://json-schema.org/
 * Ed25519 is a good choice by all indications, but that may need more
   explanation - not in the specification itself probably though.
 * Should there be something in here about loading from local files instead
   of HTTPS? Not too common, but there are some people who will want to do
   that. Should probably be allowed.
+* We now consistently use the term "RPSL objects" - in earlier versions this
+  was a mix of "IRR objects" and "RPSL objects". Good wording?
+* Should we encode the RPSL object text as base64? Makes it bigger, but
+  reduces encoding issues, as the XML can now fit in ASCII.
+* Are the sample URLs in the example update notification file good choices?
+  Probably implementations will follow those closely.
