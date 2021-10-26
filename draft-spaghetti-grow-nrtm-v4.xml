@@ -19,8 +19,8 @@
 
   <title abbrev="NRTM v4">Near Real Time Mirroring (NRTM) version 4</title>
 
-  <author fullname="Sasha Romijn" initials="R." surname="Romijn">
-    <organization>Dashcare</organization>
+  <author fullname="Sasha Romijn" initials="S." surname="Romijn">
+    <organization>DashCare</organization>
     <address>
       <postal>
         <street />
@@ -45,7 +45,7 @@
     </address>
   </author>
 
-  <author fullname="Edward" initials="E." surname="Shryane">
+  <author fullname="Edward Shryane" initials="E." surname="Shryane">
     <organization>RIPE NCC</organization>
     <address>
       <postal>
@@ -57,7 +57,7 @@
       <email>eshryane@ripe.net</email>
     </address>
   </author>
- 
+
   <date />
 
   <area>OPS</area>
@@ -68,10 +68,8 @@
 
   <abstract>
     <t>
-      This document specifies a synchronization protocol. 
-      The Internet Routing Registry (IRR) consists of several different IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
-      About a dozen larger IRR Databases are widely used, operated by different organisations, like RIRs and some large network operators.
-      IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
+      This document specifies a synchronization protocol for Internet Routing Registry (IRR) records.
+      The protocol allows instances of IRR database servers to mirror IRR records, specified in in the Routing Policy Specification Language (RPSL), between each other.
     </t>
   </abstract>
 
@@ -84,31 +82,25 @@
 </front>
 
 <middle>
- 
+
   <section title="Introduction">
     <t>
       The Internet Routing Registry (IRR) consists of several different IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
-      About a dozen larger IRR Databases are widely used, operated by different organisations, like RIRs and some large network operators.
-      IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
+      About a dozen larger IRR Databases are well known and widely used, operated by different organisations, like RIRs and some large network operators.
+      RPSL objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
     </t>
 
     <t>
-      Most of the IRR Databases mirror RPSL objects from some others, so that queries run against these instances provide a comprehensive view.
-      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyse IRR objects, or other purposes.
+      Most of these well known IRR Databases mirror RPSL objects from some others, so that queries run against these instances provide a comprehensive view.
+      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyse RPSL objects, or other purposes.
     </t>
 
     <t>
-      Currently mirroring is mainly performed using NRTM version 3 and publication of files on FTP servers.
-      There are significant issues with this setup.
-      The protocol specification is unclear, causing interoperability issues, it is difficult to scale, many issues can cause silent reliability issues, and security features are absent.
-    </t>
-
-    <t>
-      NRTM version 4 is designed to address issues in IRR Database mirroring.
+      NRTM version 4 is designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on a HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is dramatically improved.
-      It borrows extensively from concepts from RRDP, as there are overlaps between the two protocols.
+      It borrows some concepts in <xref target="RFC8182"/>, as there are overlaps between the two protocols.
     </t>
 
   </section>
@@ -123,7 +115,7 @@
       <list style="symbols">
         <t>
           A single Update Notification File.
-          This specifies the current Database version, and locations of the Snapshot File and Delta Files.
+          This specifies the current Database version and locations of the Snapshot File and Delta Files.
           Additionally, there is an Update Notification Signature File, used to verify the authenticity of the Update Notification File.
         </t>
         <t>
@@ -138,8 +130,8 @@
        </list>
      </t>
      <t>
-       Mirror clients initially retrieve the Update Notification File and a Snapshot File, from which they initialise their local copy of the Database.
-       After that, mirror clients only need to retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files.
+       Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialise their local copy of the Database.
+       After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimises data transfer.
        Deltas have sequential versions. <!-- note: negative cache attack? -->
      </t>
@@ -148,8 +140,8 @@
      </t>
      <t>
        Upon initialization, the mirror server generates a session ID for the Database.
-       This is used by the client to know that the Delta Files continue to form a full set of changes allowing clients to update to the latest version.
-       If the mirror server loses partial history or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
+       This is used to allow for long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
      </t>
      <t>
        Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
@@ -167,7 +159,7 @@
 
     <section title="Key Configuration">
       <t>
-        When enabling NRTMv4 exports for an IRR Database, an operator MUST configure a private Ed25519 key to be used for Update Notification Signature Files.
+        When enabling NRTMv4 publication for an IRR Database, an operator MUST configure a private Ed25519 <xref target="RFC8032"/>. key to be used for Update Notification Signature Files.
       </t>
       <t>
         It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new Ed25519 keys to enter into their configuration, and generate the public keys from the current configuration.
@@ -177,7 +169,7 @@
 
     <section title="Snapshot Initialisation">
       <t>
-        A mirror server MUST follow the initialisation steps upon the first export for an IRR Database by that mirror server or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
+        A mirror server MUST follow the initialisation steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
       </t>
       <t>
         In other words, either the mirror server guarantees that clients following the deltas have a correct and complete view, or MUST reinitialise, which will force clients to reinitialise as well.
@@ -187,11 +179,11 @@
         <list style="symbols">
           <t>
             The mirror server MUST generate a new session ID.
-            This MUST be a random v4 UUID.
+            This MUST be a random v4 UUID <xref target="RFC4122"/>.
           </t>
           <t>
             The server MUST generate a snapshot for version number one.
-            This may contain an empty array of objects if the IRR database is currently empty.
+            This may contain an empty array of objects if the IRR Database is currently empty.
           </t>
           <t>
             The server MUST generate a new Update Notification File with the new session ID, a reference to the new snapshot, and no deltas.
@@ -203,91 +195,92 @@
       </t>
       <t>
         Note that session IDs, versions and all files always relate to a specific IRR Database.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent from each other, with different session IDs, even if the same IRR server instance produces both.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent from each other, with different session IDs.
+        This applies even if the same IRR server instance produces both.
       </t>
     </section>
-  </section>
 
-  <section title="Publishing updates">
-    <section title="Delta Files">
-      <t>
-        Changes to IRR objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.
-      </t>
-      <t>
-        Updates are generated as follows:
-      </t>
-      <t>
-        <list style="symbols">
-          <t>
-            A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.
-          </t>
-          <t>
-            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
-          </t>
-          <t>
-            If a mirror server is lagging in production of Delta Files, such as after an initialisation or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
-          </t>
-          <t>
-            A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.
-          </t>
-          <t>
-            The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
-          </t>
-          <t>
-            The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-          </t>
-          <t>
-            The Update Notification File MUST be updated to include the new Delta File and update the version.
-          </t>
-          <t>
-            The Update Notification Signature File MUST be updated for the new Update Notification File contents.
-          </t>
-        </list>
-      </t>
-    </section>
-    <section title="Snapshot Files">
-      <t>
-        Snapshot Files after initialisation are generated as follows:
-      </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
-          </t>
-          <t>
-            The version number of the new snapshot MUST be equal to the last Delta File version.
-          </t>
-          <t>
-            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
-          </t>
-          <t>
-            The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-          </t>
-          <t>
-            If, after generating the Snapshot File, the total size of all current Delta Files up to the snapshot version, exceeds the size of the snapshot, older Delta Files MUST be removed, until the total size of the deltas is less than the size of the snapshot.
-            This avoids mirror clients downloading more data than necessary.
-          </t>
-          <t>
-            The Update Notification File MUST be updated to include the new snapshot, if one was generates.
-          </t>
-          <t>
-            The Update Notification Signature File MUST be updated for the new Update Notification File contents.
-          </t>
-        </list>
-      </t>
-    </section>
-    <section title="Publication Policy Restrictions">
-      <t>
-        A mirror server MAY have a policy that restricts the publication of certain RPSL objects or attributes, or modifies these before publication.
-        Typical scenarios for this include preventing the distribution of certain personal data or password hashes.
-        It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example by adding remark lines.
-      </t>
-      <t>
-        Mirror servers are RECOMMENDED to remove password hashes from the auth lines in mntner objects, as they have little use beyond the authoritative server, and their publication may be a security risk.
-      </t>
-      <t>
-        If a mirror server has a policy that restricts or modifies object publication, this MUST be applied consistently to Snapshot Files and Delta Files from the moment the policy is enacted or modified.
-      </t>
+    <section title="Publishing updates">
+      <section title="Delta Files">
+        <t>
+          Changes to RPSL objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.
+        </t>
+        <t>
+          Updates are generated as follows:
+        </t>
+        <t>
+          <list style="symbols">
+            <t>
+              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to RPSL objects in that time frame.
+            </t>
+            <t>
+              If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
+            </t>
+            <t>
+              If a mirror server is lagging in production of Delta Files, such as after an initialisation or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
+            </t>
+            <t>
+              A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.
+            </t>
+            <t>
+              The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
+            </t>
+            <t>
+              The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+            </t>
+            <t>
+              The Update Notification File MUST be updated to include the new Delta File and update the version.
+            </t>
+            <t>
+              The Update Notification Signature File MUST be updated for the new Update Notification File contents.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Snapshot Files">
+        <t>
+          Snapshot Files after initialisation are generated as follows:
+        </t>
+        <t>
+          <list style="symbols">
+            <t>
+              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the RPSL objects.
+            </t>
+            <t>
+              The version number of the new snapshot MUST be equal to the last Delta File version.
+            </t>
+            <t>
+              If there have been no changes to the RPSL objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
+            </t>
+            <t>
+              The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+            </t>
+            <t>
+              If, after generating the Snapshot File, the total size of all current Delta Files up to the snapshot version, exceeds the size of the snapshot, older Delta Files MUST be removed, until the total size of the deltas is less than the size of the snapshot.
+              This avoids mirror clients downloading more data than necessary.
+            </t>
+            <t>
+              The Update Notification File MUST be updated to include the new snapshot, if one was generates.
+            </t>
+            <t>
+              The Update Notification Signature File MUST be updated for the new Update Notification File contents.
+            </t>
+          </list>
+        </t>
+      </section>
+      <section title="Publication Policy Restrictions">
+        <t>
+          A mirror server MAY have a policy that restricts the publication of certain RPSL objects or attributes, or modifies these before publication.
+          Typical scenarios for this include preventing the distribution of certain personal data or password hashes.
+          It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example by adding remark lines or comments.
+        </t>
+        <t>
+          Mirror servers are RECOMMENDED to remove password hashes from the auth lines in mntner objects, as they have little use beyond the authoritative server, and their publication may be a security risk.
+        </t>
+        <t>
+          If a mirror server has a policy that restricts or modifies object publication, this MUST be applied consistently to Snapshot Files and Delta Files from the moment the policy is enacted or modified.
+        </t>
+      </section>
     </section>
   </section>
 
@@ -299,7 +292,7 @@
         Clients MUST NOT allow mirroring to be configured when one of these settings is missing.
       </t>
       <t>
-        Clients MUST initialise from a snapshot when initially configured, or if they are not able to update their local data from the provided Delta Files.
+        Clients MUST initialise from a snapshot when initially configured, or if they are not able to update their local data from the provided Delta Files:
       </t>
       <list style="symbols">
         <t>
@@ -351,7 +344,7 @@
             The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash on the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.
           </t>
           <t>
-            The client MUST process all changes in the Delta Files, in order of their version number.
+            The client MUST process all changes in the Delta Files, in order of the Delta File version number first, order in the "changes" attribute of individual Delta Files second.
           </t>
           <t>
             The client MUST update its most recent version to the version of the Update Notification File.
@@ -383,7 +376,7 @@
 
     <section title="Purpose">
       <t>
-        The Update Notification File is used by mirror clients to discover whether any changes exist between the state of the IRR Database and the mirror client's state.
+        The Update Notification File is used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and the mirror client's state.
         It also describes the location of the files containing the snapshot and incremental deltas.
       </t>
       <t>
@@ -453,10 +446,10 @@
             The type MUST be "notification".
           </t>
           <t>
-            The source MUST be a valid RPSL name.
+            The source MUST be a valid RPSL object name <xref target="RFC2622"/>.
           </t>
           <t>
-            The session_id attribute MUST be a random v4 UUID unique to this session for this source.
+            The session_id attribute MUST be a random v4 UUID <xref target="RFC4122"/> unique to this session for this source.
           </t>
           <t>
             The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.
@@ -474,7 +467,7 @@
             Each snapshot and delta element MUST have a version, URL and hash attribute.
           </t>
           <t>
-            The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash of the referenced file.
+            The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
             The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.
           </t>
           <t>
@@ -485,9 +478,9 @@
     </section>
     <section title="Signature">
       <t>
-        The contents of Update Notification File MUST be signed using Ed25519.
+        The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
         The public key for this signature must be published by the operator of the mirror server.
-        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending .sig.
+        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig".
       </t>
     </section>
   </section>
@@ -531,7 +524,7 @@
     "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE",
     "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
   ]
-}     
+}
 ]]></artwork>
       </t>
       <t>
@@ -549,10 +542,10 @@
             The type MUST be "snapshot".
           </t>
           <t>
-            The source MUST be a valid RPSL name, matching the Update Notification File.
+            The source MUST match the source in the Update Notification File.
           </t>
           <t>
-            The session_id attribute MUST be a random v4 UUID unique to this session for this source, matching the Update Notification File.
+            The session_id attribute MUST match the session_id in the Update Notification File.
           </t>
           <t>
             The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.
@@ -593,6 +586,9 @@
 
     <section title="File format and validation">
       <t>
+        Example Delta File:
+      </t>
+      <t>
 <artwork><![CDATA[
 {
   "nrtm_version": 4,
@@ -628,14 +624,14 @@
             The type MUST be "delta".
           </t>
           <t>
-            The source MUST be a valid RPSL name, matching the Update Notification File.
+            The source MUST match the source in the Update Notification File.
           </t>
           <t>
-            The session_id MUST be a random v4 UUID unique to this session for this source, matching the Update Notification File.
+            The session_id attribute MUST match the session_id in the Update Notification File.
           </t>
           <t>
             The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.
-          </t> 
+          </t>
           <t>
             The changes attribute MUST be an array of one or more elements, each having:
             <list style="symbols">
@@ -665,28 +661,41 @@
 
     <section title="RPSL Object Validation">
       <t>
-        Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL. Implementations have introduced different new object classes, attributes and validation rules. Current IRR Databases also contain legacy objects which were created under different validation rules. In practice, there is no uniformly implemented standard for RPSL, but merely rough outlines partially documented in different places.
+        Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL.
+        Implementations have introduced different new object classes, attributes and validation rules.
+        Current IRR Databases also contain legacy objects which were created under different validation rules.
+        In practice, there is no uniformly implemented standard for RPSL, but merely rough outlines partially documented in different places.
       </t>
       <t>
-        This has the potential to create interoperability issues. Some are addressed by NRTMv4, like having a consistent character set when mirroring data between implementations. However, some issues can not be addressed in this way, such as one implementation introducing a new object class that is entirely unknown to another implementation.
+        This has the potential to create interoperability issues.
+        Some are addressed by NRTMv4, like having a consistent character set when mirroring data between implementations.
+        However, some issues can not be addressed in this way, such as one implementation introducing a new object class that is entirely unknown to another implementation.
       </t>
       <t>
-        A mirror client SHOULD be able to process unknown object classes and objects that are invalid according to its own validation rules, without rejecting remaining objects or preventing future updates.
+        A mirror client SHOULD be able to handle unknown object classes and objects that are invalid according to its own validation rules, which may mean simply discarding them, without rejecting remaining objects or preventing future updates.
       </t>
       <t>
-        It is RECOMMENDED for mirror clients to log these cases, particularly those where an object was discarded due to violating validation rules. These cases create an inconsistency between the IRR objects of the server and client, and logs facilitate later analysis.
+        It is RECOMMENDED for mirror clients to log these cases, particularly those where an object was discarded due to violating validation rules.
+        These cases create an inconsistency between the RPSL objects of the server and client, and logs facilitate later analysis.
       </t>
       <t>
-        It is RECOMMENDED for mirror clients to be flexible where possible and reasonable when applying their own validation rules to RPSL objects retrieved from mirror servers. For example, a route object with an origin attribute that is not a valid AS number can't be salvaged. There is no way for an IRR server to correctly parse and index such an object. However, a route-set object whose name does not start with "RS-" (TODO RFC REF), or an inetnum with an unknown "org" attribute, still allows the mirror client to interpret it unambiguously even if it does not meet the mirror client's own validation rules for authoritative records.
+        It is RECOMMENDED for mirror clients to be flexible where possible and reasonable when applying their own validation rules to RPSL objects retrieved from mirror servers.
+        For example, a route object with an origin attribute that is not a valid AS number can't be usefully interpreted.
+        There is no way for an IRR server to correctly parse and index such an object.
+        However, a route-set object whose name does not start with "RS-" <xref target="RFC2622"/>, or an inetnum with an unknown extra "org" attribute, still allows the mirror client to interpret it unambiguously even if it does not meet the mirror client's own validation rules for authoritative records.
       </t>
     </section>
 
     <section title="Intermediate mirror instances">
       <t>
-        An IRR Database generally has a single authoritative source. In some cases, an instance run by a third party will function as a kind of intermediate: both being a mirror client, mirroring IRR objects from the authoritative source, and simultaneously function as a mirror server to yet another mirror client.
+        An IRR Database generally has a single authoritative source.
+        In some cases, an instance run by a third party will function as a kind of intermediate: both being a mirror client, mirroring RPSL objects from the authoritative source, and simultaneously function as a mirror server to yet another mirror client.
       </t>
       <t>
-        There are various operational reasons for such a setup, such as the intermediate filtering certain records. Regardless of the reason, the mirror client and server function of an IRR server must be treated as separate processes. In particular, this means they MUST have separate session IDs. The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.
+        There are various operational reasons for such a setup, such as the intermediate filtering certain records.
+        Regardless of the reason, the mirror client and server function of an IRR server must be treated as separate processes.
+        In particular, this means they MUST have separate session IDs.
+        The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.
       </t>
     </section>
 
@@ -701,12 +710,12 @@
   <section title="Security Considerations">
 
     <t>
-      IRR objects serve many purposes, including automated network configuration and filtering.
-      Manipulation of IRR objects can therefore have a significant security impact.
+      RPSL objects serve many purposes, including automated network configuration and filtering.
+      Manipulation of RPSL objects can therefore have a significant security impact.
       However, security in existing protocols is mostly absent.
     </t>
     <t>
-      Currently, the most common protocols for IRR Database mirroring are FTP for retrieving full snapshots, and NRTM version 3 for retrieving later changes.
+      Before NRTMv4, the most common protocols for IRR Database mirroring are FTP for retrieving full snapshots, and NRTM version 3 for retrieving later changes.
       There are no provisions for integrity or authenticity, and there are various scenarios where mirroring may not be reliable.
     </t>
     <t>
@@ -744,11 +753,23 @@
 
   <references title="Normative References">
     <?rfc include="reference.RFC.2119.xml"?>
+    <?rfc include="reference.RFC.2622.xml"?>
+    <?rfc include="reference.RFC.4122.xml"?>
+    <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
+    <reference anchor="SHS" target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
+      <front>
+        <title>Secure Hash Standard</title>
+        <author>
+        <organization>National Institute of Standards and Technology</organization>
+        </author>
+        <date month="March" year="2012" />
+      </front>
+    </reference>
   </references>
 
   <references title="Informative References">
-
+    <?rfc include="reference.RFC.8182.xml"?>
   </references>
 
 </back>
