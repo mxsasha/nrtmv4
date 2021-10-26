@@ -1,17 +1,22 @@
 This repo is for ideas and work for the NRTM v4 protocol and implementations.
 
-See [nrtmv4.md](nrtmv4.md) for the protocol design, [TODO.md](TODO.md) for
+See [draft-spaghetti-grow-nrtm-v4.html](draft-spaghetti-grow-nrtm-v4.html) for
+the protocol design, [TODO.md](TODO.md) for
 open TODOs, and [background.md](background.md) for some more background and
 implementation notes.
+
+Do check that the XML version is not newer than the HTML version. The XML version
+is authoritative.
 
 Authoring Conventions
 ---------------------
 
-The three golden rules:
+The four golden rules:
 
 * One sentence per line, this makes XML diff reading easier.
 * Only edit the .xml file (the .txt and .html files are computer generated).
 * Be sure to keep track of the names of contributors through the Acknowledgements section and the git log.
+* Before committing, generate a new txt/html by running `make`. Also will help you catch syntax errors.
 
 Note Well
 ------
@@ -30,4 +35,3 @@ repository constitutes Contributions to the IETF Standards Process
 You agree to comply with all applicable IETF policies and procedures,
 including, BCP 78, 79, the TLP, and the TLP rules regarding code components
 (e.g. being subject to a Simplified BSD License) in Contributions.
-
