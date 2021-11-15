@@ -260,7 +260,7 @@
               This avoids mirror clients downloading more data than necessary.
             </t>
             <t>
-              The Update Notification File MUST be updated to include the new snapshot, if one was generates.
+              The Update Notification File MUST be updated to include the new snapshot, if one was generated.
             </t>
             <t>
               The Update Notification Signature File MUST be updated for the new Update Notification File contents.
