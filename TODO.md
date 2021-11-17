@@ -40,10 +40,10 @@
   that contains a range of versions, retrievable with a single HTTP request.
   The individual versions should still be split in that file, so that clients at
   intermediate versions can correctly update. Sasha has ideas on the details here.~~ -> https://github.com/mxsasha/nrtmv4/issues/3
-* We need good key management. Do we recommend/require periodic rollovers? How often?
+* ~~We need good key management. Do we recommend/require periodic rollovers? How often?
   What is the process? How is this communicated to users? Perhaps keys can be stored
   with IANA same as certificate transparency which would solve a lot of issues.
-  Job is exploring this more.
+  Job is exploring this more.~~ -> https://github.com/mxsasha/nrtmv4/issues/6
 * Perhaps we need an in-band signalling mechanism to admins. Key rotation could
   be a case, but also maybe a change of URL. Question: how would IRRd communicate
   this to the admins effectively?
