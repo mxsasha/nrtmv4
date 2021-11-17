@@ -584,7 +584,7 @@
     <section title="Purpose">
       <t>
         A Delta File contains all changes for exactly one incremental update of the IRR Database.
-        It may include new, modified and deleted objects. Delta Files can contain multiple alternations to multiple objects.
+        It may include new, modified and deleted objects. Delta Files can contain multiple alterations to multiple objects.
       </t>
     </section>
     <!--SK: Under which circumstances a new Delta file is published? Is this something that we need to define? -->
