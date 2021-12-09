@@ -185,7 +185,6 @@
       </t>
       <t>
         In other words, either the mirror server guarantees that clients following the deltas have a correct and complete view, or MUST reinitialise, which will force clients to reinitialise as well.
-        !<-- SK: Should we define a procedure for that??? -->
       </t>
       <t>
         Initialisation consists of these actions:
@@ -519,7 +518,6 @@
       <t>
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Snapshot Files for at least 5 minutes after a new Update Notification File is published.
       </t>
-      <!--SK: Shouldn't we consider and expiration time for the snapshot file? Like its automatically expired when the new snaphsot is published OR 5 minutes after the new snapshot file is published? -->
     </section>
 
     <section title="File format and validation">
@@ -587,7 +585,6 @@
         It may include new, modified and deleted objects. Delta Files can contain multiple alterations to multiple objects.
       </t>
     </section>
-    <!--SK: Under which circumstances a new Delta file is published? Is this something that we need to define? -->
 
     <section title="Cache Concerns">
       <t>
