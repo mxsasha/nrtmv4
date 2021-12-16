@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                                  DashCare
 Intended status: Standards Track                             J. Snijders
-Expires: 12 June 2022                                             Fastly
+Expires: 19 June 2022                                             Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                         9 December 2021
+                                                        16 December 2021
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 June 2022.
+   This Internet-Draft will expire on 19 June 2022.
 
 
 
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 1]
+Romijn, et al.            Expires 19 June 2022                  [Page 1]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -78,13 +78,13 @@ Table of Contents
    2.  Informal overview . . . . . . . . . . . . . . . . . . . . . .   3
    3.  Mirror server use . . . . . . . . . . . . . . . . . . . . . .   4
      3.1.  Key Configuration . . . . . . . . . . . . . . . . . . . .   4
-     3.2.  Snapshot Initialisation . . . . . . . . . . . . . . . . .   5
+     3.2.  Snapshot Initialization . . . . . . . . . . . . . . . . .   5
      3.3.  Publishing updates  . . . . . . . . . . . . . . . . . . .   5
        3.3.1.  Delta Files . . . . . . . . . . . . . . . . . . . . .   6
        3.3.2.  Snapshot Files  . . . . . . . . . . . . . . . . . . .   6
        3.3.3.  Publication Policy Restrictions . . . . . . . . . . .   7
    4.  Mirror client use . . . . . . . . . . . . . . . . . . . . . .   7
-     4.1.  Initialisation from snapshot  . . . . . . . . . . . . . .   7
+     4.1.  Initialization from snapshot  . . . . . . . . . . . . . .   7
      4.2.  Processing Delta Files  . . . . . . . . . . . . . . . . .   8
      4.3.  Signature Verification  . . . . . . . . . . . . . . . . .   9
      4.4.  Policy Restrictions . . . . . . . . . . . . . . . . . . .   9
@@ -109,13 +109,13 @@ Table of Contents
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 2]
+Romijn, et al.            Expires 19 June 2022                  [Page 2]
 
 Internet-Draft                   NRTM v4                   December 2021
 
 
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
-   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  17
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  17
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  17
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  17
      12.2.  Informative References . . . . . . . . . . . . . . . . .  17
@@ -134,7 +134,7 @@ Internet-Draft                   NRTM v4                   December 2021
    Most of these well known IRR Databases mirror RPSL objects from some
    others, so that queries run against these instances provide a
    comprehensive view.  Some parties also mirror IRR Databases to
-   private IRR server instances, to reduce latency in queries, analyse
+   private IRR server instances, to reduce latency in queries, analyze
    RPSL objects, or other purposes.
 
    NRTM version 4 is designed to address issues in existing IRR Database
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 3]
+Romijn, et al.            Expires 19 June 2022                  [Page 3]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -178,11 +178,11 @@ Internet-Draft                   NRTM v4                   December 2021
       database versions.
 
    Mirror clients initially retrieve the small Update Notification File
-   and a Snapshot File, from which they initialise their local copy of
+   and a Snapshot File, from which they initialize their local copy of
    the Database.  After that, mirror clients only retrieve the Update
    Notification File periodically to determine whether there are any
    changes, and then retrieve only the relevant Delta Files, if any.
-   This minimises data transfer.  Deltas have sequential versions.
+   This minimizes data transfer.  Deltas have sequential versions.
 
    A mirror client is configured with a public signing key which it uses
    to verify the Update Notification File, which in turn contains hashes
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 4]
+Romijn, et al.            Expires 19 June 2022                  [Page 4]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -232,18 +232,18 @@ Internet-Draft                   NRTM v4                   December 2021
    configuration.  Configuration options SHOULD be clearly named to
    indicate that they are private keys.
 
-3.2.  Snapshot Initialisation
+3.2.  Snapshot Initialization
 
-   A mirror server MUST follow the initialisation steps upon the first
+   A mirror server MUST follow the initialization steps upon the first
    export for an IRR Database by that mirror server, or if the server
    lost history and can not reliably produce a continuous set of deltas
    from a previous state.
 
    In other words, either the mirror server guarantees that clients
    following the deltas have a correct and complete view, or MUST
-   reinitialise, which will force clients to reinitialise as well.
+   reinitialize, which will force clients to reinitialize as well.
 
-   Initialisation consists of these actions:
+   Initialization consists of these actions:
 
    *  The mirror server MUST generate a new session ID.  This MUST be a
       random v4 UUID [RFC4122] and MUST be the same across all client
@@ -267,8 +267,8 @@ Internet-Draft                   NRTM v4                   December 2021
    NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update
    Notification Files, referring two Snapshot Files, and two sets of
    Delta Files each with contiguous version numbers - all completely
-   independent from each other, with different session IDs.  This
-   applies even if the same IRR server instance produces both.
+   independent to each other, with different session IDs.  This applies
+   even if the same IRR server instance produces both.
 
 3.3.  Publishing updates
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 5]
+Romijn, et al.            Expires 19 June 2022                  [Page 5]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -299,7 +299,7 @@ Internet-Draft                   NRTM v4                   December 2021
       changes.
 
    *  If a mirror server is lagging in production of Delta Files, such
-      as after an initialisation or server downtime, it MUST generate
+      as after an initialization or server downtime, it MUST generate
       one larger "catch up" Delta File, rather than individual Delta
       Files for every one minute window.
 
@@ -321,7 +321,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 3.3.2.  Snapshot Files
 
-   Snapshot Files after initialisation are generated as follows:
+   Snapshot Files after initialization are generated as follows:
 
    *  The mirror server MUST generate a new Snapshot File between once
       per hour and once per day, if there have been changes to the RPSL
@@ -333,7 +333,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 6]
+Romijn, et al.            Expires 19 June 2022                  [Page 6]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -377,7 +377,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 4.  Mirror client use
 
-4.1.  Initialisation from snapshot
+4.1.  Initialization from snapshot
 
    Mirror clients are configured with the URL to an Update Notification
    File, the name of the IRR Database to mirror, and the public key of
@@ -389,12 +389,12 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 7]
+Romijn, et al.            Expires 19 June 2022                  [Page 7]
 
 Internet-Draft                   NRTM v4                   December 2021
 
 
-   Clients MUST initialise from a Snapshot File when initially
+   Clients MUST initialize from a Snapshot File when initially
    configured, or -if they are not able to update their local data- from
    the provided Delta Files:
 
@@ -416,18 +416,18 @@ Internet-Draft                   NRTM v4                   December 2021
 
 4.2.  Processing Delta Files
 
-   If a mirror client has previously initialised from a snapshot:
+   If a mirror client has previously initialized from a snapshot:
 
    *  The client MUST verify that the configured Update Notification
       File URL matches the previously known URL.  If this does not
-      match, the client MUST reinitialise from the Snapshot File, using
+      match, the client MUST reinitialize from the Snapshot File, using
       the new Update Notification File URL.
 
    *  The client MUST retrieve the Update Notification File.
 
    *  The client MUST verify that the session ID matches the previously
       known session ID.  If this does not match, the client MUST
-      reinitialise from the snapshot.
+      reinitialize from the snapshot.
 
    *  The client MUST verify that the Update Notification File version
       is the same or higher than the client's current most recent
@@ -438,14 +438,14 @@ Internet-Draft                   NRTM v4                   December 2021
       one contiguous set of Delta File versions from the client's
       current most recent version, to the latest version in the Update
       Notification File.  If this is not found, the client MUST
-      reinitialise from the snapshot.
+      reinitialize from the snapshot.
 
    *  The client MUST retrieve all Delta Files for versions since the
       client's last known version, if there are any.
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 8]
+Romijn, et al.            Expires 19 June 2022                  [Page 8]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -501,7 +501,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                  [Page 9]
+Romijn, et al.            Expires 19 June 2022                  [Page 9]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -557,7 +557,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 10]
+Romijn, et al.            Expires 19 June 2022                 [Page 10]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -608,12 +608,12 @@ Internet-Draft                   NRTM v4                   December 2021
 
    The Snapshot File reflects the complete and current contents of all
    RPSL objects in an IRR Database.  Mirror clients MUST use this to
-   initialise their local copy of the IRR Database.
+   initialize their local copy of the IRR Database.
 
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 11]
+Romijn, et al.            Expires 19 June 2022                 [Page 11]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -669,7 +669,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 12]
+Romijn, et al.            Expires 19 June 2022                 [Page 12]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -696,10 +696,10 @@ Internet-Draft                   NRTM v4                   December 2021
 
 7.2.  Cache Concerns
 
-   Deltas reflects the difference in content of the IRR Database from
-   one version to another; for that reason, it can be considered
-   immutable data.  Delta Files MUST be published at a URL that is
-   unique to the specific session and version.
+   Deltas reflect the difference in content of the IRR Database from one
+   version to another; for that reason, it can be considered immutable
+   data.  Delta Files MUST be published at a URL that is unique to the
+   specific session and version.
 
    To avoid race conditions where a mirror client retrieves an Update
    Notification File moments before it's updated, mirror servers SHOULD
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 13]
+Romijn, et al.            Expires 19 June 2022                 [Page 13]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 14]
+Romijn, et al.            Expires 19 June 2022                 [Page 14]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -837,7 +837,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 15]
+Romijn, et al.            Expires 19 June 2022                 [Page 15]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 16]
+Romijn, et al.            Expires 19 June 2022                 [Page 16]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -902,7 +902,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
    This document requests IANA to ...
 
-11.  Acknowledgements
+11.  Acknowledgments
 
    The authors would like to thank ...  and ...  for their helpful
    review of this document.
@@ -949,7 +949,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 17]
+Romijn, et al.            Expires 19 June 2022                 [Page 17]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -1005,4 +1005,4 @@ Authors' Addresses
 
 
 
-Romijn, et al.            Expires 12 June 2022                 [Page 18]
+Romijn, et al.            Expires 19 June 2022                 [Page 18]
