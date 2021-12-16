@@ -104,7 +104,7 @@
 
     <t>
       Most of these well known IRR Databases mirror RPSL objects from some others, so that queries run against these instances provide a comprehensive view.
-      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyse RPSL objects, or other purposes.
+      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyze RPSL objects, or other purposes.
     </t>
 
     <t>
@@ -142,9 +142,9 @@
        </list>
      </t>
      <t>
-       Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialise their local copy of the Database.
+       Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
-       This minimises data transfer.
+       This minimizes data transfer.
        Deltas have sequential versions. <!-- note: negative cache attack? -->
      </t>
      <t>
@@ -179,15 +179,15 @@
       </t>
     </section>
 
-    <section title="Snapshot Initialisation">
+    <section title="Snapshot Initialization">
       <t>
-        A mirror server MUST follow the initialisation steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
+        A mirror server MUST follow the initialization steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
       </t>
       <t>
-        In other words, either the mirror server guarantees that clients following the deltas have a correct and complete view, or MUST reinitialise, which will force clients to reinitialise as well.
+        In other words, either the mirror server guarantees that clients following the deltas have a correct and complete view, or MUST reinitialize, which will force clients to reinitialize as well.
       </t>
       <t>
-        Initialisation consists of these actions:
+        Initialization consists of these actions:
         <list style="symbols">
           <t>
             The mirror server MUST generate a new session ID.
@@ -207,7 +207,7 @@
       </t>
       <t>
         Note that session IDs, versions and all files always relate to a specific IRR Database.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent from each other, with different session IDs.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs.
         This applies even if the same IRR server instance produces both.
       </t>
     </section>
@@ -229,7 +229,7 @@
               If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
             </t>
             <t>
-              If a mirror server is lagging in production of Delta Files, such as after an initialisation or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
+              If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
             </t>
             <t>
               A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.
@@ -251,7 +251,7 @@
       </section>
       <section title="Snapshot Files">
         <t>
-          Snapshot Files after initialisation are generated as follows:
+          Snapshot Files after initialization are generated as follows:
         </t>
         <t>
           <list style="symbols">
@@ -298,13 +298,13 @@
 
   <section title="Mirror client use">
 
-    <section title="Initialisation from snapshot">
+    <section title="Initialization from snapshot">
       <t>
         Mirror clients are configured with the URL to an Update Notification File, the name of the IRR Database to mirror, and the public key of the IRR Database.
         Clients MUST NOT allow mirroring to be configured when one of these settings is missing.
       </t>
       <t>
-        Clients MUST initialise from a Snapshot File when initially configured, or -if they are not able to update their local data- from the provided Delta Files:
+        Clients MUST initialize from a Snapshot File when initially configured, or -if they are not able to update their local data- from the provided Delta Files:
       </t>
       <list style="symbols">
         <t>
@@ -327,19 +327,19 @@
     </section>
     <section title="Processing Delta Files">
       <t>
-        If a mirror client has previously initialised from a snapshot:
+        If a mirror client has previously initialized from a snapshot:
       </t>
       <t>
         <list style="symbols">
           <t>
-            The client MUST verify that the configured Update Notification File URL matches the previously known URL. If this does not match, the client MUST reinitialise from the Snapshot File, using the new Update Notification File URL.
+            The client MUST verify that the configured Update Notification File URL matches the previously known URL. If this does not match, the client MUST reinitialize from the Snapshot File, using the new Update Notification File URL.
           </t>
           <t>
             The client MUST retrieve the Update Notification File.
           </t>
           <t>
             The client MUST verify that the session ID matches the previously known session ID.
-            If this does not match, the client MUST reinitialise from the snapshot.
+            If this does not match, the client MUST reinitialize from the snapshot.
           </t>
           <t>
             The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
@@ -347,7 +347,7 @@
           </t>
           <t>
             The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version, to the latest version in the Update Notification File.
-            If this is not found, the client MUST reinitialise from the snapshot.
+            If this is not found, the client MUST reinitialize from the snapshot.
           </t>
           <t>
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
@@ -502,7 +502,7 @@
     <section title="Purpose">
       <t>
         The Snapshot File reflects the complete and current contents of all RPSL objects in an IRR Database.
-        Mirror clients MUST use this to initialise their local copy of the IRR Database.
+        Mirror clients MUST use this to initialize their local copy of the IRR Database.
       </t>
     </section>
 
@@ -588,7 +588,7 @@
 
     <section title="Cache Concerns">
       <t>
-        Deltas reflects the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
+        Deltas reflect the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
         Delta Files MUST be published at a URL that is unique to the specific session and version.
       </t>
       <t>
@@ -749,7 +749,7 @@
     </t>
   </section>
 
-  <section title="Acknowledgements">
+  <section title="Acknowledgments">
     <t>
       The authors would like to thank
       ...
