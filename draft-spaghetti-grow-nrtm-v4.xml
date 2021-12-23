@@ -241,6 +241,9 @@
               The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
             </t>
             <t>
+              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.
+            </t>
+            <t>
               The Update Notification File MUST be updated to include the new Delta File and update the version.
             </t>
             <t>
@@ -266,10 +269,6 @@
             </t>
             <t>
               The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-            </t>
-            <t>
-              If, after generating the Snapshot File, the total size of all current Delta Files up to the snapshot version, exceeds the size of the snapshot, older Delta Files MUST be removed, until the total size of the deltas is less than the size of the snapshot.
-              This avoids mirror clients downloading more data than necessary.
             </t>
             <t>
               The Update Notification File MUST be updated to include the new snapshot, if one was generated.

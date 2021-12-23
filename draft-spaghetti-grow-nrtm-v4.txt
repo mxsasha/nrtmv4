@@ -306,6 +306,9 @@ Internet-Draft                   NRTM v4                   December 2021
    *  The URL where the Delta File is published MUST contain the session
       ID and version number to allow it to be indefinitely cached.
 
+   *  After generating a new Delta File, a mirror server MUST remove all
+      Delta Files older than 24 hours.
+
    *  The Update Notification File MUST be updated to include the new
       Delta File and update the version.
 
@@ -326,9 +329,6 @@ Internet-Draft                   NRTM v4                   December 2021
    *  If there have been no changes to the IRR objects since the last
       snapshot, the mirror server MUST NOT generate a new snapshot.
 
-   *  The URL where the Snapshot File is published MUST contain the
-      session ID and version number to allow it to be indefinitely
-      cached.
 
 
 
@@ -338,11 +338,9 @@ Romijn, et al.            Expires 26 June 2022                  [Page 6]
 Internet-Draft                   NRTM v4                   December 2021
 
 
-   *  If, after generating the Snapshot File, the total size of all
-      current Delta Files up to the snapshot version, exceeds the size
-      of the snapshot, older Delta Files MUST be removed, until the
-      total size of the deltas is less than the size of the snapshot.
-      This avoids mirror clients downloading more data than necessary.
+   *  The URL where the Snapshot File is published MUST contain the
+      session ID and version number to allow it to be indefinitely
+      cached.
 
    *  The Update Notification File MUST be updated to include the new
       snapshot, if one was generated.
@@ -386,6 +384,8 @@ Internet-Draft                   NRTM v4                   December 2021
 
    *  The client MUST verify that the source attribute in the Update
       Notification File matches the configured IRR Database name.
+
+
 
 
 

@@ -1571,10 +1571,13 @@ li > p:last-of-type {
               The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.<a href="#section-3.3.1-3.6" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.7">
-              The Update Notification File MUST be updated to include the new Delta File and update the version.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
+              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.8">
-              The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
+              The Update Notification File MUST be updated to include the new Delta File and update the version.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-3.3.1-3.9">
+              The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.3.1-3.9" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1598,14 +1601,10 @@ li > p:last-of-type {
               The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.<a href="#section-3.3.2-2.4" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.2-2.5">
-              If, after generating the Snapshot File, the total size of all current Delta Files up to the snapshot version, exceeds the size of the snapshot, older Delta Files MUST be removed, until the total size of the deltas is less than the size of the snapshot.
-              This avoids mirror clients downloading more data than necessary.<a href="#section-3.3.2-2.5" class="pilcrow">¶</a>
+              The Update Notification File MUST be updated to include the new snapshot, if one was generated.<a href="#section-3.3.2-2.5" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.2-2.6">
-              The Update Notification File MUST be updated to include the new snapshot, if one was generated.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-3.3.2-2.7">
-              The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.3.2-2.7" class="pilcrow">¶</a>
+              The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
