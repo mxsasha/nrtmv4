@@ -710,17 +710,9 @@
         The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.
       </t>
     </section>
-
-    <section title="HTTPS Considerations">
-      <t>
-        TODO
-      </t>
-    </section>
-
   </section>
 
   <section title="Security Considerations">
-
     <t>
       RPSL objects serve many purposes, including automated network configuration and filtering.
       Manipulation of RPSL objects can therefore have a significant security impact.
@@ -740,7 +732,9 @@
       In contrast, NRTMv3 required mirror clients to directly query the IRR server instance with special whois queries.
       This scales poorly, and there are no standard protections against denial-of-service available.
     </t>
-
+    <t>
+      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="RFC7525"/>.
+    </t>
   </section>
 
   <section title="IANA Considerations">
@@ -767,6 +761,7 @@
     <?rfc include="reference.RFC.2119.xml"?>
     <?rfc include="reference.RFC.2622.xml"?>
     <?rfc include="reference.RFC.4122.xml"?>
+    <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
     <reference anchor="SHS" target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
