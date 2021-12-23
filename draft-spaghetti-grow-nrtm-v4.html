@@ -1198,7 +1198,7 @@ li > p:last-of-type {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 19 June 2022</td>
+<td class="center">Expires 26 June 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1211,17 +1211,17 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-spaghetti-grow-nrtm-v4-00</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-12-16" class="published">16 December 2021</time>
+<time datetime="2021-12-23" class="published">23 December 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-06-19">19 June 2022</time></dd>
+<dd class="expires"><time datetime="2022-06-26">26 June 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">S. Romijn</div>
-<div class="org">DashCare</div>
+<div class="org">Reliably Coded</div>
 </div>
 <div class="author">
       <div class="author-name">J. Snijders</div>
@@ -1271,7 +1271,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 June 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 June 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1397,13 +1397,10 @@ li > p:last-of-type {
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-operational-considerations-2" class="xref">Operational Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-rpsl-object-validation-2" class="xref">RPSL Object Validation</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-irr-object-validation-2" class="xref">IRR object Validation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-intermediate-mirror-instance" class="xref">Intermediate mirror instances</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="xref">8.3</a>.  <a href="#name-https-considerations-2" class="xref">HTTPS Considerations</a></p>
 </li>
             </ul>
 </li>
@@ -1441,10 +1438,10 @@ li > p:last-of-type {
 <p id="section-1-1">
       The Internet Routing Registry (IRR) consists of several different IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
       About a dozen larger IRR Databases are well known and widely used, operated by different organisations, like RIRs and some large network operators.
-      RPSL objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.<a href="#section-1-1" class="pilcrow">¶</a></p>
+      IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
-      Most of these well known IRR Databases mirror RPSL objects from some others, so that queries run against these instances provide a comprehensive view.
-      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyze RPSL objects, or other purposes.<a href="#section-1-2" class="pilcrow">¶</a></p>
+      Most of these well known IRR Databases mirror IRR objects from some others, so that queries run against these instances provide a comprehensive view.
+      Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyze IRR objects, or other purposes.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">
       NRTM version 4 is designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on a HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
@@ -1457,8 +1454,8 @@ li > p:last-of-type {
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-informal-overview-2" class="section-name selfRef">Informal overview</a>
       </h2>
 <p id="section-2-1">
-      In NRTMv4, a mirror server is an instance of IRR Database software that has a database of RPSL objects and publishes them to allow mirroring by others.
-      This can be retrieved by mirror clients, which then load the RPSL objects into their local databases.<a href="#section-2-1" class="pilcrow">¶</a></p>
+      In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
+      This can be retrieved by mirror clients, which then load the IRR objects into their local databases.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">
       Publication consists of three different files:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1469,7 +1466,7 @@ li > p:last-of-type {
 </li>
         <li class="normal" id="section-2-3.2">
           A single active Snapshot File.
-          This contains all published RPSL objects at a particular version.
+          This contains all published IRR objects at a particular version.
           The mirror server periodically generates a new snapshot.<a href="#section-2-3.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-2-3.3">
@@ -1551,12 +1548,12 @@ li > p:last-of-type {
 <a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-delta-files-2" class="section-name selfRef">Delta Files</a>
           </h4>
 <p id="section-3.3.1-1">
-          Changes to RPSL objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+          Changes to IRR objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.1-2">
           Updates are generated as follows:<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-3.1">
-              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to RPSL objects in that time frame.<a href="#section-3.3.1-3.1" class="pilcrow">¶</a>
+              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.<a href="#section-3.3.1-3.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.2">
               If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.<a href="#section-3.3.1-3.2" class="pilcrow">¶</a>
@@ -1589,13 +1586,13 @@ li > p:last-of-type {
           Snapshot Files after initialization are generated as follows:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.2-2.1">
-              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the RPSL objects.<a href="#section-3.3.2-2.1" class="pilcrow">¶</a>
+              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.<a href="#section-3.3.2-2.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.2-2.2">
               The version number of the new snapshot MUST be equal to the last Delta File version.<a href="#section-3.3.2-2.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.2-2.3">
-              If there have been no changes to the RPSL objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.<a href="#section-3.3.2-2.3" class="pilcrow">¶</a>
+              If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.<a href="#section-3.3.2-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.2-2.4">
               The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.<a href="#section-3.3.2-2.4" class="pilcrow">¶</a>
@@ -1617,8 +1614,8 @@ li > p:last-of-type {
 <a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-publication-policy-restricti" class="section-name selfRef">Publication Policy Restrictions</a>
           </h4>
 <p id="section-3.3.3-1">
-          A mirror server MAY have a policy that restricts the publication of certain RPSL objects or attributes, or modifies these before publication.
-          Typical scenarios for this include preventing the distribution of certain personal data or password hashes.
+          A mirror server MAY have a policy that restricts the publication of certain IRR objects or attributes, or modifies these before publication.
+          Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like RPKI consistency.
           It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example by adding remark lines or comments.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.3-2">
           Mirror servers are RECOMMENDED to remove password hashes from the auth lines in mntner objects, as they have little use beyond the authoritative server, and their publication may be a security risk.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
@@ -1794,7 +1791,7 @@ li > p:last-of-type {
             The type MUST be "notification".<a href="#section-5.3-5.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.3">
-            The source MUST be a valid RPSL object name <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span>.<a href="#section-5.3-5.3" class="pilcrow">¶</a>
+            The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span>.<a href="#section-5.3-5.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.4">
             The session_id attribute MUST be a random v4 UUID <span>[<a href="#RFC4122" class="xref">RFC4122</a>]</span> unique to this session for this source.<a href="#section-5.3-5.4" class="pilcrow">¶</a>
@@ -1842,7 +1839,7 @@ li > p:last-of-type {
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-purpose-5" class="section-name selfRef">Purpose</a>
         </h3>
 <p id="section-6.1-1">
-        The Snapshot File reflects the complete and current contents of all RPSL objects in an IRR Database.
+        The Snapshot File reflects the complete and current contents of all IRR objects in an IRR Database.
         Mirror clients MUST use this to initialize their local copy of the IRR Database.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-6.2">
@@ -1880,7 +1877,7 @@ li > p:last-of-type {
 </pre><a href="#section-6.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-6.3-3">
-        Note: RPSL object texts in this example are shortened because of formatting.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+        Note: IRR object texts in this example are shortened because of formatting.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">
         The following validation rules MUST be observed when creating or parsing Snapshot Files:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1900,10 +1897,10 @@ li > p:last-of-type {
             The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.<a href="#section-6.3-5.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-5.6">
-            The objects attribute MUST be an array of zero or more elements, each containing a string representation of an RPSL object.<a href="#section-6.3-5.6" class="pilcrow">¶</a>
+            The objects attribute MUST be an array of zero or more elements, each containing a string representation of an IRR object.<a href="#section-6.3-5.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-5.7">
-            The source attribute in the RPSL object texts MUST match the source attribute of the Snapshot File.<a href="#section-6.3-5.7" class="pilcrow">¶</a>
+            The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.<a href="#section-6.3-5.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-5.8">
             The file MUST be UTF-8 encoded.<a href="#section-6.3-5.8" class="pilcrow">¶</a>
@@ -1961,7 +1958,7 @@ li > p:last-of-type {
 </pre><a href="#section-7.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-7.3-3">
-        Note: RPSL object texts in this example are shortened because of formatting.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+        Note: IRR object texts in this example are shortened because of formatting.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <p id="section-7.3-4">
         The following validation rules MUST be observed when creating or parsing Delta Files:<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1996,7 +1993,7 @@ li > p:last-of-type {
             </ul>
 </li>
           <li class="normal" id="section-7.3-5.7">
-             The source attribute in the RPSL object texts MUST match the source attribute of the Delta File.<a href="#section-7.3-5.7" class="pilcrow">¶</a>
+             The source attribute in the IRR object texts MUST match the source attribute of the Delta File.<a href="#section-7.3-5.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-7.3-5.8">
             The file MUST be UTF-8 encoded.<a href="#section-7.3-5.8" class="pilcrow">¶</a>
@@ -2009,8 +2006,8 @@ li > p:last-of-type {
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-operational-considerations-2" class="section-name selfRef">Operational Considerations</a>
       </h2>
 <section id="section-8.1">
-        <h3 id="name-rpsl-object-validation-2">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-rpsl-object-validation-2" class="section-name selfRef">RPSL Object Validation</a>
+        <h3 id="name-irr-object-validation-2">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-irr-object-validation-2" class="section-name selfRef">IRR object Validation</a>
         </h3>
 <p id="section-8.1-1">
         Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL.
@@ -2025,9 +2022,9 @@ li > p:last-of-type {
         A mirror client SHOULD be able to handle unknown object classes and objects that are invalid according to its own validation rules, which may mean simply discarding them, without rejecting remaining objects or preventing future updates.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
 <p id="section-8.1-4">
         It is RECOMMENDED for mirror clients to log these cases, particularly those where an object was discarded due to violating validation rules.
-        These cases create an inconsistency between the RPSL objects of the server and client, and logs facilitate later analysis.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
+        These cases create an inconsistency between the IRR objects of the server and client, and logs facilitate later analysis.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
 <p id="section-8.1-5">
-        It is RECOMMENDED for mirror clients to be flexible where possible and reasonable when applying their own validation rules to RPSL objects retrieved from mirror servers.
+        It is RECOMMENDED for mirror clients to be flexible where possible and reasonable when applying their own validation rules to IRR objects retrieved from mirror servers.
         For example, a route object with an origin attribute that is not a valid AS number can't be usefully interpreted.
         There is no way for an IRR server to correctly parse and index such an object.
         However, a route-set object whose name does not start with "RS-" <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span>, or an inetnum with an unknown extra "org" attribute, still allows the mirror client to interpret it unambiguously even if it does not meet the mirror client's own validation rules for authoritative records.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
@@ -2038,19 +2035,12 @@ li > p:last-of-type {
         </h3>
 <p id="section-8.2-1">
         An IRR Database generally has a single authoritative source.
-        In some cases, an instance run by a third party will function as a kind of intermediate: both being a mirror client, mirroring RPSL objects from the authoritative source, and simultaneously function as a mirror server to yet another mirror client.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+        In some cases, an instance run by a third party will function as a kind of intermediate: both being a mirror client, mirroring IRR objects from the authoritative source, and simultaneously function as a mirror server to yet another mirror client.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.2-2">
         There are various operational reasons for such a setup, such as the intermediate filtering certain records.
         Regardless of the reason, the mirror client and server function of an IRR server must be treated as separate processes.
         In particular, this means they MUST have separate session IDs.
         The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
-</section>
-<section id="section-8.3">
-        <h3 id="name-https-considerations-2">
-<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-https-considerations-2" class="section-name selfRef">HTTPS Considerations</a>
-        </h3>
-<p id="section-8.3-1">
-        TODO<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-9">
@@ -2058,8 +2048,8 @@ li > p:last-of-type {
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations-2" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">
-      RPSL objects serve many purposes, including automated network configuration and filtering.
-      Manipulation of RPSL objects can therefore have a significant security impact.
+      IRR objects serve many purposes, including automated network configuration and filtering.
+      Manipulation of IRR objects can therefore have a significant security impact.
       However, security in existing protocols is mostly absent.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">
       Before NRTMv4, the most common protocols for IRR Database mirroring are FTP for retrieving full snapshots, and NRTM version 3 for retrieving later changes.
@@ -2072,6 +2062,8 @@ li > p:last-of-type {
       By allowing publication on any HTTPS endpoint, NRTMv4 allows for extensive scaling, and there are many existing techniques and services to protect against denial-of-service attacks.
       In contrast, NRTMv3 required mirror clients to directly query the IRR server instance with special whois queries.
       This scales poorly, and there are no standard protections against denial-of-service available.<a href="#section-9-4" class="pilcrow">¶</a></p>
+<p id="section-9-5">
+      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span>.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-10">
       <h2 id="name-iana-considerations-2">
@@ -2112,6 +2104,10 @@ li > p:last-of-type {
         <dd>
 <span class="refAuthor">Leach, P.</span>, <span class="refAuthor">Mealling, M.</span>, and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"A Universally Unique IDentifier (UUID) URN Namespace"</span>, <span class="seriesInfo">RFC 4122</span>, <span class="seriesInfo">DOI 10.17487/RFC4122</span>, <time datetime="2005-07" class="refDate">July 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4122">https://www.rfc-editor.org/info/rfc4122</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7525">[RFC7525]</dt>
+        <dd>
+<span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Holz, R.</span>, and <span class="refAuthor">P. Saint-Andre</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 7525</span>, <span class="seriesInfo">DOI 10.17487/RFC7525</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7525">https://www.rfc-editor.org/info/rfc7525</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8032">[RFC8032]</dt>
         <dd>
 <span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8032">https://www.rfc-editor.org/info/rfc8032</a>&gt;</span>. </dd>
@@ -2145,12 +2141,12 @@ li > p:last-of-type {
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Sasha Romijn</span></div>
-<div dir="auto" class="left"><span class="org">DashCare</span></div>
+<div dir="auto" class="left"><span class="org">Reliably Coded</span></div>
 <div dir="auto" class="left"><span class="locality">Amsterdam</span></div>
 <div dir="auto" class="left"><span class="country-name">Netherlands</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:sasha@dashcare.nl" class="email">sasha@dashcare.nl</a>
+<a href="mailto:sasha@reliablycoded.nl" class="email">sasha@reliablycoded.nl</a>
 </div>
 </address>
 <address class="vcard">
