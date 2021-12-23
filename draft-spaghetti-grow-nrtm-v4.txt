@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 26 June 2022                                             Fastly
+Expires: 27 June 2022                                             Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                        23 December 2021
+                                                        24 December 2021
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 June 2022.
+   This Internet-Draft will expire on 27 June 2022.
 
 
 
 
 
 
-Romijn, et al.            Expires 26 June 2022                  [Page 1]
+Romijn, et al.            Expires 27 June 2022                  [Page 1]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -76,49 +76,55 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
    2.  Informal overview . . . . . . . . . . . . . . . . . . . . . .   3
-   3.  Mirror server use . . . . . . . . . . . . . . . . . . . . . .   4
-     3.1.  Key Configuration . . . . . . . . . . . . . . . . . . . .   4
+   3.  Mirror server use . . . . . . . . . . . . . . . . . . . . . .   5
+     3.1.  Key Configuration and the Database Configuration File . .   5
      3.2.  Snapshot Initialization . . . . . . . . . . . . . . . . .   5
-     3.3.  Publishing updates  . . . . . . . . . . . . . . . . . . .   5
-       3.3.1.  Delta Files . . . . . . . . . . . . . . . . . . . . .   5
-       3.3.2.  Snapshot Files  . . . . . . . . . . . . . . . . . . .   6
+     3.3.  Publishing updates  . . . . . . . . . . . . . . . . . . .   6
+       3.3.1.  Delta Files . . . . . . . . . . . . . . . . . . . . .   6
+       3.3.2.  Snapshot Files  . . . . . . . . . . . . . . . . . . .   7
        3.3.3.  Publication Policy Restrictions . . . . . . . . . . .   7
-   4.  Mirror client use . . . . . . . . . . . . . . . . . . . . . .   7
-     4.1.  Initialization from snapshot  . . . . . . . . . . . . . .   7
-     4.2.  Processing Delta Files  . . . . . . . . . . . . . . . . .   8
-     4.3.  Signature Verification  . . . . . . . . . . . . . . . . .   9
-     4.4.  Policy Restrictions . . . . . . . . . . . . . . . . . . .   9
-   5.  Update Notification File  . . . . . . . . . . . . . . . . . .   9
-     5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .   9
-     5.3.  File format and validation  . . . . . . . . . . . . . . .  10
-     5.4.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  11
-   6.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  11
-     6.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     6.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  11
+   4.  Mirror client use . . . . . . . . . . . . . . . . . . . . . .   8
+     4.1.  Configuration . . . . . . . . . . . . . . . . . . . . . .   8
+     4.2.  Initialization from snapshot  . . . . . . . . . . . . . .   8
+     4.3.  Processing Delta Files  . . . . . . . . . . . . . . . . .   9
+     4.4.  Signature Verification  . . . . . . . . . . . . . . . . .  10
+     4.5.  Policy Restrictions . . . . . . . . . . . . . . . . . . .  10
+   5.  Database Configuration File . . . . . . . . . . . . . . . . .  10
+     5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  11
+     5.3.  File format and validation  . . . . . . . . . . . . . . .  11
+   6.  Update Notification File  . . . . . . . . . . . . . . . . . .  12
+     6.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     6.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  12
      6.3.  File format and validation  . . . . . . . . . . . . . . .  12
-   7.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  13
-     7.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  13
-     7.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  13
-     7.3.  File format and validation  . . . . . . . . . . . . . . .  13
-   8.  Operational Considerations  . . . . . . . . . . . . . . . . .  14
-     8.1.  IRR object Validation . . . . . . . . . . . . . . . . . .  14
-     8.2.  Intermediate mirror instances . . . . . . . . . . . . . .  15
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  16
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  16
+     6.4.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  14
+     7.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  14
+     7.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  14
+     7.3.  File format and validation  . . . . . . . . . . . . . . .  15
+   8.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  16
+     8.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  16
+     8.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  16
+     8.3.  File format and validation  . . . . . . . . . . . . . . .  16
 
 
 
-Romijn, et al.            Expires 26 June 2022                  [Page 2]
+Romijn, et al.            Expires 27 June 2022                  [Page 2]
 
 Internet-Draft                   NRTM v4                   December 2021
 
 
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  16
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  16
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  17
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
+   9.  Operational Considerations  . . . . . . . . . . . . . . . . .  17
+     9.1.  IRR object Validation . . . . . . . . . . . . . . . . . .  17
+     9.2.  Intermediate mirror instances . . . . . . . . . . . . . .  18
+     9.3.  Public key rotation . . . . . . . . . . . . . . . . . . .  19
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  19
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  20
+   12. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  20
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  20
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  21
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
 
@@ -153,6 +159,17 @@ Internet-Draft                   NRTM v4                   December 2021
 
    Publication consists of three different files:
 
+
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 3]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
    *  A single Update Notification File.  This specifies the current
       Database version and locations of the Snapshot File and Delta
       Files.  Additionally, there is an Update Notification Signature
@@ -162,13 +179,6 @@ Internet-Draft                   NRTM v4                   December 2021
    *  A single active Snapshot File.  This contains all published IRR
       objects at a particular version.  The mirror server periodically
       generates a new snapshot.
-
-
-
-Romijn, et al.            Expires 26 June 2022                  [Page 3]
-
-Internet-Draft                   NRTM v4                   December 2021
-
 
    *  Zero or more Delta Files.  These contain the changes between two
       database versions.
@@ -205,26 +215,45 @@ Internet-Draft                   NRTM v4                   December 2021
    containing multiple changes to multiple objects.  NRTMv3 serials can
    also contain gaps, NRTMv4 versions may not.
 
-3.  Mirror server use
-
-3.1.  Key Configuration
-
-   When enabling NRTMv4 publication for an IRR Database, an operator
-   MUST configure a private Ed25519 [RFC8032]. key to be used for Update
-   Notification Signature Files.
-
-   It is RECOMMENDED that implementations provide easily accessible
-   tools for operators to generate new Ed25519 keys to enter into their
-   configuration, and generate the public keys from the current
-   configuration.  Configuration options SHOULD be clearly named to
-   indicate that they are private keys.
 
 
 
-Romijn, et al.            Expires 26 June 2022                  [Page 4]
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 4]
 
 Internet-Draft                   NRTM v4                   December 2021
 
+
+3.  Mirror server use
+
+3.1.  Key Configuration and the Database Configuration File
+
+   When enabling NRTMv4 publication for an IRR Database, an operator
+   MUST configure a private Ed25519 [RFC8032] key to be used for Update
+   Notification Signature Files.
+
+   _REMOVE BEFORE PUBLICATION: this whole section is wide open to
+   suggestions / ideas_
+
+   The operator MUST publish the public key, the name of the IRR
+   Database and the URL of the Update Notification File in the Database
+   Configuration File.  This is JSON file on a well-known URI on the
+   "irr-nrtm.json" suffix on the operator's authoritative domain name
+   [RFC8615].
+
+   The authoritative domain name is the domain which is geneerally known
+   by the IRR community to belong to the operator of the IRR Database.
+   Note that the Update Notification File, Snapshot File and Delta Files
+   MAY also be hosted on the authoritative domain, or an entirely
+   different host or domain.
+
+   It is RECOMMENDED that implementations provide easily accessible
+   tools for operators to generate new Ed25519 keys to enter into their
+   configuration, and propose a Database Configuration File from the
+   current configuration.  Configuration options SHOULD be clearly named
+   to indicate that they are private keys.
 
 3.2.  Snapshot Initialization
 
@@ -245,6 +274,13 @@ Internet-Draft                   NRTM v4                   December 2021
       different IRR databases (e.g.  RIPE IRR and RIPE-NONAUTH IRR),
       then it MUST generate two session IDs, each one associated with
       the different database.
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 5]
+
+Internet-Draft                   NRTM v4                   December 2021
+
 
    *  The server MUST generate a snapshot for version number one.  This
       may contain an empty array of objects if the IRR Database is
@@ -273,15 +309,6 @@ Internet-Draft                   NRTM v4                   December 2021
 
    Updates are generated as follows:
 
-
-
-
-
-Romijn, et al.            Expires 26 June 2022                  [Page 5]
-
-Internet-Draft                   NRTM v4                   December 2021
-
-
    *  A mirror server MUST publish a Delta File approximately every
       minute, if there have been changes to IRR objects in that time
       frame.
@@ -302,6 +329,14 @@ Internet-Draft                   NRTM v4                   December 2021
 
    *  The Delta File MUST include all changes that happened during the
       time frame, in the order in which they occurred.
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 6]
+
+Internet-Draft                   NRTM v4                   December 2021
+
 
    *  The URL where the Delta File is published MUST contain the session
       ID and version number to allow it to be indefinitely cached.
@@ -329,15 +364,6 @@ Internet-Draft                   NRTM v4                   December 2021
    *  If there have been no changes to the IRR objects since the last
       snapshot, the mirror server MUST NOT generate a new snapshot.
 
-
-
-
-
-Romijn, et al.            Expires 26 June 2022                  [Page 6]
-
-Internet-Draft                   NRTM v4                   December 2021
-
-
    *  The URL where the Snapshot File is published MUST contain the
       session ID and version number to allow it to be indefinitely
       cached.
@@ -359,6 +385,15 @@ Internet-Draft                   NRTM v4                   December 2021
    this change is evident to humans reading the object text, for example
    by adding remark lines or comments.
 
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 7]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
    Mirror servers are RECOMMENDED to remove password hashes from the
    auth lines in mntner objects, as they have little use beyond the
    authoritative server, and their publication may be a security risk.
@@ -369,12 +404,24 @@ Internet-Draft                   NRTM v4                   December 2021
 
 4.  Mirror client use
 
-4.1.  Initialization from snapshot
+4.1.  Configuration
 
-   Mirror clients are configured with the URL to an Update Notification
-   File, the name of the IRR Database to mirror, and the public key of
-   the IRR Database.  Clients MUST NOT allow mirroring to be configured
-   when one of these settings is missing.
+   _REMOVE BEFORE PUBLICATION: this whole section is wide open to
+   suggestions / ideas_
+
+   Mirror clients are configured with the name of an IRR Database to
+   mirror, and the domain considered authoritative by the mirror client
+   operator, which hosts the Database Configuration File.  The mirror
+   client MUST retrieve this file, look for an entry under the expected
+   IRR Database name, and read the Update Notification File URL and the
+   public key.  The mirror client MUST only allow retrieval of this file
+   over HTTPS.
+
+   The mirror client MUST retrieve the Database Configuration File every
+   24 hours, and update their local configuration if any settings in the
+   file have changed.
+
+4.2.  Initialization from snapshot
 
    Clients MUST initialize from a Snapshot File when initially
    configured, or -if they are not able to update their local data- from
@@ -384,15 +431,6 @@ Internet-Draft                   NRTM v4                   December 2021
 
    *  The client MUST verify that the source attribute in the Update
       Notification File matches the configured IRR Database name.
-
-
-
-
-
-Romijn, et al.            Expires 26 June 2022                  [Page 7]
-
-Internet-Draft                   NRTM v4                   December 2021
-
 
    *  The client MUST retrieve the Snapshot File and load the objects
       into its local storage.
@@ -405,7 +443,14 @@ Internet-Draft                   NRTM v4                   December 2021
    *  The client MUST record the configured URL and the session_id and
       version from the Update Notification File.
 
-4.2.  Processing Delta Files
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 8]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
+4.3.  Processing Delta Files
 
    If a mirror client has previously initialized from a snapshot:
 
@@ -443,13 +488,6 @@ Internet-Draft                   NRTM v4                   December 2021
       of the Delta File version number first, order in the "changes"
       attribute of individual Delta Files second.
 
-
-
-Romijn, et al.            Expires 26 June 2022                  [Page 8]
-
-Internet-Draft                   NRTM v4                   December 2021
-
-
    *  The client MUST update its most recent version to the version of
       the Update Notification File.
 
@@ -457,15 +495,32 @@ Internet-Draft                   NRTM v4                   December 2021
    rejected, the mirror client MUST NOT process any newer Deltas than
    those that are valid and have been successfully verified.
 
-4.3.  Signature Verification
+
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                  [Page 9]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
+4.4.  Signature Verification
 
    Every time a mirror client retrieves a new version of the Update
    Notification File, it MUST retrieve and verify the signature.  The
    signature MUST be valid for the configured public key for the
-   contents of the Update Notification File.  If the signature does not
-   match, the mirror client MUST reject the Update Notification File.
+   contents of the Update Notification File.
 
-4.4.  Policy Restrictions
+   If the signature does not match, the mirror client MUST reject the
+   Update Notification File and retrieve the Database Configuration
+   File, as a mismatch may be caused by an intentional key rotation by
+   the mirror server operator.  If the Database Configuration File
+   contains a new public key, the mirror client will attempt to use that
+   key for signature verification instead.
+
+4.5.  Policy Restrictions
 
    A mirror client MAY have a policy that restricts the processing of
    objects to certain object classes, or other limitations on which
@@ -475,9 +530,97 @@ Internet-Draft                   NRTM v4                   December 2021
    this MUST be applied consistently to Snapshot Files and Delta Files
    from the moment the policy is enacted or modified.
 
-5.  Update Notification File
+5.  Database Configuration File
+
+   _REMOVE BEFORE PUBLICATION: this whole section is wide open to
+   suggestions / ideas_
 
 5.1.  Purpose
+
+   The Database Configuration File is provided by the IRR Database
+   operator as configuration information for mirror clients.  For each
+   IRR Database run by an operator, it contains the current signing key,
+   Snapshot Notification File URL and the IRR Database name.  This JSON
+   file MUST be placed on a well-known URI on the "irr-nrtm.json" suffix
+   on the authoritative domain name of the IRR Database operator
+   [RFC8615] and must be available over HTTPS.
+
+   The operator MUST update this file if any of these configuration
+   details change.
+
+
+
+
+
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 10]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
+5.2.  Cache concerns
+
+   A mirror server may use caching infrastructure to cache the Database
+   Configuration File and reduce the load of HTTPS requests.  Unlike
+   some of the other files, this file is both very small and quite
+   rarely retrieved, limiting the need for and benefits of caching.
+   Since this file is used by mirror clients to determine the current
+   signing key, this SHOULD not cached for longer than one minute to
+   support key rotations.
+
+5.3.  File format and validation
+
+   Example Database Configuration File:
+
+[
+  {
+    "source": "EXAMPLE-A",
+    "update_notification": "https://example.net/db/nrtmv4/example-a/notification.json",
+    "key": "96..ae"
+  },
+  {
+    "source": "EXAMPLE-B",
+    "update_notification": "https://cdn.example.com/db/nrtmv4/example-b/notification.json",
+    "key": "b6..3d",
+  }
+]
+
+   Note: the keys in this example are shortened because of formatting.
+
+   The following validation rules MUST be observed when creating or
+   parsing Update Notification Files:
+
+   *  The source contains the IRR Database name and MUST be a valid IRR
+      object name [RFC2622], which matches the source in the referred
+      Update Notification File.
+
+   *  The update_notification MUST be the URL of the Update Notification
+      File.
+
+   *  The key MUST be the Ed25519 [RFC8032] public key encoded in base64
+      [RFC4648], which the mirror server uses to sign the Update
+      Notification File.
+
+   *  The file MUST contain at least one entry for an IRR Database, but
+      MAY contain multiple with different source values.
+
+   *  The file MUST only contain US-ASCII characters.
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 11]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
+6.  Update Notification File
+
+6.1.  Purpose
 
    The Update Notification File is generated by the mirror server and
    used by mirror clients to discover whether any changes exist between
@@ -488,7 +631,7 @@ Internet-Draft                   NRTM v4                   December 2021
    The mirror server MUST generate a new Update Notification File every
    time there are new deltas or snapshots.
 
-5.2.  Cache concerns
+6.2.  Cache concerns
 
    A mirror server may use caching infrastructure to cache the Update
    Notification File and reduce the load of HTTPS requests.
@@ -499,16 +642,37 @@ Internet-Draft                   NRTM v4                   December 2021
    exception to this rule is that it is better to serve a stale Update
    Notification File rather than no Update Notification File.
 
+6.3.  File format and validation
+
+   Example Update Notification File:
 
 
-Romijn, et al.            Expires 26 June 2022                  [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 12]
 
 Internet-Draft                   NRTM v4                   December 2021
 
-
-5.3.  File format and validation
-
-   Example Update Notification File:
 
    {
      "nrtm_version": 4,
@@ -555,15 +719,16 @@ Internet-Draft                   NRTM v4                   December 2021
    *  The session_id attribute MUST be a random v4 UUID [RFC4122] unique
       to this session for this source.
 
+   *  The version MUST be an unsigned positive integer and be equal to
+      the highest version of the deltas and snapshot.
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 10]
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 13]
 
 Internet-Draft                   NRTM v4                   December 2021
 
-
-   *  The version MUST be an unsigned positive integer and be equal to
-      the highest version of the deltas and snapshot.
 
    *  The file MUST contain exactly one snapshot.
 
@@ -582,7 +747,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
    *  The file MUST be UTF-8 encoded.
 
-5.4.  Signature
+6.4.  Signature
 
    The contents of Update Notification File MUST be signed using Ed25519
    [RFC8032].  The public key for this signature must be published by
@@ -590,15 +755,15 @@ Internet-Draft                   NRTM v4                   December 2021
    Notification File MUST be published under the same path as the Update
    Notification File, appending ".sig".
 
-6.  Snapshot File
+7.  Snapshot File
 
-6.1.  Purpose
+7.1.  Purpose
 
    The Snapshot File reflects the complete and current contents of all
    IRR objects in an IRR Database.  Mirror clients MUST use this to
    initialize their local copy of the IRR Database.
 
-6.2.  Cache Concerns
+7.2.  Cache Concerns
 
    A snapshot reflects the content of the IRR Database at a specific
    point in time; for that reason, it can be considered immutable data.
@@ -613,7 +778,10 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 11]
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 14]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -623,7 +791,7 @@ Internet-Draft                   NRTM v4                   December 2021
    retain old Snapshot Files for at least 5 minutes after a new Update
    Notification File is published.
 
-6.3.  File format and validation
+7.3.  File format and validation
 
    Example Snapshot File:
 
@@ -669,21 +837,21 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 12]
+Romijn, et al.            Expires 27 June 2022                 [Page 15]
 
 Internet-Draft                   NRTM v4                   December 2021
 
 
-7.  Delta File
+8.  Delta File
 
-7.1.  Purpose
+8.1.  Purpose
 
    A Delta File contains all changes for exactly one incremental update
    of the IRR Database.  It may include new, modified and deleted
    objects.  Delta Files can contain multiple alterations to multiple
    objects.
 
-7.2.  Cache Concerns
+8.2.  Cache Concerns
 
    Deltas reflect the difference in content of the IRR Database from one
    version to another; for that reason, it can be considered immutable
@@ -696,7 +864,7 @@ Internet-Draft                   NRTM v4                   December 2021
    Notification File is published that no longer contains these Delta
    Files.
 
-7.3.  File format and validation
+8.3.  File format and validation
 
    Example Delta File:
 
@@ -725,7 +893,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 13]
+Romijn, et al.            Expires 27 June 2022                 [Page 16]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -762,9 +930,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
    *  The file MUST be UTF-8 encoded.
 
-8.  Operational Considerations
+9.  Operational Considerations
 
-8.1.  IRR object Validation
+9.1.  IRR object Validation
 
    Throughout the years, various implementations of IRR servers have
    taken liberties with the various RFCs regarding RPSL.
@@ -781,7 +949,7 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 14]
+Romijn, et al.            Expires 27 June 2022                 [Page 17]
 
 Internet-Draft                   NRTM v4                   December 2021
 
@@ -813,7 +981,7 @@ Internet-Draft                   NRTM v4                   December 2021
    interpret it unambiguously even if it does not meet the mirror
    client's own validation rules for authoritative records.
 
-8.2.  Intermediate mirror instances
+9.2.  Intermediate mirror instances
 
    An IRR Database generally has a single authoritative source.  In some
    cases, an instance run by a third party will function as a kind of
@@ -837,12 +1005,39 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 15]
+Romijn, et al.            Expires 27 June 2022                 [Page 18]
 
 Internet-Draft                   NRTM v4                   December 2021
 
 
-9.  Security Considerations
+9.3.  Public key rotation
+
+   It is RECOMMENDED that IRR Database operators rotate the signing key
+   on their mirror server about once per year.  To support this, the
+   mirror server implementation MUST provide a way for operators to
+   immediately generate a new Update Notification File on demand.  To
+   perform the rotation, the operator then:
+
+   *  Generates a new key.
+
+   *  Prepares a new Database Configuration File with the new public
+      key.
+
+   *  Configures the new private key in the mirror server software.
+
+   *  Makes the mirror server software generate a new Update
+      Notification File.
+
+   *  Publishes the new Database Configuration File.
+
+   Mirror clients will load the Update Notification File, find the
+   signature to be invalid, retrieve the Database Configuration File and
+   configure the new key.  Note that key rotation will briefly but
+   significantly increase the retrievals of the Database Configuration
+   File, as every current mirror client will retrieve it within the
+   minute after publication of the new Update Notification File.
+
+10.  Security Considerations
 
    IRR objects serve many purposes, including automated network
    configuration and filtering.  Manipulation of IRR objects can
@@ -861,6 +1056,16 @@ Internet-Draft                   NRTM v4                   December 2021
    file.  Additionally, the channel security offered by HTTPS further
    limits security risks.
 
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 19]
+
+Internet-Draft                   NRTM v4                   December 2021
+
+
    By allowing publication on any HTTPS endpoint, NRTMv4 allows for
    extensive scaling, and there are many existing techniques and
    services to protect against denial-of-service attacks.  In contrast,
@@ -871,32 +1076,23 @@ Internet-Draft                   NRTM v4                   December 2021
    The HTTPS endpoint used for NRTMv4 MUST be configured according to
    the best practices in [RFC7525].
 
-10.  IANA Considerations
+11.  IANA Considerations
 
    This document requests IANA to ...
 
-11.  Acknowledgments
+12.  Acknowledgments
 
    The authors would like to thank ...  and ...  for their helpful
    review of this document.
 
-12.  References
+13.  References
 
-12.1.  Normative References
+13.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-
-Romijn, et al.            Expires 26 June 2022                 [Page 16]
-
-Internet-Draft                   NRTM v4                   December 2021
-
 
    [RFC2622]  Alaettinoglu, C., Villamizar, C., Gerich, E., Kessens, D.,
               Meyer, D., Bates, T., Karrenberg, D., and M. Terpstra,
@@ -909,11 +1105,22 @@ Internet-Draft                   NRTM v4                   December 2021
               DOI 10.17487/RFC4122, July 2005,
               <https://www.rfc-editor.org/info/rfc4122>.
 
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
+
    [RFC7525]  Sheffer, Y., Holz, R., and P. Saint-Andre,
               "Recommendations for Secure Use of Transport Layer
               Security (TLS) and Datagram Transport Layer Security
               (DTLS)", BCP 195, RFC 7525, DOI 10.17487/RFC7525, May
               2015, <https://www.rfc-editor.org/info/rfc7525>.
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 20]
+
+Internet-Draft                   NRTM v4                   December 2021
+
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,
@@ -924,12 +1131,16 @@ Internet-Draft                   NRTM v4                   December 2021
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+   [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
+              (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
+              <https://www.rfc-editor.org/info/rfc8615>.
+
    [SHS]      National Institute of Standards and Technology, "Secure
               Hash Standard", March 2012,
               <http://csrc.nist.gov/publications/fips/fips180-4/fips-
               180-4.pdf>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
               "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
@@ -946,14 +1157,6 @@ Authors' Addresses
    Email: sasha@reliablycoded.nl
 
 
-
-
-
-Romijn, et al.            Expires 26 June 2022                 [Page 17]
-
-Internet-Draft                   NRTM v4                   December 2021
-
-
    Job Snijders
    Fastly
    Amsterdam
@@ -966,6 +1169,14 @@ Internet-Draft                   NRTM v4                   December 2021
    RIPE NCC
    Amsterdam
    Netherlands
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 21]
+
+Internet-Draft                   NRTM v4                   December 2021
+
 
    Email: eshryane@ripe.net
 
@@ -1005,4 +1216,17 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 26 June 2022                 [Page 18]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Romijn, et al.            Expires 27 June 2022                 [Page 22]
