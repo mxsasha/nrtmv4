@@ -817,6 +817,14 @@
       </t>
     </section>
 
+    <section title="Reading from local files">
+      <t>
+        In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
+        However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
+        When reading from local files, mirror clients SHOULD still follow all validation rules, including validating the signature and hashes.
+      </t>
+    </section>
+
     <section title="Public key rotation">
       <t>
         It is RECOMMENDED that IRR Database operators rotate the signing key on their mirror server about once per year.
