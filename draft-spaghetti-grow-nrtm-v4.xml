@@ -168,17 +168,25 @@
     </section>
 
   <section title="Mirror server use">
-
-    <section title="Key Configuration">
+    <section title="Key Configuration and the Database Configuration File">
       <t>
-        When enabling NRTMv4 publication for an IRR Database, an operator MUST configure a private Ed25519 <xref target="RFC8032"/>. key to be used for Update Notification Signature Files.
+        When enabling NRTMv4 publication for an IRR Database, an operator MUST configure a private Ed25519 <xref target="RFC8032"/> key to be used for Update Notification Signature Files.
       </t>
       <t>
-        It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new Ed25519 keys to enter into their configuration, and generate the public keys from the current configuration.
+        <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em>
+      </t>
+      <t>
+        The operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File. This is JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <xref target="RFC8615"/>.
+      </t>
+      <t>
+        The authoritative domain name is the domain which is generally known by the IRR community to belong to the operator of the IRR Database.
+        Note that the Update Notification File, Snapshot File and Delta Files MAY also be hosted on the authoritative domain, or an entirely different host or domain.
+      </t>
+      <t>
+        It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new Ed25519 keys to enter into their configuration, and propose a Database Configuration File from the current configuration.
         Configuration options SHOULD be clearly named to indicate that they are private keys.
       </t>
     </section>
-
     <section title="Snapshot Initialization">
       <t>
         A mirror server MUST follow the initialization steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
@@ -296,12 +304,21 @@
   </section>
 
   <section title="Mirror client use">
+    <section title="Configuration">
+      <t>
+        <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em>
+      </t>
+      <t>
+        Mirror clients are configured with the name of an IRR Database to mirror, and the domain considered authoritative by the mirror client operator, which hosts the Database Configuration File.
+        The mirror client MUST retrieve this file, look for an entry under the expected IRR Database name, and read the Update Notification File URL and the public key.
+        The mirror client MUST only allow retrieval of this file over HTTPS.
+      </t>
+      <t>
+        The mirror client MUST retrieve the Database Configuration File every 24 hours, and update their local configuration if any settings in the file have changed.
+      </t>
+    </section>
 
     <section title="Initialization from snapshot">
-      <t>
-        Mirror clients are configured with the URL to an Update Notification File, the name of the IRR Database to mirror, and the public key of the IRR Database.
-        Clients MUST NOT allow mirroring to be configured when one of these settings is missing.
-      </t>
       <t>
         Clients MUST initialize from a Snapshot File when initially configured, or -if they are not able to update their local data- from the provided Delta Files:
       </t>
@@ -370,7 +387,10 @@
       <t>
         Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the signature.
         The signature MUST be valid for the configured public key for the contents of the Update Notification File.
-        If the signature does not match, the mirror client MUST reject the Update Notification File.
+      </t>
+      <t>
+        If the signature does not match, the mirror client MUST reject the Update Notification File and retrieve the Database Configuration File, as a mismatch may be caused by a key rotation by the mirror server operator.
+        If the Database Configuration File contains a new public key, the mirror client will attempt to use that key for signature verification instead.
       </t>
     </section>
     <section title="Policy Restrictions">
@@ -379,6 +399,78 @@
       </t>
       <t>
         If a mirror client has a policy that restricts object processing, this MUST be applied consistently to Snapshot Files and Delta Files from the moment the policy is enacted or modified.
+      </t>
+    </section>
+  </section>
+
+  <section title="Database Configuration File">
+      <t>
+        <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em>
+      </t>
+
+    <section title="Purpose">
+      <t>
+        The Database Configuration File is provided by the IRR Database operator as configuration information for mirror clients.
+        For each IRR Database run by an operator, it contains the current signing key, Snapshot Notification File URL and the IRR Database name.
+        This JSON file MUST be placed on a well-known URI on the "irr-nrtm.json" suffix on the authoritative domain name of the IRR Database operator <xref target="RFC8615"/> and must be available over HTTPS.
+      </t>
+      <t>
+        The operator MUST update this file if any of these configuration details change.
+      </t>
+    </section>
+
+    <section title="Cache concerns">
+      <t>
+        A mirror server may use caching infrastructure to cache the Database Configuration File and reduce the load of HTTPS requests.
+        Unlike some of the other files, this file is both very small and quite rarely retrieved, limiting the need for and benefits of caching.
+        Since this file is used by mirror clients to determine the current signing key, this SHOULD not cached for longer than one minute to support key rotations.
+      </t>
+    </section>
+
+    <section title="File format and validation">
+      <t>
+        Example Database Configuration File:
+      </t>
+      <t>
+<artwork><![CDATA[
+[
+  {
+    "source": "EXAMPLE-A",
+    "update_notification": "https://example.net/db/nrtmv4/example-a/notification.json",
+    "key": "96..ae"
+  },
+  {
+    "source": "EXAMPLE-B",
+    "update_notification": "https://cdn.example.com/db/nrtmv4/example-b/notification.json",
+    "key": "b6..3d",
+  }
+]
+]]></artwork>
+      </t>
+      <t>
+        Note: the keys in this example are shortened because of formatting.
+      </t>
+      <t>
+        The following validation rules MUST be observed when creating or parsing Update Notification Files:
+      </t>
+      <t>
+        <list style="symbols">
+          <t>
+            The source contains the IRR Database name and MUST be a valid IRR object name <xref target="RFC2622"/>, which matches the source in the referred Update Notification File.
+          </t>
+          <t>
+            The update_notification MUST be the URL of the Update Notification File.
+          </t>
+          <t>
+            The key MUST be the Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which the mirror server uses to sign the Update Notification File.
+          </t>
+          <t>
+            The file MUST contain at least one entry for an IRR Database, but MAY contain multiple with different source values.
+          </t>
+          <t>
+            The file MUST only contain US-ASCII characters.
+          </t>
+        </list>
       </t>
     </section>
   </section>
@@ -709,6 +801,33 @@
         The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.
       </t>
     </section>
+
+    <section title="Public key rotation">
+      <t>
+        It is RECOMMENDED that IRR Database operators rotate the signing key on their mirror server about once per year.
+        To support this, the mirror server implementation MUST provide a way for operators to immediately generate a new Update Notification File on demand.
+        To perform the rotation, the operator then:
+        <list style="symbols">
+          <t>
+            Generates a new key.
+          </t>
+          <t>
+            Prepares a new Database Configuration File with the new public key.
+          </t>
+          <t>
+            Configures the new private key in the mirror server software.
+          </t>
+          <t>
+            Makes the mirror server software generate a new Update Notification File.
+          </t>
+          <t>
+            Publishes the new Database Configuration File.
+          </t>
+        </list>
+        Mirror clients will load the Update Notification File, find the signature to be invalid, retrieve the Database Configuration File and configure the new key.
+        Note that key rotation will briefly but significantly increase the retrievals of the Database Configuration File, as every current mirror client will retrieve it within the minute after publication of the new Update Notification File.
+      </t>
+    </section>
   </section>
 
   <section title="Security Considerations">
@@ -760,9 +879,11 @@
     <?rfc include="reference.RFC.2119.xml"?>
     <?rfc include="reference.RFC.2622.xml"?>
     <?rfc include="reference.RFC.4122.xml"?>
+    <?rfc include="reference.RFC.4648.xml"?>
     <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
+    <?rfc include="reference.RFC.8615.xml"?>
     <reference anchor="SHS" target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
