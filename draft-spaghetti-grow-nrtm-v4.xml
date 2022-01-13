@@ -247,6 +247,7 @@
             </t>
             <t>
               The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
             </t>
             <t>
               After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.
@@ -274,6 +275,7 @@
             </t>
             <t>
               The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
             </t>
             <t>
               The Update Notification File MUST be updated to include the new snapshot, if one was generated.
@@ -519,23 +521,23 @@
   "version": 3,
   "snapshot": {
     "version": 2,
-    "url": "https://example.com/ca..be/nrtm-snapshot.2.json",
+    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
     "hash": "9a..86"
   }
   "deltas": [
     {
       "version": 1,
-      "url": "https://example.com/ca..be/nrtm-delta.1.json",
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     }
     {
       "version": 2,
-      "url": "https://example.com/ca..be/nrtm-delta.2.json",
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     }
     {
       "version": 3,
-      "url": "https://example.com/ca..be/nrtm-delta.3.json",
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
   ]
@@ -543,7 +545,7 @@
 ]]></artwork>
       </t>
       <t>
-        Note: URIs and hash values in this example are shortened because of formatting.
+        Note: hash values in this example are shortened because of formatting.
       </t>
       <t>
         The following validation rules MUST be observed when creating or parsing Update Notification Files:
