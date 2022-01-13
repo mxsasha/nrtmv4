@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 27 June 2022                                             Fastly
+Expires: 17 July 2022                                             Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                        24 December 2021
+                                                         13 January 2022
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,21 +46,21 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 June 2022.
+   This Internet-Draft will expire on 17 July 2022.
 
 
 
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 1]
+Romijn, et al.            Expires 17 July 2022                  [Page 1]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2022 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 2]
+Romijn, et al.            Expires 17 July 2022                  [Page 2]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    9.  Operational Considerations  . . . . . . . . . . . . . . . . .  17
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 3]
+Romijn, et al.            Expires 17 July 2022                  [Page 3]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    *  A single Update Notification File.  This specifies the current
@@ -221,9 +221,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 4]
+Romijn, et al.            Expires 17 July 2022                  [Page 4]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 3.  Mirror server use
@@ -243,7 +243,7 @@ Internet-Draft                   NRTM v4                   December 2021
    "irr-nrtm.json" suffix on the operator's authoritative domain name
    [RFC8615].
 
-   The authoritative domain name is the domain which is geneerally known
+   The authoritative domain name is the domain which is generally known
    by the IRR community to belong to the operator of the IRR Database.
    Note that the Update Notification File, Snapshot File and Delta Files
    MAY also be hosted on the authoritative domain, or an entirely
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 5]
+Romijn, et al.            Expires 17 July 2022                  [Page 5]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    *  The server MUST generate a snapshot for version number one.  This
@@ -333,9 +333,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 6]
+Romijn, et al.            Expires 17 July 2022                  [Page 6]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    *  The URL where the Delta File is published MUST contain the session
@@ -389,9 +389,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 7]
+Romijn, et al.            Expires 17 July 2022                  [Page 7]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    Mirror servers are RECOMMENDED to remove password hashes from the
@@ -445,9 +445,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 8]
+Romijn, et al.            Expires 17 July 2022                  [Page 8]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 4.3.  Processing Delta Files
@@ -501,9 +501,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                  [Page 9]
+Romijn, et al.            Expires 17 July 2022                  [Page 9]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 4.4.  Signature Verification
@@ -515,10 +515,10 @@ Internet-Draft                   NRTM v4                   December 2021
 
    If the signature does not match, the mirror client MUST reject the
    Update Notification File and retrieve the Database Configuration
-   File, as a mismatch may be caused by an intentional key rotation by
-   the mirror server operator.  If the Database Configuration File
-   contains a new public key, the mirror client will attempt to use that
-   key for signature verification instead.
+   File, as a mismatch may be caused by a key rotation by the mirror
+   server operator.  If the Database Configuration File contains a new
+   public key, the mirror client will attempt to use that key for
+   signature verification instead.
 
 4.5.  Policy Restrictions
 
@@ -557,9 +557,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 10]
+Romijn, et al.            Expires 17 July 2022                 [Page 10]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 5.2.  Cache concerns
@@ -613,9 +613,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 11]
+Romijn, et al.            Expires 17 July 2022                 [Page 11]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 6.  Update Notification File
@@ -669,9 +669,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 12]
+Romijn, et al.            Expires 17 July 2022                 [Page 12]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    {
@@ -725,9 +725,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 13]
+Romijn, et al.            Expires 17 July 2022                 [Page 13]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    *  The file MUST contain exactly one snapshot.
@@ -781,9 +781,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 14]
+Romijn, et al.            Expires 17 July 2022                 [Page 14]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    To avoid race conditions where a mirror client retrieves an Update
@@ -837,9 +837,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 15]
+Romijn, et al.            Expires 17 July 2022                 [Page 15]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 8.  Delta File
@@ -893,9 +893,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 16]
+Romijn, et al.            Expires 17 July 2022                 [Page 16]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    The following validation rules MUST be observed when creating or
@@ -949,9 +949,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 17]
+Romijn, et al.            Expires 17 July 2022                 [Page 17]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    This has the potential to create interoperability issues.  Some are
@@ -1005,9 +1005,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 18]
+Romijn, et al.            Expires 17 July 2022                 [Page 18]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
 9.3.  Public key rotation
@@ -1061,9 +1061,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 19]
+Romijn, et al.            Expires 17 July 2022                 [Page 19]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    By allowing publication on any HTTPS endpoint, NRTMv4 allows for
@@ -1117,9 +1117,9 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 20]
+Romijn, et al.            Expires 17 July 2022                 [Page 20]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
@@ -1173,9 +1173,9 @@ Authors' Addresses
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 21]
+Romijn, et al.            Expires 17 July 2022                 [Page 21]
 
-Internet-Draft                   NRTM v4                   December 2021
+Internet-Draft                   NRTM v4                    January 2022
 
 
    Email: eshryane@ripe.net
@@ -1229,4 +1229,4 @@ Internet-Draft                   NRTM v4                   December 2021
 
 
 
-Romijn, et al.            Expires 27 June 2022                 [Page 22]
+Romijn, et al.            Expires 17 July 2022                 [Page 22]

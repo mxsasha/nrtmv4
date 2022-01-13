@@ -179,7 +179,7 @@
         The operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File. This is JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <xref target="RFC8615"/>.
       </t>
       <t>
-        The authoritative domain name is the domain which is geneerally known by the IRR community to belong to the operator of the IRR Database.
+        The authoritative domain name is the domain which is generally known by the IRR community to belong to the operator of the IRR Database.
         Note that the Update Notification File, Snapshot File and Delta Files MAY also be hosted on the authoritative domain, or an entirely different host or domain.
       </t>
       <t>
@@ -389,7 +389,7 @@
         The signature MUST be valid for the configured public key for the contents of the Update Notification File.
       </t>
       <t>
-        If the signature does not match, the mirror client MUST reject the Update Notification File and retrieve the Database Configuration File, as a mismatch may be caused by an intentional key rotation by the mirror server operator.
+        If the signature does not match, the mirror client MUST reject the Update Notification File and retrieve the Database Configuration File, as a mismatch may be caused by a key rotation by the mirror server operator.
         If the Database Configuration File contains a new public key, the mirror client will attempt to use that key for signature verification instead.
       </t>
     </section>
