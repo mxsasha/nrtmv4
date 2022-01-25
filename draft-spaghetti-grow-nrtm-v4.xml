@@ -80,7 +80,7 @@
 
   <abstract>
     <t>
-      This document specifies a synchronization protocol for Internet Routing Registry (IRR) records.
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in in the Routing Policy Specification Language (RPSL), between each other.
     </t>
   </abstract>
