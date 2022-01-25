@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 17 July 2022                                             Fastly
+Expires: 29 July 2022                                             Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                         13 January 2022
+                                                         25 January 2022
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 July 2022.
+   This Internet-Draft will expire on 29 July 2022.
 
 
 
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 1]
+Romijn, et al.            Expires 29 July 2022                  [Page 1]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -83,7 +83,7 @@ Table of Contents
        3.3.1.  Delta Files . . . . . . . . . . . . . . . . . . . . .   6
        3.3.2.  Snapshot Files  . . . . . . . . . . . . . . . . . . .   7
        3.3.3.  Update Notification File  . . . . . . . . . . . . . .   7
-       3.3.4.  Publication Policy Restrictions . . . . . . . . . . .   7
+       3.3.4.  Publication Policy Restrictions . . . . . . . . . . .   8
    4.  Mirror client use . . . . . . . . . . . . . . . . . . . . . .   8
      4.1.  Configuration . . . . . . . . . . . . . . . . . . . . . .   8
      4.2.  Initialization from snapshot  . . . . . . . . . . . . . .   8
@@ -91,7 +91,7 @@ Table of Contents
      4.4.  Signature and Staleness Verification  . . . . . . . . . .  10
      4.5.  Policy Restrictions . . . . . . . . . . . . . . . . . . .  10
    5.  Database Configuration File . . . . . . . . . . . . . . . . .  10
-     5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  11
      5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  11
      5.3.  File format and validation  . . . . . . . . . . . . . . .  11
    6.  Update Notification File  . . . . . . . . . . . . . . . . . .  12
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 2]
+Romijn, et al.            Expires 29 July 2022                  [Page 2]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 3]
+Romijn, et al.            Expires 29 July 2022                  [Page 3]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 4]
+Romijn, et al.            Expires 29 July 2022                  [Page 4]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 5]
+Romijn, et al.            Expires 29 July 2022                  [Page 5]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -333,13 +333,15 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                  [Page 6]
+Romijn, et al.            Expires 29 July 2022                  [Page 6]
 
 Internet-Draft                   NRTM v4                    January 2022
 
 
    *  The URL where the Delta File is published MUST contain the session
-      ID and version number to allow it to be indefinitely cached.
+      ID and version number to allow it to be indefinitely cached.  It
+      MUST also contain a random value that can not be predicted before
+      publication, to counter negative caching issues.
 
    *  After generating a new Delta File, a mirror server MUST remove all
       Delta Files older than 24 hours.
@@ -363,7 +365,8 @@ Internet-Draft                   NRTM v4                    January 2022
 
    *  The URL where the Snapshot File is published MUST contain the
       session ID and version number to allow it to be indefinitely
-      cached.
+      cached.  It MUST also contain a random value that can not be
+      predicted before publication, to counter negative caching issues.
 
    *  The Update Notification File MUST be updated to include the new
       snapshot, if one was generated.
@@ -378,6 +381,19 @@ Internet-Draft                   NRTM v4                    January 2022
    MUST also update the Update Notification Signature File MUST be
    updated for the new Update Notification File contents.
 
+
+
+
+
+
+
+
+
+Romijn, et al.            Expires 29 July 2022                  [Page 7]
+
+Internet-Draft                   NRTM v4                    January 2022
+
+
 3.3.4.  Publication Policy Restrictions
 
    A mirror server MAY have a policy that restricts the publication of
@@ -386,14 +402,6 @@ Internet-Draft                   NRTM v4                    January 2022
    distribution of certain personal data or password hashes, or
    excluding objects which do not meet validation rules like RPKI
    consistency.  It is RECOMMENDED to modify objects in such a way that
-
-
-
-Romijn, et al.            Expires 17 July 2022                  [Page 7]
-
-Internet-Draft                   NRTM v4                    January 2022
-
-
    this change is evident to humans reading the object text, for example
    by adding remark lines or comments.
 
@@ -435,6 +443,13 @@ Internet-Draft                   NRTM v4                    January 2022
    *  The client MUST verify that the source attribute in the Update
       Notification File matches the configured IRR Database name.
 
+
+
+Romijn, et al.            Expires 29 July 2022                  [Page 8]
+
+Internet-Draft                   NRTM v4                    January 2022
+
+
    *  The client MUST retrieve the Snapshot File and load the objects
       into its local storage.
 
@@ -442,13 +457,6 @@ Internet-Draft                   NRTM v4                    January 2022
       matches the hash on the Update Notification File that referenced
       it.  In case of a mismatch of this hash, the file MUST be
       rejected.
-
-
-
-Romijn, et al.            Expires 17 July 2022                  [Page 8]
-
-Internet-Draft                   NRTM v4                    January 2022
-
 
    *  The client MUST record the configured URL and the session_id and
       version from the Update Notification File.
@@ -491,20 +499,19 @@ Internet-Draft                   NRTM v4                    January 2022
       of the Delta File version number first, order in the "changes"
       attribute of individual Delta Files second.
 
+
+
+Romijn, et al.            Expires 29 July 2022                  [Page 9]
+
+Internet-Draft                   NRTM v4                    January 2022
+
+
    *  The client MUST update its most recent version to the version of
       the Update Notification File.
 
    If the Update Notification File or one of the Delta Files is
    rejected, the mirror client MUST NOT process any newer Deltas than
    those that are valid and have been successfully verified.
-
-
-
-
-Romijn, et al.            Expires 17 July 2022                  [Page 9]
-
-Internet-Draft                   NRTM v4                    January 2022
-
 
 4.4.  Signature and Staleness Verification
 
@@ -542,6 +549,19 @@ Internet-Draft                   NRTM v4                    January 2022
    _REMOVE BEFORE PUBLICATION: this whole section is wide open to
    suggestions / ideas_
 
+
+
+
+
+
+
+
+
+Romijn, et al.            Expires 29 July 2022                 [Page 10]
+
+Internet-Draft                   NRTM v4                    January 2022
+
+
 5.1.  Purpose
 
    The Database Configuration File is provided by the IRR Database
@@ -554,13 +574,6 @@ Internet-Draft                   NRTM v4                    January 2022
 
    The operator MUST update this file if any of these configuration
    details change.
-
-
-
-Romijn, et al.            Expires 17 July 2022                 [Page 10]
-
-Internet-Draft                   NRTM v4                    January 2022
-
 
 5.2.  Cache concerns
 
@@ -598,6 +611,13 @@ Internet-Draft                   NRTM v4                    January 2022
       object name [RFC2622], which matches the source in the referred
       Update Notification File.
 
+
+
+Romijn, et al.            Expires 29 July 2022                 [Page 11]
+
+Internet-Draft                   NRTM v4                    January 2022
+
+
    *  The update_notification MUST be the URL of the Update Notification
       File.
 
@@ -609,14 +629,6 @@ Internet-Draft                   NRTM v4                    January 2022
       MAY contain multiple with different source values.
 
    *  The file MUST only contain US-ASCII characters.
-
-
-
-
-Romijn, et al.            Expires 17 July 2022                 [Page 11]
-
-Internet-Draft                   NRTM v4                    January 2022
-
 
 6.  Update Notification File
 
@@ -657,55 +669,43 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Romijn, et al.            Expires 17 July 2022                 [Page 12]
+Romijn, et al.            Expires 29 July 2022                 [Page 12]
 
 Internet-Draft                   NRTM v4                    January 2022
 
 
-   {
-     "nrtm_version": 4,
-     "timestamp": "2022-01-00T15:00:00Z",
-     "type": "notification",
-     "source": "EXAMPLE",
-     "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-     "version": 3,
-     "snapshot": {
-       "version": 2,
-       "url": "https://example.com/ca..be/nrtm-snapshot.2.json",
-       "hash": "9a..86"
-     }
-     "deltas": [
-       {
-         "version": 1,
-         "url": "https://example.com/ca..be/nrtm-delta.1.json",
-         "hash": "62..a2"
-       }
-       {
-         "version": 2,
-         "url": "https://example.com/ca..be/nrtm-delta.2.json",
-         "hash": "25..9a"
-       }
-       {
-         "version": 3,
-         "url": "https://example.com/ca..be/nrtm-delta.3.json",
-         "hash": "b4..13"
-       }
-     ]
-   }
+{
+  "nrtm_version": 4,
+  "timestamp": "2022-01-00T15:00:00Z",
+  "type": "notification",
+  "source": "EXAMPLE",
+  "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
+  "version": 3,
+  "snapshot": {
+    "version": 2,
+    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
+    "hash": "9a..86"
+  }
+  "deltas": [
+    {
+      "version": 1,
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "hash": "62..a2"
+    }
+    {
+      "version": 2,
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "hash": "25..9a"
+    }
+    {
+      "version": 3,
+      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "hash": "b4..13"
+    }
+  ]
+}
 
-   Note: URIs and hash values in this example are shortened because of
+   Note: hash values in this example are shortened because of
    formatting.
 
    The following validation rules MUST be observed when creating or
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 13]
+Romijn, et al.            Expires 29 July 2022                 [Page 13]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 14]
+Romijn, et al.            Expires 29 July 2022                 [Page 14]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -837,7 +837,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 15]
+Romijn, et al.            Expires 29 July 2022                 [Page 15]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 16]
+Romijn, et al.            Expires 29 July 2022                 [Page 16]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -949,7 +949,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 17]
+Romijn, et al.            Expires 29 July 2022                 [Page 17]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 18]
+Romijn, et al.            Expires 29 July 2022                 [Page 18]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 19]
+Romijn, et al.            Expires 29 July 2022                 [Page 19]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -1117,7 +1117,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 20]
+Romijn, et al.            Expires 29 July 2022                 [Page 20]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   NRTM v4                    January 2022
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 21]
+Romijn, et al.            Expires 29 July 2022                 [Page 21]
 
 Internet-Draft                   NRTM v4                    January 2022
 
@@ -1229,4 +1229,4 @@ Authors' Addresses
 
 
 
-Romijn, et al.            Expires 17 July 2022                 [Page 22]
+Romijn, et al.            Expires 29 July 2022                 [Page 22]
