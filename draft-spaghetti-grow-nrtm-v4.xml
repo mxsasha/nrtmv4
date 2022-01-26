@@ -152,7 +152,7 @@
      </t>
      <t>
        Upon initialization, the mirror server generates a session ID for the Database.
-       This is allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
        If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
      </t>
      <t>

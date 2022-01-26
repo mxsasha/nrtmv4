@@ -196,7 +196,7 @@ Internet-Draft                   NRTM v4                    January 2022
    all the Snapshot and Delta Files.
 
    Upon initialization, the mirror server generates a session ID for the
-   Database.  This is allows long term caching and used by the client to
+   Database.  This allows long term caching and used by the client to
    determine that the Delta Files continue to form a full set of changes
    allowing an update to the latest version.  If the mirror server loses
    partial history, or the mirror client starts mirroring from a

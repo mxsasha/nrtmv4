@@ -1509,7 +1509,7 @@ li > p:last-of-type {
        A mirror client is configured from a Database Configuration File on a well-known URL, which contains a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">
        Upon initialization, the mirror server generates a session ID for the Database.
-       This is allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
        If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">
        Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
