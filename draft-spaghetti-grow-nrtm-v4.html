@@ -11,7 +11,7 @@
 <meta content="Stavros Konstantaras" name="author">
 <meta content="
        
-      This document specifies a synchronization protocol for Internet Routing Registry (IRR) records.
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in in the Routing Policy Specification Language (RPSL), between each other.
        
     " name="description">
@@ -1198,7 +1198,7 @@ li > p:last-of-type {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 29 July 2022</td>
+<td class="center">Expires 30 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1211,12 +1211,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-spaghetti-grow-nrtm-v4-00</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-01-25" class="published">25 January 2022</time>
+<time datetime="2022-01-26" class="published">26 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-07-29">29 July 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-30">30 July 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1242,7 +1242,7 @@ li > p:last-of-type {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
-      This document specifies a synchronization protocol for Internet Routing Registry (IRR) records.
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in in the Routing Policy Specification Language (RPSL), between each other.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note" id="section-note.1">
@@ -1271,7 +1271,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1469,7 +1469,7 @@ li > p:last-of-type {
       Most of these well known IRR Databases mirror IRR objects from some others, so that queries run against these instances provide a comprehensive view.
       Some parties also mirror IRR Databases to private IRR server instances, to reduce latency in queries, analyze IRR objects, or other purposes.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">
-      NRTM version 4 is designed to address issues in existing IRR Database mirroring protocols.
+      NRTM version 4 is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on a HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is dramatically improved.
@@ -1481,7 +1481,7 @@ li > p:last-of-type {
       </h2>
 <p id="section-2-1">
       In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
-      This can be retrieved by mirror clients, which then load the IRR objects into their local databases.<a href="#section-2-1" class="pilcrow">¶</a></p>
+      This can be retrieved by mirror clients, which then load the IRR objects into their local storage.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">
       Publication consists of three different files:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1497,7 +1497,7 @@ li > p:last-of-type {
 </li>
         <li class="normal" id="section-2-3.3">
           Zero or more Delta Files.
-          These contain the changes between two database versions.<a href="#section-2-3.3" class="pilcrow">¶</a>
+          These contain the changes between two database version numbers.<a href="#section-2-3.3" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="section-2-4">
@@ -1506,14 +1506,14 @@ li > p:last-of-type {
        This minimizes data transfer.
        Deltas have sequential versions.<a href="#section-2-4" class="pilcrow">¶</a></p>
 <p id="section-2-5">
-       A mirror client is configured with a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-5" class="pilcrow">¶</a></p>
+       A mirror client is configured from a Database Configuration File on a well-known URL, which contains a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">
        Upon initialization, the mirror server generates a session ID for the Database.
-       This is used to allow for long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       This is allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
        If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">
        Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
-       These are also the largest files. Update Notification Files may not be cached for longer than one minute.<a href="#section-2-7" class="pilcrow">¶</a></p>
+       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.<a href="#section-2-7" class="pilcrow">¶</a></p>
 <p id="section-2-8">
        Note that in NRTMv4, a contiguous version number is used for the Database version and Delta Files.
        This is different and unrelated to the serial in NRTMv3.
@@ -1529,17 +1529,17 @@ li > p:last-of-type {
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-key-configuration-and-the-da" class="section-name selfRef">Key Configuration and the Database Configuration File</a>
         </h3>
 <p id="section-3.1-1">
-        When enabling NRTMv4 publication for an IRR Database, an operator MUST configure a private Ed25519 <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span> key to be used for Update Notification Signature Files.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+        <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em><a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">
-        <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em><a href="#section-3.1-2" class="pilcrow">¶</a></p>
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span> key.
+        Then, the operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File.
+        This is a JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <span>[<a href="#RFC8615" class="xref">RFC8615</a>]</span>.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.1-3">
-        The operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File. This is JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <span>[<a href="#RFC8615" class="xref">RFC8615</a>]</span>.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.1-4">
         The authoritative domain name is the domain which is generally known by the IRR community to belong to the operator of the IRR Database.
-        Note that the Update Notification File, Snapshot File and Delta Files MAY also be hosted on the authoritative domain, or an entirely different host or domain.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.1-5">
+        Note that the Update Notification File, Snapshot File and Delta Files MAY also be hosted on the authoritative domain, or an entirely different host or domain.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-4">
         It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new Ed25519 keys to enter into their configuration, and propose a Database Configuration File from the current configuration.
-        Configuration options SHOULD be clearly named to indicate that they are private keys.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+        Configuration options SHOULD be clearly named to indicate that they are private keys.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.2">
         <h3 id="name-snapshot-initialization-2">
@@ -1608,7 +1608,7 @@ li > p:last-of-type {
               After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.8">
-              The Update Notification File MUST be updated to include the new Delta File and update the version.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
+              The Update Notification File MUST be updated to include the new Delta File and update the database version.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1644,7 +1644,7 @@ li > p:last-of-type {
 <p id="section-3.3.3-1">
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.3-2">
-          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
+          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File for the new Update Notification File contents.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3.4">
           <h4 id="name-publication-policy-restricti">
@@ -1672,18 +1672,18 @@ li > p:last-of-type {
 <p id="section-4.1-1">
         <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em><a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">
-        Mirror clients are configured with the name of an IRR Database to mirror, and the domain considered authoritative by the mirror client operator, which hosts the Database Configuration File.
+        Mirror clients are configured with the name of an IRR Database to mirror and the domain considered authoritative by the mirror client operator, which hosts the Database Configuration File.
         The mirror client MUST retrieve this file, look for an entry under the expected IRR Database name, and read the Update Notification File URL and the public key.
         The mirror client MUST only allow retrieval of this file over HTTPS.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">
-        The mirror client MUST retrieve the Database Configuration File every 24 hours, and update their local configuration if any settings in the file have changed.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+        The mirror client MUST retrieve the Database Configuration File every 24 hours, and update its local configuration if any settings in the file have changed.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.2">
         <h3 id="name-initialization-from-snapshot">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-initialization-from-snapshot" class="section-name selfRef">Initialization from snapshot</a>
         </h3>
 <p id="section-4.2-1">
-        Clients MUST initialize from a Snapshot File when initially configured, or -if they are not able to update their local data- from the provided Delta Files:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+        Clients MUST initialize from a Snapshot File when initially configured or if they are not able to update their local data from the provided Delta Files:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
           The client MUST retrieve the Update Notification File.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
@@ -1695,11 +1695,11 @@ li > p:last-of-type {
           The client MUST retrieve the Snapshot File and load the objects into its local storage.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.4">
-          The mirror client MUST verify that the hash of the Snapshot File matches the hash on the Update Notification File that referenced it.
+          The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
           In case of a mismatch of this hash, the file MUST be rejected.<a href="#section-4.2-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.5">
-          The client MUST record the configured URL and the session_id and version from the Update Notification File.<a href="#section-4.2-2.5" class="pilcrow">¶</a>
+          The client MUST record the configured authoritative domain, the session_id and version from the Update Notification File.<a href="#section-4.2-2.5" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1725,20 +1725,20 @@ li > p:last-of-type {
             If not, the Update Notification File MUST be rejected.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.5">
-            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version, to the latest version in the Update Notification File.
+            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version up to the latest version in the Update Notification File.
             If this is not found, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.6">
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.7">
-            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash on the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.8">
-            The client MUST process all changes in the Delta Files, in order of the Delta File version number first, order in the "changes" attribute of individual Delta Files second.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
+            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.9">
-            The client MUST update its most recent version to the version of the Update Notification File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
+            The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-4.3-3">
@@ -1749,14 +1749,14 @@ li > p:last-of-type {
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-signature-and-staleness-veri" class="section-name selfRef">Signature and Staleness Verification</a>
         </h3>
 <p id="section-4.4-1">
-        Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the signature.
+        Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the Update Notification Signature File.
         The signature MUST be valid for the configured public key for the contents of the Update Notification File.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 <p id="section-4.4-2">
         If the signature does not match, the mirror client MUST reject the Update Notification File and retrieve the Database Configuration File, as a mismatch may be caused by a key rotation by the mirror server operator.
         If the Database Configuration File contains a new public key, the mirror client will attempt to use that key for signature verification instead.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
 <p id="section-4.4-3">
         A mirror client can use the generation timestamp in the Update Notification File to check whether the file is stale, as the mirror server must update this file at least every 24 hours.
-        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages, but MAY continue to process it otherwise.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages or other alerting, but MAY continue to process it otherwise.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.5">
         <h3 id="name-policy-restrictions-2">
@@ -1781,7 +1781,7 @@ li > p:last-of-type {
 <p id="section-5.1-1">
         The Database Configuration File is provided by the IRR Database operator as configuration information for mirror clients.
         For each IRR Database run by an operator, it contains the current signing key, Snapshot Notification File URL and the IRR Database name.
-        This JSON file MUST be placed on a well-known URI on the "irr-nrtm.json" suffix on the authoritative domain name of the IRR Database operator <span>[<a href="#RFC8615" class="xref">RFC8615</a>]</span> and must be available over HTTPS.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+        This JSON file MUST be placed on a well-known URI <span>[<a href="#RFC8615" class="xref">RFC8615</a>]</span> on the "irr-nrtm.json" suffix on the authoritative domain name of the IRR Database operator and must be available over HTTPS.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">
         The operator MUST update this file if any of these configuration details change.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
@@ -1819,13 +1819,13 @@ li > p:last-of-type {
 <p id="section-5.3-3">
         Note: the keys in this example are shortened because of formatting.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">
-        The following validation rules MUST be observed when creating or parsing Update Notification Files:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
+        The following validation rules MUST be observed when creating or parsing Database Configuration Files:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-5.1">
             The source contains the IRR Database name and MUST be a valid IRR object name <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span>, which matches the source in the referred Update Notification File.<a href="#section-5.3-5.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.2">
-            The update_notification MUST be the URL of the Update Notification File.<a href="#section-5.3-5.2" class="pilcrow">¶</a>
+            The update_notification MUST be the HTTPS URL of the Update Notification File.<a href="#section-5.3-5.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.3">
             The key MUST be the Ed25519 <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span> public key encoded in base64 <span>[<a href="#RFC4648" class="xref">RFC4648</a>]</span>, which the mirror server uses to sign the Update Notification File.<a href="#section-5.3-5.3" class="pilcrow">¶</a>
@@ -1848,7 +1848,7 @@ li > p:last-of-type {
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-purpose-6" class="section-name selfRef">Purpose</a>
         </h3>
 <p id="section-6.1-1">
-        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and the mirror client's state.
+        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and of the mirror client's.
         It also describes the location of the Snapshot File and incremental Delta Files.
         Finally, the generation timestamp can be used to detect whether the file is stale.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">
@@ -1937,7 +1937,7 @@ li > p:last-of-type {
             The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-6.3-5.9" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-5.10">
-            Each snapshot and delta element MUST have a version, URL and hash attribute.<a href="#section-6.3-5.10" class="pilcrow">¶</a>
+            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.<a href="#section-6.3-5.10" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.3-5.11">
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="xref">SHS</a>]</span> of the referenced file.
@@ -1954,7 +1954,7 @@ li > p:last-of-type {
         </h3>
 <p id="section-6.4-1">
         The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span>.
-        The public key for this signature must be published by the operator of the mirror server.
+        The public key for this signature is published in the Database Configuration File.
         The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig".<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 </section>
 </section>
@@ -1976,7 +1976,8 @@ li > p:last-of-type {
         </h3>
 <p id="section-7.2-1">
         A snapshot reflects the content of the IRR Database at a specific point in time; for that reason, it can be considered immutable data.
-        Snapshot Files MUST be published at a URL that is unique to the specific session and version.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+        Snapshot Files MUST be published at a URL that is unique to the specific session and version.
+        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.2-2">
         Because these files never change, they MAY be cached indefinitely.
         However, as snapshots are large and old snapshots will no longer be referred by newer Update Notification Files, it is RECOMMENDED that a limited interval is used in the order of hours or days.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
@@ -2026,7 +2027,7 @@ li > p:last-of-type {
 </li>
           <li class="normal" id="section-7.3-5.6">
             The objects attribute MUST be an array of zero or more elements, each containing a string representation of an IRR object.
-            The string representation MUST be encoded in UTF-8 in Quoted-Printable encoding [RFC2045].<a href="#section-7.3-5.6" class="pilcrow">¶</a>
+            The string representation MUST be encoded in UTF-8 in Quoted-Printable encoding <span>[<a href="#RFC2045" class="xref">RFC2045</a>]</span>.<a href="#section-7.3-5.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-7.3-5.7">
             The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.<a href="#section-7.3-5.7" class="pilcrow">¶</a>
@@ -2055,7 +2056,8 @@ li > p:last-of-type {
         </h3>
 <p id="section-8.2-1">
         Deltas reflect the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
-        Delta Files MUST be published at a URL that is unique to the specific session and version.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+        Delta Files MUST be published at a URL that is unique to the specific session and version.
+        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 <p id="section-8.2-2">
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Delta Files for at least 5 minutes after a new Update Notification File is published that no longer contains these Delta Files.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 </section>
@@ -2120,7 +2122,7 @@ li > p:last-of-type {
                 If action is "add_modify": a new_object attribute with the RPSL text of the new version of the object.<a href="#section-8.3-5.6.2.3" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-8.3-5.6.2.4">
-                  The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding [RFC2045].<a href="#section-8.3-5.6.2.4" class="pilcrow">¶</a>
+                  The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding <span>[<a href="#RFC2045" class="xref">RFC2045</a>]</span>.<a href="#section-8.3-5.6.2.4" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -2210,7 +2212,7 @@ li > p:last-of-type {
         </ul>
 <p id="section-9.4-3">
         Mirror clients will load the Update Notification File, find the signature to be invalid, retrieve the Database Configuration File and configure the new key.
-        Note that key rotation will briefly but significantly increase the retrievals of the Database Configuration File, as every current mirror client will retrieve it within the minute after publication of the new Update Notification File.<a href="#section-9.4-3" class="pilcrow">¶</a></p>
+        Note that key rotation will briefly but significantly increase the retrievals of the Database Configuration File, as almost every current mirror client will retrieve it within the minute after publication of the new Update Notification File.<a href="#section-9.4-3" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-10">

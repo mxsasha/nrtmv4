@@ -108,7 +108,7 @@
     </t>
 
     <t>
-      NRTM version 4 is designed to address issues in existing IRR Database mirroring protocols.
+      NRTM version 4 is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on a HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is dramatically improved.
@@ -120,7 +120,7 @@
   <section title="Informal overview">
     <t>
       In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
-      This can be retrieved by mirror clients, which then load the IRR objects into their local databases.
+      This can be retrieved by mirror clients, which then load the IRR objects into their local storage.
     </t>
     <t>
       Publication consists of three different files:
@@ -137,7 +137,7 @@
         </t>
         <t>
           Zero or more Delta Files.
-          These contain the changes between two database versions.
+          These contain the changes between two database version numbers.
         </t>
        </list>
      </t>
@@ -148,16 +148,16 @@
        Deltas have sequential versions. <!-- note: negative cache attack? -->
      </t>
      <t>
-       A mirror client is configured with a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
+       A mirror client is configured from a Database Configuration File on a well-known URL, which contains a public signing key which it uses to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
      </t>
      <t>
        Upon initialization, the mirror server generates a session ID for the Database.
-       This is used to allow for long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       This is allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
        If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
      </t>
      <t>
        Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
-       These are also the largest files. Update Notification Files may not be cached for longer than one minute.
+       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.
      </t>
      <t>
        Note that in NRTMv4, a contiguous version number is used for the Database version and Delta Files.
@@ -170,13 +170,12 @@
   <section title="Mirror server use">
     <section title="Key Configuration and the Database Configuration File">
       <t>
-        When enabling NRTMv4 publication for an IRR Database, an operator MUST configure a private Ed25519 <xref target="RFC8032"/> key to be used for Update Notification Signature Files.
-      </t>
-      <t>
         <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em>
       </t>
       <t>
-        The operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File. This is JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <xref target="RFC8615"/>.
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <xref target="RFC8032"/> key.
+        Then, the operator MUST publish the public key, the name of the IRR Database and the URL of the Update Notification File in the Database Configuration File.
+        This is a JSON file on a well-known URI on the "irr-nrtm.json" suffix on the operator's authoritative domain name <xref target="RFC8615"/>.
       </t>
       <t>
         The authoritative domain name is the domain which is generally known by the IRR community to belong to the operator of the IRR Database.
@@ -253,7 +252,7 @@
               After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.
             </t>
             <t>
-              The Update Notification File MUST be updated to include the new Delta File and update the version.
+              The Update Notification File MUST be updated to include the new Delta File and update the database version.
             </t>
           </list>
         </t>
@@ -288,7 +287,7 @@
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.
         </t>
         <t>
-          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File MUST be updated for the new Update Notification File contents.
+          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File for the new Update Notification File contents.
         </t>
       </section>
       <section title="Publication Policy Restrictions">
@@ -313,18 +312,18 @@
         <em>REMOVE BEFORE PUBLICATION: this whole section is wide open to suggestions / ideas</em>
       </t>
       <t>
-        Mirror clients are configured with the name of an IRR Database to mirror, and the domain considered authoritative by the mirror client operator, which hosts the Database Configuration File.
+        Mirror clients are configured with the name of an IRR Database to mirror and the domain considered authoritative by the mirror client operator, which hosts the Database Configuration File.
         The mirror client MUST retrieve this file, look for an entry under the expected IRR Database name, and read the Update Notification File URL and the public key.
         The mirror client MUST only allow retrieval of this file over HTTPS.
       </t>
       <t>
-        The mirror client MUST retrieve the Database Configuration File every 24 hours, and update their local configuration if any settings in the file have changed.
+        The mirror client MUST retrieve the Database Configuration File every 24 hours, and update its local configuration if any settings in the file have changed.
       </t>
     </section>
 
     <section title="Initialization from snapshot">
       <t>
-        Clients MUST initialize from a Snapshot File when initially configured, or -if they are not able to update their local data- from the provided Delta Files:
+        Clients MUST initialize from a Snapshot File when initially configured or if they are not able to update their local data from the provided Delta Files:
       </t>
       <list style="symbols">
         <t>
@@ -337,11 +336,11 @@
           The client MUST retrieve the Snapshot File and load the objects into its local storage.
         </t>
         <t>
-          The mirror client MUST verify that the hash of the Snapshot File matches the hash on the Update Notification File that referenced it.
+          The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
           In case of a mismatch of this hash, the file MUST be rejected.
         </t>
         <t>
-          The client MUST record the configured URL and the session_id and version from the Update Notification File.
+          The client MUST record the configured authoritative domain, the session_id and version from the Update Notification File.
         </t>
       </list>
     </section>
@@ -366,20 +365,20 @@
             If not, the Update Notification File MUST be rejected.
           </t>
           <t>
-            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version, to the latest version in the Update Notification File.
+            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version up to the latest version in the Update Notification File.
             If this is not found, the client MUST reinitialize from the snapshot.
           </t>
           <t>
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
           </t>
           <t>
-            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash on the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.
+            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.
           </t>
           <t>
-            The client MUST process all changes in the Delta Files, in order of the Delta File version number first, order in the "changes" attribute of individual Delta Files second.
+            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
           </t>
           <t>
-            The client MUST update its most recent version to the version of the Update Notification File.
+            The client MUST update its record of the most recent version to the version of the Update Notification File.
           </t>
         </list>
       </t>
@@ -389,7 +388,7 @@
     </section>
     <section title="Signature and Staleness Verification">
       <t>
-        Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the signature.
+        Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the Update Notification Signature File.
         The signature MUST be valid for the configured public key for the contents of the Update Notification File.
       </t>
       <t>
@@ -398,7 +397,7 @@
       </t>
       <t>
         A mirror client can use the generation timestamp in the Update Notification File to check whether the file is stale, as the mirror server must update this file at least every 24 hours.
-        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages, but MAY continue to process it otherwise.
+        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages or other alerting, but MAY continue to process it otherwise.
       </t>
     </section>
     <section title="Policy Restrictions">
@@ -420,7 +419,7 @@
       <t>
         The Database Configuration File is provided by the IRR Database operator as configuration information for mirror clients.
         For each IRR Database run by an operator, it contains the current signing key, Snapshot Notification File URL and the IRR Database name.
-        This JSON file MUST be placed on a well-known URI on the "irr-nrtm.json" suffix on the authoritative domain name of the IRR Database operator <xref target="RFC8615"/> and must be available over HTTPS.
+        This JSON file MUST be placed on a well-known URI <xref target="RFC8615"/> on the "irr-nrtm.json" suffix on the authoritative domain name of the IRR Database operator and must be available over HTTPS.
       </t>
       <t>
         The operator MUST update this file if any of these configuration details change.
@@ -459,7 +458,7 @@
         Note: the keys in this example are shortened because of formatting.
       </t>
       <t>
-        The following validation rules MUST be observed when creating or parsing Update Notification Files:
+        The following validation rules MUST be observed when creating or parsing Database Configuration Files:
       </t>
       <t>
         <list style="symbols">
@@ -467,7 +466,7 @@
             The source contains the IRR Database name and MUST be a valid IRR object name <xref target="RFC2622"/>, which matches the source in the referred Update Notification File.
           </t>
           <t>
-            The update_notification MUST be the URL of the Update Notification File.
+            The update_notification MUST be the HTTPS URL of the Update Notification File.
           </t>
           <t>
             The key MUST be the Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which the mirror server uses to sign the Update Notification File.
@@ -487,7 +486,7 @@
 
     <section title="Purpose">
       <t>
-        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and the mirror client's state.
+        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and of the mirror client's.
         It also describes the location of the Snapshot File and incremental Delta Files.
         Finally, the generation timestamp can be used to detect whether the file is stale.
       </t>
@@ -580,7 +579,7 @@
             The deltas MUST have a sequential contiguous set of version numbers.
           </t>
           <t>
-            Each snapshot and delta element MUST have a version, URL and hash attribute.
+            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
           </t>
           <t>
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
@@ -595,7 +594,7 @@
     <section title="Signature">
       <t>
         The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
-        The public key for this signature must be published by the operator of the mirror server.
+        The public key for this signature is published in the Database Configuration File.
         The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig".
       </t>
     </section>
@@ -614,6 +613,7 @@
       <t>
         A snapshot reflects the content of the IRR Database at a specific point in time; for that reason, it can be considered immutable data.
         Snapshot Files MUST be published at a URL that is unique to the specific session and version.
+        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
       </t>
       <t>
         Because these files never change, they MAY be cached indefinitely.
@@ -668,7 +668,7 @@
           </t>
           <t>
             The objects attribute MUST be an array of zero or more elements, each containing a string representation of an IRR object.
-            The string representation MUST be encoded in UTF-8 in Quoted-Printable encoding [RFC2045].
+            The string representation MUST be encoded in UTF-8 in Quoted-Printable encoding <xref target="RFC2045"/>.
           </t>
           <t>
             The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.
@@ -695,6 +695,7 @@
       <t>
         Deltas reflect the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
         Delta Files MUST be published at a URL that is unique to the specific session and version.
+        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
       </t>
       <t>
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Delta Files for at least 5 minutes after a new Update Notification File is published that no longer contains these Delta Files.
@@ -762,7 +763,7 @@
                 If action is "add_modify": a new_object attribute with the RPSL text of the new version of the object.
               </t>
               <t>
-                  The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding [RFC2045].
+                  The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding <xref target="RFC2045"/>.
               </t>
             </list>
           </t>
@@ -850,7 +851,7 @@
           </t>
         </list>
         Mirror clients will load the Update Notification File, find the signature to be invalid, retrieve the Database Configuration File and configure the new key.
-        Note that key rotation will briefly but significantly increase the retrievals of the Database Configuration File, as every current mirror client will retrieve it within the minute after publication of the new Update Notification File.
+        Note that key rotation will briefly but significantly increase the retrievals of the Database Configuration File, as almost every current mirror client will retrieve it within the minute after publication of the new Update Notification File.
       </t>
     </section>
   </section>
