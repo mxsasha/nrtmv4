@@ -449,7 +449,7 @@
   {
     "source": "EXAMPLE-B",
     "update_notification": "https://cdn.example.com/db/nrtmv4/example-b/notification.json",
-    "key": "b6..3d",
+    "key": "b6..3d"
   }
 ]
 ]]></artwork>
