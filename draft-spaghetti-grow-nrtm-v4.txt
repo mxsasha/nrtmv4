@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 24 September 2022                                        Fastly
+Expires: 29 September 2022                                        Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                           23 March 2022
+                                                           28 March 2022
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -47,13 +47,13 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 September 2022.
+   This Internet-Draft will expire on 29 September 2022.
 
 
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 1]
+Romijn, et al.          Expires 29 September 2022               [Page 1]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -68,9 +68,9 @@ Copyright Notice
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 2]
+Romijn, et al.          Expires 29 September 2022               [Page 2]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 3]
+Romijn, et al.          Expires 29 September 2022               [Page 3]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 4]
+Romijn, et al.          Expires 29 September 2022               [Page 4]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 5]
+Romijn, et al.          Expires 29 September 2022               [Page 5]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -333,7 +333,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 6]
+Romijn, et al.          Expires 29 September 2022               [Page 6]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -389,7 +389,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 7]
+Romijn, et al.          Expires 29 September 2022               [Page 7]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -445,7 +445,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 8]
+Romijn, et al.          Expires 29 September 2022               [Page 8]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -501,7 +501,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022               [Page 9]
+Romijn, et al.          Expires 29 September 2022               [Page 9]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -557,7 +557,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 10]
+Romijn, et al.          Expires 29 September 2022              [Page 10]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -613,7 +613,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 11]
+Romijn, et al.          Expires 29 September 2022              [Page 11]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -622,8 +622,8 @@ Internet-Draft                   NRTM v4                      March 2022
       Notification File.
 
    *  The key MUST be the Ed25519 [RFC8032] public key encoded in base64
-      [RFC4648], which the mirror server uses to sign the Update
-      Notification File.
+      [RFC4648], which matches the private key the mirror server uses to
+      sign the Update Notification File.
 
    *  The file MUST contain at least one entry for an IRR Database, but
       MAY contain multiple with different source values.
@@ -669,7 +669,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 12]
+Romijn, et al.          Expires 29 September 2022              [Page 12]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 13]
+Romijn, et al.          Expires 29 September 2022              [Page 13]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 14]
+Romijn, et al.          Expires 29 September 2022              [Page 14]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -837,7 +837,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 15]
+Romijn, et al.          Expires 29 September 2022              [Page 15]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 16]
+Romijn, et al.          Expires 29 September 2022              [Page 16]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -949,7 +949,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 17]
+Romijn, et al.          Expires 29 September 2022              [Page 17]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 18]
+Romijn, et al.          Expires 29 September 2022              [Page 18]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 19]
+Romijn, et al.          Expires 29 September 2022              [Page 19]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -1108,8 +1108,8 @@ Internet-Draft                   NRTM v4                      March 2022
 
 12.  Acknowledgments
 
-   The authors would like to thank ...  and ...  for their helpful
-   review of this document.
+   The authors would like to thank George Michaelson, and ...  for their
+   helpful review of this document.
 
 13.  References
 
@@ -1117,7 +1117,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 20]
+Romijn, et al.          Expires 29 September 2022              [Page 20]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   NRTM v4                      March 2022
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 21]
+Romijn, et al.          Expires 29 September 2022              [Page 21]
 
 Internet-Draft                   NRTM v4                      March 2022
 
@@ -1229,4 +1229,4 @@ Authors' Addresses
 
 
 
-Romijn, et al.          Expires 24 September 2022              [Page 22]
+Romijn, et al.          Expires 29 September 2022              [Page 22]

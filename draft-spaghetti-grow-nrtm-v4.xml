@@ -469,7 +469,7 @@
             The update_notification MUST be the HTTPS URL of the Update Notification File.
           </t>
           <t>
-            The key MUST be the Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which the mirror server uses to sign the Update Notification File.
+            The key MUST be the Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which matches the private key the mirror server uses to sign the Update Notification File.
           </t>
           <t>
             The file MUST contain at least one entry for an IRR Database, but MAY contain multiple with different source values.
@@ -890,7 +890,7 @@
   <section title="Acknowledgments">
     <t>
       The authors would like to thank
-      ...
+        George Michaelson,
       and
       ...
       for their helpful review of this document.
