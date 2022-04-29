@@ -517,7 +517,7 @@
   "type": "notification",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-  "version": 3,
+  "version": 5,
   "snapshot": {
     "version": 2,
     "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
@@ -525,17 +525,17 @@
   },
   "deltas": [
     {
-      "version": 1,
+      "version": 3,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
-      "version": 2,
+      "version": 4,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
-      "version": 3,
+      "version": 5,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
@@ -717,11 +717,15 @@
   "changes": [
     {
       "action": "delete",
-      "existing_object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
     },
     {
-      "action": "add_modify",
-      "new_object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+      "action": "add",
+      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+    },
+    {
+      "action": "modify",
+      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
     }
   ]
 }
