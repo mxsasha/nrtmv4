@@ -1,6 +1,6 @@
 This repo is for ideas and work for the NRTM v4 protocol and implementations.
 
-See [draft-spaghetti-grow-nrtm-v4.html](https://htmlpreview.github.io/?https://github.com/mxsasha/nrtmv4/blob/main/draft-spaghetti-grow-nrtm-v4.html) for
+See [draft-ietf-grow-nrtm-v4.html](https://htmlpreview.github.io/?https://github.com/mxsasha/nrtmv4/blob/main/draft-ietf-grow-nrtm-v4.html) for
 the protocol design, [TODO.md](TODO.md) for
 open TODOs, and [background.md](background.md) for some more background and
 implementation notes.
