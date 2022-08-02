@@ -148,7 +148,7 @@
        Deltas have sequential versions. <!-- note: negative cache attack? -->
      </t>
      <t>
-       Mirror client are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
+       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
      </t>
      <t>
        Upon initialization, the mirror server generates a session ID for the Database.
@@ -753,27 +753,30 @@
 
         <list style="symbols">
           <t>
-            The server operator generates a new key and configures this in the mirror server implementation as the future new signing key.
+            The server operator generates a new key and configures this in the mirror server implementation as the upcoming new signing key.
           </t>
           <t>
-            The mirror server MUST include this key in the next_signing_key field when it updates the Update Notification File.
-            Operators can wait for the next planned updates, which happens in at most 24 hours, but implementations MAY offer a method to cause the file to be updated immediately in this scenario.
+            The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
+            Operators can wait for the regular update, which happens at least every 24 hours, but implementations MAY offer a method to cause the file to be updated immediately in this scenario.
           </t>
           <t>
             When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.
           </t>
           <t>
-            After most active mirror clients have seen the new Update Notification File with the next_signing_key field, the mirror server operator configured the new key as current key, and removes the old key.
+            After most active mirror clients have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
             Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.
-            The RECOMMENDED period between publication of the next_signing_key field and removal of the old key is one week, to offer all active clients a reasonable chance to detect the change in time.
           </t>
           <t>
-            When mirror clients retrieve the Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
-            If the signature matches for this key, the client MUST update its configuration to use the new key for validation.
+            The RECOMMENDED period between publication of the upcoming key in the next_signing_key field, and removal of the old key, is one week. This offers all active clients a reasonable chance to follow the rotation process.
+          </t>
+          <t>
+            When mirror clients retrieve an Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
+            If the signature matches for this new key, the client MUST update its configuration to use the new key for validation.
           </t>
         </list>
         <t>
-          If a mirror client does not retrieve an Update Notification file during the rotation process, it can no longer verify the signature and manual recovery is required, similar to a first time configuration.
+          If a mirror client never retrieves an Update Notification file at any point during the rotation process, it will no longer be able to verify the signature.
+          In that scenario manual recovery is required, similar to a first time configuration of a new mirror client.
         </t>
       </t>
     </section>
