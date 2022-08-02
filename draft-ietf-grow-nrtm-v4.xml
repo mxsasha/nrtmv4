@@ -717,11 +717,11 @@
   "changes": [
     {
       "action": "delete",
-      "existing_object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
     },
     {
       "action": "add_modify",
-      "new_object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
     }
   ]
 }
@@ -757,10 +757,10 @@
                 An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.
               </t>
               <t>
-                If action is "delete": an existing_object attribute with the RPSL text of the last version of the object prior to deletion.
+                If action is "delete": an object attribute with the RPSL text of the last version of the object prior to deletion.
               </t>
               <t>
-                If action is "add_modify": a new_object attribute with the RPSL text of the new version of the object.
+                If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
               </t>
               <t>
                   The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding <xref target="RFC2045"/>.
