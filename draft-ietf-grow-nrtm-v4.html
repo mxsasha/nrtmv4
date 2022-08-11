@@ -1198,7 +1198,7 @@ li > p:last-of-type {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 3 February 2023</td>
+<td class="center">Expires 12 February 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1211,12 +1211,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-ietf-grow-nrtm-v4-00</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-08-02" class="published">2 August 2022</time>
+<time datetime="2022-08-11" class="published">11 August 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-02-03">3 February 2023</time></dd>
+<dd class="expires"><time datetime="2023-02-12">12 February 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1271,7 +1271,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 February 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 February 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1492,7 +1492,7 @@ li > p:last-of-type {
        This minimizes data transfer.
        Deltas have sequential versions.<a href="#section-2-4" class="pilcrow">¶</a></p>
 <p id="section-2-5">
-       Mirror client are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-5" class="pilcrow">¶</a></p>
+       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">
        Upon initialization, the mirror server generates a session ID for the Database.
        This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
@@ -1652,7 +1652,7 @@ li > p:last-of-type {
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-client-configuration-2" class="section-name selfRef">Client Configuration</a>
         </h3>
 <p id="section-4.1-1">
-        Mirror clients are configured with the name of an IRR Database to mirror, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
+        Mirror clients are configured with the name of the IRR Database, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
         Key rotation is described in <a href="#public_key_rotation" class="xref">Section 8.4</a>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.2">
@@ -1987,11 +1987,11 @@ li > p:last-of-type {
   "changes": [
     {
       "action": "delete",
-      "existing_object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
     },
     {
       "action": "add_modify",
-      "new_object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
     }
   ]
 }
@@ -2025,10 +2025,10 @@ li > p:last-of-type {
                 An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-5.6.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-7.3-5.6.2.2">
-                If action is "delete": an existing_object attribute with the RPSL text of the last version of the object prior to deletion.<a href="#section-7.3-5.6.2.2" class="pilcrow">¶</a>
+                If action is "delete": an object attribute with the RPSL text of the last version of the object prior to deletion.<a href="#section-7.3-5.6.2.2" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-7.3-5.6.2.3">
-                If action is "add_modify": a new_object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-5.6.2.3" class="pilcrow">¶</a>
+                If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-5.6.2.3" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-7.3-5.6.2.4">
                   The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding <span>[<a href="#RFC2045" class="xref">RFC2045</a>]</span>.<a href="#section-7.3-5.6.2.4" class="pilcrow">¶</a>
@@ -2104,27 +2104,31 @@ li > p:last-of-type {
         The next_signing_key field in the Update Notification File supports in-band key rotation using the following process:<a href="#section-8.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.4-2.1">
-            The server operator generates a new key and configures this in the mirror server implementation as the future new signing key.<a href="#section-8.4-2.1" class="pilcrow">¶</a>
+            The server operator generates a new key and configures this in the mirror server implementation as the upcoming new signing key.<a href="#section-8.4-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.4-2.2">
-            The mirror server MUST include this key in the next_signing_key field when it updates the Update Notification File.
-            Operators can wait for the next planned updates, which happens in at most 24 hours, but implementations MAY offer a method to cause the file to be updated immediately in this scenario.<a href="#section-8.4-2.2" class="pilcrow">¶</a>
+            The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
+            Hence, the new signing key will start being propagated to the mirror clients with the next publication of the Notification File, which will take at most 24 hours.
+            Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.<a href="#section-8.4-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.4-2.3">
             When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.<a href="#section-8.4-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.4-2.4">
-            After most active mirror clients have seen the new Update Notification File with the next_signing_key field, the mirror server operator configured the new key as current key, and removes the old key.
-            Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.
-            The RECOMMENDED period between publication of the next_signing_key field and removal of the old key is one week, to offer all active clients a reasonable chance to detect the change in time.<a href="#section-8.4-2.4" class="pilcrow">¶</a>
+            After allowing mirror clients time to have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
+            Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.<a href="#section-8.4-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-8.4-2.5">
-            When mirror clients retrieve the Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
-            If the signature matches for this key, the client MUST update its configuration to use the new key for validation.<a href="#section-8.4-2.5" class="pilcrow">¶</a>
+            The RECOMMENDED period between publication of the upcoming key in the next_signing_key field, and removal of the old key, is one week. This offers all active clients a reasonable chance to follow the rotation process.<a href="#section-8.4-2.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-8.4-2.6">
+            When mirror clients retrieve an Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
+            If the signature matches for this new key, the client MUST update its configuration to use the new key for validation.<a href="#section-8.4-2.6" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-8.4-3">
-          If a mirror client does not retrieve an Update Notification file during the rotation process, it can no longer verify the signature and manual recovery is required, similar to a first time configuration.<a href="#section-8.4-3" class="pilcrow">¶</a></p>
+          If a mirror client never retrieves an Update Notification file at any point during the rotation process, it will no longer be able to verify the signature.
+          In that scenario manual recovery is required, similar to a first time configuration of a new mirror client.<a href="#section-8.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

@@ -303,7 +303,7 @@
   <section title="Mirror client use">
     <section title="Client Configuration">
       <t>
-        Mirror clients are configured with the name of an IRR Database to mirror, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
+        Mirror clients are configured with the name of the IRR Database, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
         Key rotation is described in <xref target="public_key_rotation" />.
       </t>
     </section>
@@ -757,13 +757,14 @@
           </t>
           <t>
             The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
-            Operators can wait for the regular update, which happens at least every 24 hours, but implementations MAY offer a method to cause the file to be updated immediately in this scenario.
+            Hence, the new signing key will start being propagated to the mirror clients with the next publication of the Notification File, which will take at most 24 hours.
+            Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.
           </t>
           <t>
             When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.
           </t>
           <t>
-            After most active mirror clients have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
+            After allowing mirror clients time to have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
             Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.
           </t>
           <t>

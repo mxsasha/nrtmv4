@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 3 February 2023                                          Fastly
+Expires: 12 February 2023                                         Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                           2 August 2022
+                                                          11 August 2022
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -47,13 +47,13 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 February 2023.
+   This Internet-Draft will expire on 12 February 2023.
 
 
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 1]
+Romijn, et al.          Expires 12 February 2023                [Page 1]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 2]
+Romijn, et al.          Expires 12 February 2023                [Page 2]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 3]
+Romijn, et al.          Expires 12 February 2023                [Page 3]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -190,7 +190,7 @@ Internet-Draft                   NRTM v4                     August 2022
    changes, and then retrieve only the relevant Delta Files, if any.
    This minimizes data transfer.  Deltas have sequential versions.
 
-   Mirror client are configured with the URL of an Update Notification
+   Mirror clients are configured with the URL of an Update Notification
    File, name of the IRR Database, and a public signing key.  This
    public key is used to verify the Update Notification File, which in
    turn contains hashes of all the Snapshot and Delta Files.
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 4]
+Romijn, et al.          Expires 12 February 2023                [Page 4]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 5]
+Romijn, et al.          Expires 12 February 2023                [Page 5]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -333,7 +333,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 6]
+Romijn, et al.          Expires 12 February 2023                [Page 6]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -389,7 +389,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 7]
+Romijn, et al.          Expires 12 February 2023                [Page 7]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -402,10 +402,10 @@ Internet-Draft                   NRTM v4                     August 2022
 
 4.1.  Client Configuration
 
-   Mirror clients are configured with the name of an IRR Database to
-   mirror, the URL of the Update Notification File, and the public key
-   currently used for signing the Update Notification File.  Key
-   rotation is described in Section 8.4.
+   Mirror clients are configured with the name of the IRR Database, the
+   URL of the Update Notification File, and the public key currently
+   used for signing the Update Notification File.  Key rotation is
+   described in Section 8.4.
 
 4.2.  Initialization from snapshot
 
@@ -445,7 +445,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 8]
+Romijn, et al.          Expires 12 February 2023                [Page 8]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -501,7 +501,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023                [Page 9]
+Romijn, et al.          Expires 12 February 2023                [Page 9]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -557,7 +557,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 10]
+Romijn, et al.          Expires 12 February 2023               [Page 10]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -613,7 +613,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 11]
+Romijn, et al.          Expires 12 February 2023               [Page 11]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -669,7 +669,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 12]
+Romijn, et al.          Expires 12 February 2023               [Page 12]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 13]
+Romijn, et al.          Expires 12 February 2023               [Page 13]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 14]
+Romijn, et al.          Expires 12 February 2023               [Page 14]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -795,11 +795,11 @@ Internet-Draft                   NRTM v4                     August 2022
   "changes": [
     {
       "action": "delete",
-      "existing_object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
     },
     {
       "action": "add_modify",
-      "new_object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
     }
   ]
 }
@@ -828,16 +828,16 @@ Internet-Draft                   NRTM v4                     August 2022
       -  An action attribute, which is either "delete" for object
          deletions, or "add_modify" for additions or modifications.
 
-      -  If action is "delete": an existing_object attribute with the
-         RPSL text of the last version of the object prior to deletion.
+      -  If action is "delete": an object attribute with the RPSL text
+         of the last version of the object prior to deletion.
 
-      -  If action is "add_modify": a new_object attribute with the RPSL
+      -  If action is "add_modify": an object attribute with the RPSL
          text of the new version of the object.
 
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 15]
+Romijn, et al.          Expires 12 February 2023               [Page 15]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 16]
+Romijn, et al.          Expires 12 February 2023               [Page 16]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -932,13 +932,16 @@ Internet-Draft                   NRTM v4                     August 2022
    using the following process:
 
    *  The server operator generates a new key and configures this in the
-      mirror server implementation as the future new signing key.
+      mirror server implementation as the upcoming new signing key.
 
    *  The mirror server MUST include this key in the next_signing_key
-      field when it updates the Update Notification File.  Operators can
-      wait for the next planned updates, which happens in at most 24
-      hours, but implementations MAY offer a method to cause the file to
-      be updated immediately in this scenario.
+      field in any Update Notification File generated while the new
+      signing key is configured.  Hence, the new signing key will start
+      being propagated to the mirror clients with the next publication
+      of the Notification File, which will take at most 24 hours.
+      Mirror server implementations MAY offer a method to cause the
+      Notification Update File to be refreshed earlier, with the
+      new_signing_key included, and thus start the propagation earlier.
 
    *  When mirror clients next retrieve the Update Notification File,
       they MUST detect the next_signing_key field, and store the key in
@@ -946,34 +949,33 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-
-
-
-Romijn, et al.           Expires 3 February 2023               [Page 17]
+Romijn, et al.          Expires 12 February 2023               [Page 17]
 
 Internet-Draft                   NRTM v4                     August 2022
 
 
-   *  After most active mirror clients have seen the new Update
+   *  After allowing mirror clients time to have seen the new Update
       Notification File with the next_signing_key field, the mirror
-      server operator configured the new key as current key, and removes
-      the old key.  Any Update Notification File generated after this
-      point MUST be signed with this new key, and will not contain a
-      next_signing_key field.  The RECOMMENDED period between
-      publication of the next_signing_key field and removal of the old
-      key is one week, to offer all active clients a reasonable chance
-      to detect the change in time.
+      server operator configures the new key as currently active key,
+      and removes the old key.  Any Update Notification File generated
+      after this point MUST be signed with this new key, and will not
+      contain a next_signing_key field.
 
-   *  When mirror clients retrieve the Update Notification File and find
+   *  The RECOMMENDED period between publication of the upcoming key in
+      the next_signing_key field, and removal of the old key, is one
+      week.  This offers all active clients a reasonable chance to
+      follow the rotation process.
+
+   *  When mirror clients retrieve an Update Notification File and find
       that the signature does not match, they MUST attempt to verify
       against a next_signing_key encountered in a previous (valid) file.
-      If the signature matches for this key, the client MUST update its
-      configuration to use the new key for validation.
+      If the signature matches for this new key, the client MUST update
+      its configuration to use the new key for validation.
 
-   If a mirror client does not retrieve an Update Notification file
-   during the rotation process, it can no longer verify the signature
-   and manual recovery is required, similar to a first time
-   configuration.
+   If a mirror client never retrieves an Update Notification file at any
+   point during the rotation process, it will no longer be able to
+   verify the signature.  In that scenario manual recovery is required,
+   similar to a first time configuration of a new mirror client.
 
 9.  Security Considerations
 
@@ -1003,9 +1005,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-
-
-Romijn, et al.           Expires 3 February 2023               [Page 18]
+Romijn, et al.          Expires 12 February 2023               [Page 18]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 19]
+Romijn, et al.          Expires 12 February 2023               [Page 19]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -1117,7 +1117,7 @@ Authors' Addresses
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 20]
+Romijn, et al.          Expires 12 February 2023               [Page 20]
 
 Internet-Draft                   NRTM v4                     August 2022
 
@@ -1173,4 +1173,4 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.           Expires 3 February 2023               [Page 21]
+Romijn, et al.          Expires 12 February 2023               [Page 21]
