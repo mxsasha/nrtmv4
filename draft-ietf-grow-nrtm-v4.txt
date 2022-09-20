@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 12 February 2023                                         Fastly
+Expires: 24 March 2023                                            Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                          11 August 2022
+                                                       20 September 2022
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -47,15 +47,15 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 February 2023.
+   This Internet-Draft will expire on 24 March 2023.
 
 
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 1]
+Romijn, et al.            Expires 24 March 2023                 [Page 1]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 2]
+Romijn, et al.            Expires 24 March 2023                 [Page 2]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  17
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 3]
+Romijn, et al.            Expires 24 March 2023                 [Page 3]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    *  A single Update Notification File.  This specifies the current
@@ -221,9 +221,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 4]
+Romijn, et al.            Expires 24 March 2023                 [Page 4]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 3.  Mirror server use
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 5]
+Romijn, et al.            Expires 24 March 2023                 [Page 5]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    Note that session IDs, versions and all files always relate to a
@@ -333,10 +333,13 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023                [Page 6]
+Romijn, et al.            Expires 24 March 2023                 [Page 6]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
+
+   *  Note that, as Delta Files always contain changes compared to a
+      previous state, there can never be a Delta File with version 1.
 
 3.3.2.  Snapshot Files
 
@@ -381,18 +384,19 @@ Internet-Draft                   NRTM v4                     August 2022
    this change is evident to humans reading the object text, for example
    by adding remark lines or comments.
 
+
+
+
+
+
+Romijn, et al.            Expires 24 March 2023                 [Page 7]
+
+Internet-Draft                   NRTM v4                  September 2022
+
+
    Mirror servers are RECOMMENDED to remove password hashes from the
    auth lines in mntner objects, as they have little use beyond the
    authoritative server, and their publication may be a security risk.
-
-
-
-
-
-Romijn, et al.          Expires 12 February 2023                [Page 7]
-
-Internet-Draft                   NRTM v4                     August 2022
-
 
    If a mirror server has a policy that restricts or modifies object
    publication, this MUST be applied consistently to Snapshot Files and
@@ -438,17 +442,15 @@ Internet-Draft                   NRTM v4                     August 2022
       match, the client MUST reinitialize from the Snapshot File, using
       the new Update Notification File URL.
 
-   *  The client MUST retrieve the Update Notification File.
 
 
 
-
-
-
-Romijn, et al.          Expires 12 February 2023                [Page 8]
+Romijn, et al.            Expires 24 March 2023                 [Page 8]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
+
+   *  The client MUST retrieve the Update Notification File.
 
    *  The client MUST verify that the session ID matches the previously
       known session ID.  If this does not match, the client MUST
@@ -499,11 +501,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-
-
-Romijn, et al.          Expires 12 February 2023                [Page 9]
+Romijn, et al.            Expires 24 March 2023                 [Page 9]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    A mirror client can use the generation timestamp in the Update
@@ -557,9 +557,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 10]
+Romijn, et al.            Expires 24 March 2023                [Page 10]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 {
@@ -571,23 +571,23 @@ Internet-Draft                   NRTM v4                     August 2022
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 3,
   "snapshot": {
-    "version": 2,
+    "version": 3,
     "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
     "hash": "9a..86"
   },
   "deltas": [
     {
-      "version": 1,
+      "version": 2,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
-      "version": 2,
+      "version": 3,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
-      "version": 3,
+      "version": 4,
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
@@ -613,9 +613,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 11]
+Romijn, et al.            Expires 24 March 2023                [Page 11]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    *  The optional field next_signing_key is used for in-band key
@@ -669,9 +669,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 12]
+Romijn, et al.            Expires 24 March 2023                [Page 12]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 6.2.  Cache Concerns
@@ -702,7 +702,7 @@ Internet-Draft                   NRTM v4                     August 2022
      "type": "snapshot",
      "source": "EXAMPLE",
      "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-     "version": 2,
+     "version": 3,
      "objects": [
        "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE",
        "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
@@ -725,9 +725,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 13]
+Romijn, et al.            Expires 24 March 2023                [Page 13]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    *  The session_id attribute MUST match the session_id in the Update
@@ -781,9 +781,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 14]
+Romijn, et al.            Expires 24 March 2023                [Page 14]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 {
@@ -837,9 +837,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 15]
+Romijn, et al.            Expires 24 March 2023                [Page 15]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
       -  The string representation of the objects MUST be encoded in
@@ -893,9 +893,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 16]
+Romijn, et al.            Expires 24 March 2023                [Page 16]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
 8.2.  Intermediate mirror instances
@@ -949,9 +949,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 17]
+Romijn, et al.            Expires 24 March 2023                [Page 17]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    *  After allowing mirror clients time to have seen the new Update
@@ -1005,9 +1005,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 18]
+Romijn, et al.            Expires 24 March 2023                [Page 18]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    The HTTPS endpoint used for NRTMv4 MUST be configured according to
@@ -1061,9 +1061,9 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 19]
+Romijn, et al.            Expires 24 March 2023                [Page 19]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    [RFC7525]  Sheffer, Y., Holz, R., and P. Saint-Andre,
@@ -1117,9 +1117,9 @@ Authors' Addresses
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 20]
+Romijn, et al.            Expires 24 March 2023                [Page 20]
 
-Internet-Draft                   NRTM v4                     August 2022
+Internet-Draft                   NRTM v4                  September 2022
 
 
    Edward Shryane
@@ -1173,4 +1173,4 @@ Internet-Draft                   NRTM v4                     August 2022
 
 
 
-Romijn, et al.          Expires 12 February 2023               [Page 21]
+Romijn, et al.            Expires 24 March 2023                [Page 21]
