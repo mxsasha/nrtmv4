@@ -1,8 +1,8 @@
 This repo is for ideas and work for the NRTM v4 protocol and implementations.
 
 See [draft-ietf-grow-nrtm-v4.html](https://htmlpreview.github.io/?https://github.com/mxsasha/nrtmv4/blob/main/draft-ietf-grow-nrtm-v4.html) for
-the protocol design, [TODO.md](TODO.md) for
-open TODOs, and [background.md](background.md) for some more background and
+the protocol design, the GitHub issues for unresolved questions,
+and [background.md](background.md) for some more background and
 implementation notes.
 
 Do check that the XML version is not newer than the HTML version. The XML version
