@@ -145,7 +145,7 @@
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimizes data transfer.
-       Deltas have sequential versions. <!-- note: negative cache attack? -->
+       Deltas have sequential versions.
      </t>
      <t>
        Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
