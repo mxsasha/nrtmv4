@@ -142,6 +142,9 @@
        </list>
      </t>
      <t>
+       All files MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC4627" />.
+     </t>
+     <t>
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimizes data transfer.
@@ -589,13 +592,13 @@
           </t>
           <t>
             The objects attribute MUST be an array of zero or more elements, each containing a string representation of an IRR object.
-            The string representation MUST be encoded in UTF-8 in Quoted-Printable encoding <xref target="RFC2045"/>.
+                In the string representation all characters that are not ASCII graphic characters (<xref target="RFC0020" /> section 4.5) must be escaped as described in <xref target="RFC4627" /> section 2.5.
           </t>
           <t>
             The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.
           </t>
           <t>
-            The file MUST only contain US-ASCII characters.
+            The file MUST only contain ASCII graphic characters (<xref target="RFC0020" /> section 4.5).
           </t>
         </list>
       </t>
@@ -684,7 +687,7 @@
                 If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
               </t>
               <t>
-                  The string representation of the objects MUST be encoded in UTF-8 in Quoted-Printable encoding <xref target="RFC2045"/>.
+                In the string representation all characters that are not ASCII graphic characters (<xref target="RFC0020" /> section 4.5) must be escaped as described in <xref target="RFC4627" /> section 2.5.
               </t>
             </list>
           </t>
@@ -692,7 +695,7 @@
              The source attribute in the IRR object texts MUST match the source attribute of the Delta File.
           </t>
           <t>
-            The file MUST only contain US-ASCII characters.
+            The file MUST only contain ASCII graphic characters (<xref target="RFC0020" /> section 4.5).
           </t>
         </list>
       </t>
@@ -832,12 +835,13 @@
 <back>
 
   <references title="Normative References">
-    <?rfc include="reference.RFC.2045.xml"?>
+    <?rfc include="reference.RFC.0020.xml"?>
     <?rfc include="reference.RFC.2119.xml"?>
     <?rfc include="reference.RFC.2622.xml"?>
     <?rfc include="reference.RFC.3339.xml"?>
     <?rfc include="reference.RFC.4122.xml"?>
     <?rfc include="reference.RFC.4648.xml"?>
+    <?rfc include="reference.RFC.4627.xml"?>
     <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
