@@ -437,7 +437,7 @@
   "next_signing_key": "96..ae",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-  "version": 3,
+  "version": 4,
   "snapshot": {
     "version": 3,
     "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
