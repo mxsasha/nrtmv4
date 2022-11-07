@@ -81,7 +81,7 @@
   <abstract>
     <t>
       This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records.
-      The protocol allows instances of IRR database servers to mirror IRR records, specified in in the Routing Policy Specification Language (RPSL), between each other.
+      The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.
     </t>
   </abstract>
 
@@ -97,7 +97,7 @@
 
   <section title="Introduction">
     <t>
-      The Internet Routing Registry (IRR) consists of several different IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
+      The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
       About a dozen larger IRR Databases are well known and widely used, operated by different organisations, like RIRs and some large network operators.
       IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
     </t>
@@ -109,7 +109,7 @@
 
     <t>
       NRTM version 4 is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
-      In NRTMv4, IRR Databases publish their records on a HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
+      In NRTMv4, IRR Databases publish their records on an HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is dramatically improved.
       It borrows some concepts in <xref target="RFC8182"/>, as there are overlaps between the two protocols.
@@ -845,7 +845,7 @@
     <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
-    <reference anchor="SHS" target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
+    <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
         <author>
