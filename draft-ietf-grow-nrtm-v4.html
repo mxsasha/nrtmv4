@@ -1992,7 +1992,13 @@ li > p:last-of-type {
   "changes": [
     {
       "action": "delete",
-      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object_class": "person",
+      "primary_key": "PRSN1-EXAMPLE"
+    },
+    {
+      "action": "delete",
+      "object_class": "route",
+      "primary_key": "192.0.2.0/24AS65530"
     },
     {
       "action": "add_modify",
@@ -2030,7 +2036,10 @@ li > p:last-of-type {
                 An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-5.6.2.1" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-7.3-5.6.2.2">
-                If action is "delete": an object attribute with the RPSL text of the last version of the object prior to deletion.<a href="#section-7.3-5.6.2.2" class="pilcrow">¶</a>
+                If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
+                For objects that are listed in <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span> and <span>[<a href="#RFC4012" class="xref">RFC4012</a>]</span> the primary key is the value of the RPSL field defined as "class key".
+                For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
+                For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.<a href="#section-7.3-5.6.2.2" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-7.3-5.6.2.3">
                 If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-5.6.2.3" class="pilcrow">¶</a>
@@ -2201,6 +2210,10 @@ li > p:last-of-type {
 <dt id="RFC3339">[RFC3339]</dt>
         <dd>
 <span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <span class="seriesInfo">DOI 10.17487/RFC3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3339">https://www.rfc-editor.org/info/rfc3339</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4012">[RFC4012]</dt>
+        <dd>
+<span class="refAuthor">Blunk, L.</span>, <span class="refAuthor">Damas, J.</span>, <span class="refAuthor">Parent, F.</span>, and <span class="refAuthor">A. Robachevsky</span>, <span class="refTitle">"Routing Policy Specification Language next generation (RPSLng)"</span>, <span class="seriesInfo">RFC 4012</span>, <span class="seriesInfo">DOI 10.17487/RFC4012</span>, <time datetime="2005-03" class="refDate">March 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4012">https://www.rfc-editor.org/info/rfc4012</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4122">[RFC4122]</dt>
         <dd>
