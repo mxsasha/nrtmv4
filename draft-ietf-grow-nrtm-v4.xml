@@ -641,7 +641,13 @@
   "changes": [
     {
       "action": "delete",
-      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object_class": "person",
+      "primary_key": "PRSN1-EXAMPLE"
+    },
+    {
+      "action": "delete",
+      "object_class": "route",
+      "primary_key": "192.0.2.0/24AS65530"
     },
     {
       "action": "add_modify",
@@ -681,7 +687,10 @@
                 An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.
               </t>
               <t>
-                If action is "delete": an object attribute with the RPSL text of the last version of the object prior to deletion.
+                If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
+                For objects that are listed in <xref target="RFC2622"/> and <xref target="RFC4012"/> the primary key is the value of the RPSL field defined as "class key".
+                For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
+                For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
               </t>
               <t>
                 If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
@@ -840,6 +849,7 @@
     <?rfc include="reference.RFC.2622.xml"?>
     <?rfc include="reference.RFC.3339.xml"?>
     <?rfc include="reference.RFC.4122.xml"?>
+    <?rfc include="reference.RFC.4012.xml"?>
     <?rfc include="reference.RFC.4648.xml"?>
     <?rfc include="reference.RFC.4627.xml"?>
     <?rfc include="reference.RFC.7525.xml"?>

@@ -115,14 +115,14 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  17
-     8.4.  Public key rotation . . . . . . . . . . . . . . . . . . .  17
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  18
+     8.4.  Public key rotation . . . . . . . . . . . . . . . . . . .  18
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  19
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  19
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  19
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  20
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  21
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
 
@@ -799,7 +799,13 @@ Internet-Draft                   NRTM v4                   November 2022
   "changes": [
     {
       "action": "delete",
-      "object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
+      "object_class": "person",
+      "primary_key": "PRSN1-EXAMPLE"
+    },
+    {
+      "action": "delete",
+      "object_class": "route",
+      "primary_key": "192.0.2.0/24AS65530"
     },
     {
       "action": "add_modify",
@@ -829,18 +835,26 @@ Internet-Draft                   NRTM v4                   November 2022
    *  The changes attribute MUST be an array of one or more elements,
       each having:
 
-      -  An action attribute, which is either "delete" for object
-         deletions, or "add_modify" for additions or modifications.
-
-      -  If action is "delete": an object attribute with the RPSL text
-         of the last version of the object prior to deletion.
-
 
 
 Romijn, et al.             Expires 11 May 2023                 [Page 15]
 
 Internet-Draft                   NRTM v4                   November 2022
 
+
+      -  An action attribute, which is either "delete" for object
+         deletions, or "add_modify" for additions or modifications.
+
+      -  If action is "delete": an object_class attribute with the RPSL
+         object class name, and a primary_key attribute with the primary
+         key, of the deleted object.  For objects that are listed in
+         [RFC2622] and [RFC4012] the primary key is the value of the
+         RPSL field defined as "class key".  For object classes that
+         define a pair of attributes as class key, e.g. route, the
+         values of the individual attributes are appended together
+         without separators.  For any other objects, the primary key is
+         the value of the RPSL field with the same name as the object
+         class name.
 
       -  If action is "add_modify": an object attribute with the RPSL
          text of the new version of the object.
@@ -873,6 +887,17 @@ Internet-Draft                   NRTM v4                   November 2022
    be addressed in this way, such as one implementation introducing a
    new object class that is entirely unknown to another implementation.
 
+
+
+
+
+
+
+Romijn, et al.             Expires 11 May 2023                 [Page 16]
+
+Internet-Draft                   NRTM v4                   November 2022
+
+
    A mirror client SHOULD be able to handle unknown object classes and
    objects that are invalid according to its own validation rules, which
    may mean simply discarding them, without rejecting remaining objects
@@ -890,14 +915,6 @@ Internet-Draft                   NRTM v4                   November 2022
    usefully interpreted.  There is no way for an IRR server to correctly
    parse and index such an object.  However, a route-set object whose
    name does not start with "RS-" [RFC2622], or an inetnum with an
-
-
-
-Romijn, et al.             Expires 11 May 2023                 [Page 16]
-
-Internet-Draft                   NRTM v4                   November 2022
-
-
    unknown extra "org" attribute, still allows the mirror client to
    interpret it unambiguously even if it does not meet the mirror
    client's own validation rules for authoritative records.
@@ -928,6 +945,15 @@ Internet-Draft                   NRTM v4                   November 2022
    still follow all validation rules, including the validation of the
    signature and hashes.
 
+
+
+
+
+Romijn, et al.             Expires 11 May 2023                 [Page 17]
+
+Internet-Draft                   NRTM v4                   November 2022
+
+
 8.4.  Public key rotation
 
    It is RECOMMENDED that IRR Database operators rotate the signing key
@@ -946,13 +972,6 @@ Internet-Draft                   NRTM v4                   November 2022
       Mirror server implementations MAY offer a method to cause the
       Notification Update File to be refreshed earlier, with the
       new_signing_key included, and thus start the propagation earlier.
-
-
-
-Romijn, et al.             Expires 11 May 2023                 [Page 17]
-
-Internet-Draft                   NRTM v4                   November 2022
-
 
    *  When mirror clients next retrieve the Update Notification File,
       they MUST detect the next_signing_key field, and store the key in
@@ -981,6 +1000,16 @@ Internet-Draft                   NRTM v4                   November 2022
    verify the signature.  In that scenario manual recovery is required,
    similar to a first time configuration of a new mirror client.
 
+
+
+
+
+
+Romijn, et al.             Expires 11 May 2023                 [Page 18]
+
+Internet-Draft                   NRTM v4                   November 2022
+
+
 9.  Security Considerations
 
    IRR objects serve many purposes, including automated network
@@ -999,16 +1028,6 @@ Internet-Draft                   NRTM v4                   November 2022
    and the Update Notification File is verified using its signature
    file.  Additionally, the channel security offered by HTTPS further
    limits security risks.
-
-
-
-
-
-
-Romijn, et al.             Expires 11 May 2023                 [Page 18]
-
-Internet-Draft                   NRTM v4                   November 2022
-
 
    By allowing publication on any HTTPS endpoint, NRTMv4 allows for
    extensive scaling, and there are many existing techniques and
@@ -1037,6 +1056,16 @@ Internet-Draft                   NRTM v4                   November 2022
               RFC 20, DOI 10.17487/RFC0020, October 1969,
               <https://www.rfc-editor.org/info/rfc20>.
 
+
+
+
+
+
+Romijn, et al.             Expires 11 May 2023                 [Page 19]
+
+Internet-Draft                   NRTM v4                   November 2022
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1052,19 +1081,15 @@ Internet-Draft                   NRTM v4                   November 2022
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
 
+   [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
+              "Routing Policy Specification Language next generation
+              (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
+              <https://www.rfc-editor.org/info/rfc4012>.
+
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,
               DOI 10.17487/RFC4122, July 2005,
               <https://www.rfc-editor.org/info/rfc4122>.
-
-
-
-
-
-Romijn, et al.             Expires 11 May 2023                 [Page 19]
-
-Internet-Draft                   NRTM v4                   November 2022
-
 
    [RFC4627]  Crockford, D., "The application/json Media Type for
               JavaScript Object Notation (JSON)", RFC 4627,
@@ -1090,6 +1115,13 @@ Internet-Draft                   NRTM v4                   November 2022
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+
+
+Romijn, et al.             Expires 11 May 2023                 [Page 20]
+
+Internet-Draft                   NRTM v4                   November 2022
+
+
    [SHS]      National Institute of Standards and Technology, "Secure
               Hash Standard", March 2012,
               <https://csrc.nist.gov/publications/fips/fips180-4/fips-
@@ -1110,16 +1142,6 @@ Authors' Addresses
    Netherlands
 
    Email: sasha@reliablycoded.nl
-
-
-
-
-
-
-
-Romijn, et al.             Expires 11 May 2023                 [Page 20]
-
-Internet-Draft                   NRTM v4                   November 2022
 
 
    Job Snijders
@@ -1144,28 +1166,6 @@ Internet-Draft                   NRTM v4                   November 2022
    Netherlands
 
    Email: stavros.konstantaras@ams-ix.net
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
