@@ -557,7 +557,13 @@
       </t>
       <t>
 <artwork><![CDATA[
-␞{"nrtm_version": 4, "type": "snapshot", "source": "EXAMPLE", "session_id": "ca128382-78d9-41d1-8927-1ecef15275be", "version": 3}
+␞{
+  "nrtm_version": 4,
+  "type": "snapshot",
+  "source": "EXAMPLE",
+  "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
+  "version": 3
+}
 ␞"route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
 ␞"route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
 ]]></artwork>
@@ -620,10 +626,27 @@
       </t>
       <t>
 <artwork><![CDATA[
-␞{"nrtm_version": 4, "type": "delta", "source": "EXAMPLE", "session_id": "ca128382-78d9-41d1-8927-1ecef15275be", "version": 3}
-␞{"action": "delete", "object_class": "person", "primary_key": "PRSN1-EXAMPLE"}
-␞{"action": "delete", "object_class": "route", "primary_key": "192.0.2.0/24AS65530"}
-␞{"action": "add_modify", "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
+␞{
+  "nrtm_version": 4,
+  "type": "delta",
+  "source": "EXAMPLE",
+  "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
+  "version": 3
+}
+␞{
+  "action": "delete",
+  "object_class": "person",
+  "primary_key": "PRSN1-EXAMPLE"
+}
+␞{
+  "action": "delete",
+  "object_class": "route",
+  "primary_key": "192.0.2.0/24AS65530"
+}
+␞{
+  "action": "add_modify",
+  "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+}
 ]]></artwork>
       </t>
       <t>
