@@ -830,7 +830,6 @@
 <back>
 
   <references title="Normative References">
-    <?rfc include="reference.RFC.0020.xml"?>
     <?rfc include="reference.RFC.1952.xml"?>
     <?rfc include="reference.RFC.2119.xml"?>
     <?rfc include="reference.RFC.2622.xml"?>
