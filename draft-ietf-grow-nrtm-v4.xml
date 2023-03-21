@@ -144,7 +144,7 @@
      <t>
        The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC4627" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
-       All files MUST use UTF-8 encoding.
+       All files MUST use UTF-8 encoding and MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
      <t>
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
@@ -332,6 +332,7 @@
         </t>
         <t>
           The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
+          If the Snapshot File was compressed with GZIP, the hash MUST match the compressed data.
           In case of a mismatch of this hash, the file MUST be rejected.
         </t>
         <t>
@@ -367,7 +368,9 @@
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
           </t>
           <t>
-            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.
+            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+            If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
+            In case of a mismatch of this hash, the Delta File MUST be rejected.
           </t>
           <t>
             The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
@@ -442,7 +445,7 @@
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
+    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
@@ -506,6 +509,7 @@
           </t>
           <t>
             Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
+            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
           </t>
           <t>
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
@@ -804,6 +808,7 @@
 
   <references title="Normative References">
     <?rfc include="reference.RFC.0020.xml"?>
+    <?rfc include="reference.RFC.1952.xml"?>
     <?rfc include="reference.RFC.2119.xml"?>
     <?rfc include="reference.RFC.2622.xml"?>
     <?rfc include="reference.RFC.3339.xml"?>
