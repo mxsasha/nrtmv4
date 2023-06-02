@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 25 May 2023                                              Fastly
+Expires: 4 December 2023                                          Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                        21 November 2022
+                                                             2 June 2023
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,21 +46,21 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2023.
+   This Internet-Draft will expire on 4 December 2023.
 
 
 
 
 
 
-Romijn, et al.             Expires 25 May 2023                  [Page 1]
+Romijn, et al.           Expires 4 December 2023                [Page 1]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
 Copyright Notice
 
-   Copyright (c) 2022 IETF Trust and the persons identified as the
+   Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -102,27 +102,27 @@ Table of Contents
    7.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  14
-     7.3.  File format and validation  . . . . . . . . . . . . . . .  15
+     7.3.  File format and validation  . . . . . . . . . . . . . . .  14
    8.  Operational Considerations  . . . . . . . . . . . . . . . . .  16
      8.1.  IRR object Validation . . . . . . . . . . . . . . . . . .  16
      8.2.  Intermediate mirror instances . . . . . . . . . . . . . .  17
 
 
 
-Romijn, et al.             Expires 25 May 2023                  [Page 2]
+Romijn, et al.           Expires 4 December 2023                [Page 2]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  17
-     8.4.  Public key rotation . . . . . . . . . . . . . . . . . . .  18
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  19
+     8.4.  Public key rotation . . . . . . . . . . . . . . . . . . .  17
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  18
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  19
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  19
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  21
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
 
 1.  Introduction
 
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                  [Page 3]
+Romijn, et al.           Expires 4 December 2023                [Page 3]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  A single Update Notification File.  This specifies the current
@@ -183,8 +183,14 @@ Internet-Draft                   NRTM v4                   November 2022
    *  Zero or more Delta Files.  These contain the changes between two
       database version numbers.
 
-   All files MUST be in the JavaScript Object Notation (JSON) format
-   [RFC4627].
+   _Other compressions than GZIP are being considered by the authors
+   pending further research._
+
+   The Update Notification file MUST be in the JavaScript Object
+   Notation (JSON) format [RFC8259].  The Snapshot File and Delta Files
+   MUST be in the JSON Text Sequences [RFC7464] format, so that each
+   object in large files can be parsed independently.  All files MUST
+   use UTF-8 encoding and MAY be compressed with GZIP [RFC1952].
 
    Mirror clients initially retrieve the small Update Notification File
    and a Snapshot File, from which they initialize their local copy of
@@ -215,15 +221,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                  [Page 4]
+Romijn, et al.           Expires 4 December 2023                [Page 4]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    Note that in NRTMv4, a contiguous version number is used for the
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                  [Page 5]
+Romijn, et al.           Expires 4 December 2023                [Page 5]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  The server MUST generate a new Update Notification File with the
@@ -333,9 +333,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                  [Page 6]
+Romijn, et al.           Expires 4 December 2023                [Page 6]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  After generating a new Delta File, a mirror server MUST remove all
@@ -369,6 +369,12 @@ Internet-Draft                   NRTM v4                   November 2022
    *  The Update Notification File MUST be updated to include the new
       snapshot, if one was generated.
 
+   *  Snapshot generation may take some time, and in that time newer
+      changes may occur that are not part of the snapshot in progress.
+      The mirror server SHOULD continue to produce Delta Files during
+      this window, which means the server MAY publish a Snapshot File
+      with a version number older than the most recent Delta File.
+
 3.3.3.  Update Notification File
 
    The Update Notification File must be updated when a new Delta or
@@ -383,15 +389,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                  [Page 7]
+Romijn, et al.           Expires 4 December 2023                [Page 7]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
 3.3.4.  Publication Policy Restrictions
@@ -438,16 +438,16 @@ Internet-Draft                   NRTM v4                   November 2022
 
    *  The mirror client MUST verify that the hash of the Snapshot File
       matches the hash in the Update Notification File that referenced
-      it.  In case of a mismatch of this hash, the file MUST be
-      rejected.
+      it.  If the Snapshot File was compressed with GZIP, the hash MUST
+      match the compressed data.  In case of a mismatch of this hash,
+      the file MUST be rejected.
 
 
 
 
-
-Romijn, et al.             Expires 25 May 2023                  [Page 8]
+Romijn, et al.           Expires 4 December 2023                [Page 8]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  The client MUST record the configured authoritative domain, the
@@ -484,8 +484,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
    *  The mirror client MUST verify that the hash of each newly
       downloaded Delta File matches the hash in the Update Notification
-      File that referenced it.  In case of a mismatch of this hash, the
-      Delta File MUST be rejected.
+      File that referenced it.  If the Delta File was compressed with
+      GZIP, the hash MUST match the compressed file.  In case of a
+      mismatch of this hash, the Delta File MUST be rejected.
 
    *  The client MUST process all changes in the Delta Files in order:
       lowest Delta File version number first, and in the order of the
@@ -500,10 +501,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-
-Romijn, et al.             Expires 25 May 2023                  [Page 9]
+Romijn, et al.           Expires 4 December 2023                [Page 9]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
 4.4.  Signature and Staleness Verification
@@ -557,9 +557,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 10]
+Romijn, et al.           Expires 4 December 2023               [Page 10]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    However, since this file is used by mirror clients to determine
@@ -582,7 +582,7 @@ Internet-Draft                   NRTM v4                   November 2022
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
+    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
@@ -613,9 +613,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 11]
+Romijn, et al.           Expires 4 December 2023               [Page 11]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  The nrtm_version MUST be 4.
@@ -647,14 +647,14 @@ Internet-Draft                   NRTM v4                   November 2022
       numbers.
 
    *  Each snapshot and delta element MUST have a version, HTTPS URL and
-      hash attribute.
+      hash attribute.  If the file was compressed with GZIP, the
+      filename MUST end in ".gz". and the hash MUST match the compressed
+      data.
 
    *  The hash attribute in snapshot and delta elements MUST be the
       hexadecimal encoding of the SHA-256 hash [SHS] of the referenced
       file.  The mirror client MUST verify this hash when the file is
       retrieved and reject the file if the hash does not match.
-
-   *  The file MUST only contain US-ASCII characters.
 
 5.4.  Signature
 
@@ -669,9 +669,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 12]
+Romijn, et al.           Expires 4 December 2023               [Page 12]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
 6.1.  Purpose
@@ -703,31 +703,31 @@ Internet-Draft                   NRTM v4                   November 2022
 
    Example Snapshot File:
 
-   {
+   ␞{
      "nrtm_version": 4,
      "type": "snapshot",
      "source": "EXAMPLE",
      "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-     "version": 3,
-     "objects": [
-       "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE",
-       "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
-     ]
+     "version": 3
    }
+   ␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
+   ␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
 
    Note: IRR object texts in this example are shortened because of
    formatting.
 
-   The following validation rules MUST be observed when creating or
-   parsing Snapshot Files:
+   The file is in JSON Text Sequences [RFC7464] format, and MUST contain
+   one or more records.  The first record is the file header, and the
+   following validation rules MUST be observed when creating or parsing
+   a Snapshot File header:
 
    *  The nrtm_version MUST be 4.
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 13]
+Romijn, et al.           Expires 4 December 2023               [Page 13]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
    *  The type MUST be "snapshot".
@@ -740,17 +740,9 @@ Internet-Draft                   NRTM v4                   November 2022
    *  The version MUST be an unsigned positive integer, matching the
       Update Notification File entry for this snapshot.
 
-   *  The objects attribute MUST be an array of zero or more elements,
-      each containing a string representation of an IRR object.  In the
-      string representation all characters that are not ASCII graphic
-      characters ([RFC0020] section 4.5) must be escaped as described in
-      [RFC4627] section 2.5.
-
-   *  The source attribute in the IRR object texts MUST match the source
-      attribute of the Snapshot File.
-
-   *  The file MUST only contain ASCII graphic characters ([RFC0020]
-      section 4.5).
+   The remaining records (zero or more) MUST each contain a string
+   representation of an IRR object.  The source attribute in the IRR
+   object texts MUST match the source attribute of the Snapshot File.
 
 7.  Delta File
 
@@ -776,49 +768,53 @@ Internet-Draft                   NRTM v4                   November 2022
    Notification File is published that no longer contains these Delta
    Files.
 
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 14]
-
-Internet-Draft                   NRTM v4                   November 2022
-
-
 7.3.  File format and validation
 
    Example Delta File:
 
-{
-  "nrtm_version": 4,
-  "type": "delta",
-  "source": "EXAMPLE",
-  "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-  "version": 3,
-  "changes": [
-    {
-      "action": "delete",
-      "object_class": "person",
-      "primary_key": "PRSN1-EXAMPLE"
-    },
-    {
-      "action": "delete",
-      "object_class": "route",
-      "primary_key": "192.0.2.0/24AS65530"
-    },
-    {
-      "action": "add_modify",
-      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
-    }
-  ]
-}
+
+
+
+
+
+
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 14]
+
+Internet-Draft                   NRTM v4                       June 2023
+
+
+   ␞{
+     "nrtm_version": 4,
+     "type": "delta",
+     "source": "EXAMPLE",
+     "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
+     "version": 3
+   }
+   ␞{
+     "action": "delete",
+     "object_class": "person",
+     "primary_key": "PRSN1-EXAMPLE"
+   }
+   ␞{
+     "action": "delete",
+     "object_class": "route",
+     "primary_key": "192.0.2.0/24AS65530"
+   }
+   ␞{
+     "action": "add_modify",
+     "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+   }
 
    Note: IRR object texts in this example are shortened because of
    formatting.
 
-   The following validation rules MUST be observed when creating or
-   parsing Delta Files:
+   The file is in JSON Text Sequences [RFC7464] format, and MUST contain
+   one or more records.  The first record is the file header, and the
+   following validation rules MUST be observed when creating or parsing
+   a Delta File header:
 
    *  The nrtm_version MUST be 4.
 
@@ -832,42 +828,32 @@ Internet-Draft                   NRTM v4                   November 2022
    *  The version MUST be an unsigned positive integer, matching the
       Update Notification File entry for this delta.
 
-   *  The changes attribute MUST be an array of one or more elements,
-      each having:
+   The remaining records (zero or more) MUST each contain a JSON object
+   representing a change, which MUST meet the following rules:
+
+   *  An action attribute, which is either "delete" for object
+      deletions, or "add_modify" for additions or modifications.
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 15]
+
+Romijn, et al.           Expires 4 December 2023               [Page 15]
 
-Internet-Draft                   NRTM v4                   November 2022
+Internet-Draft                   NRTM v4                       June 2023
 
 
-      -  An action attribute, which is either "delete" for object
-         deletions, or "add_modify" for additions or modifications.
+   *  If action is "delete": an object_class attribute with the RPSL
+      object class name, and a primary_key attribute with the primary
+      key, of the deleted object.  For objects that are listed in
+      [RFC2622] and [RFC4012] the primary key is the value of the RPSL
+      field defined as "class key".  For object classes that define a
+      pair of attributes as class key, e.g. route, the values of the
+      individual attributes are appended together without separators.
+      For any other objects, the primary key is the value of the RPSL
+      field with the same name as the object class name.
 
-      -  If action is "delete": an object_class attribute with the RPSL
-         object class name, and a primary_key attribute with the primary
-         key, of the deleted object.  For objects that are listed in
-         [RFC2622] and [RFC4012] the primary key is the value of the
-         RPSL field defined as "class key".  For object classes that
-         define a pair of attributes as class key, e.g. route, the
-         values of the individual attributes are appended together
-         without separators.  For any other objects, the primary key is
-         the value of the RPSL field with the same name as the object
-         class name.
-
-      -  If action is "add_modify": an object attribute with the RPSL
-         text of the new version of the object.
-
-      -  In the string representation all characters that are not ASCII
-         graphic characters ([RFC0020] section 4.5) must be escaped as
-         described in [RFC4627] section 2.5.
-
-   *  The source attribute in the IRR object texts MUST match the source
-      attribute of the Delta File.
-
-   *  The file MUST only contain ASCII graphic characters ([RFC0020]
-      section 4.5).
+   *  If action is "add_modify": an object attribute with the RPSL text
+      of the new version of the object.
 
 8.  Operational Considerations
 
@@ -887,17 +873,6 @@ Internet-Draft                   NRTM v4                   November 2022
    be addressed in this way, such as one implementation introducing a
    new object class that is entirely unknown to another implementation.
 
-
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 16]
-
-Internet-Draft                   NRTM v4                   November 2022
-
-
    A mirror client SHOULD be able to handle unknown object classes and
    objects that are invalid according to its own validation rules, which
    may mean simply discarding them, without rejecting remaining objects
@@ -915,6 +890,14 @@ Internet-Draft                   NRTM v4                   November 2022
    usefully interpreted.  There is no way for an IRR server to correctly
    parse and index such an object.  However, a route-set object whose
    name does not start with "RS-" [RFC2622], or an inetnum with an
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 16]
+
+Internet-Draft                   NRTM v4                       June 2023
+
+
    unknown extra "org" attribute, still allows the mirror client to
    interpret it unambiguously even if it does not meet the mirror
    client's own validation rules for authoritative records.
@@ -945,15 +928,6 @@ Internet-Draft                   NRTM v4                   November 2022
    still follow all validation rules, including the validation of the
    signature and hashes.
 
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 17]
-
-Internet-Draft                   NRTM v4                   November 2022
-
-
 8.4.  Public key rotation
 
    It is RECOMMENDED that IRR Database operators rotate the signing key
@@ -972,6 +946,13 @@ Internet-Draft                   NRTM v4                   November 2022
       Mirror server implementations MAY offer a method to cause the
       Notification Update File to be refreshed earlier, with the
       new_signing_key included, and thus start the propagation earlier.
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 17]
+
+Internet-Draft                   NRTM v4                       June 2023
+
 
    *  When mirror clients next retrieve the Update Notification File,
       they MUST detect the next_signing_key field, and store the key in
@@ -1000,16 +981,6 @@ Internet-Draft                   NRTM v4                   November 2022
    verify the signature.  In that scenario manual recovery is required,
    similar to a first time configuration of a new mirror client.
 
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 18]
-
-Internet-Draft                   NRTM v4                   November 2022
-
-
 9.  Security Considerations
 
    IRR objects serve many purposes, including automated network
@@ -1029,6 +1000,16 @@ Internet-Draft                   NRTM v4                   November 2022
    file.  Additionally, the channel security offered by HTTPS further
    limits security risks.
 
+
+
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 18]
+
+Internet-Draft                   NRTM v4                       June 2023
+
+
    By allowing publication on any HTTPS endpoint, NRTMv4 allows for
    extensive scaling, and there are many existing techniques and
    services to protect against denial-of-service attacks.  In contrast,
@@ -1037,7 +1018,8 @@ Internet-Draft                   NRTM v4                   November 2022
    are no standard protections against denial-of-service available.
 
    The HTTPS endpoint used for NRTMv4 MUST be configured according to
-   the best practices in [RFC7525].
+   the best practices in [RFC7525].  Mirror clients MUST NOT use other
+   protocols than HTTPS, such as HTTP or FTP.
 
 10.  IANA Considerations
 
@@ -1052,19 +1034,9 @@ Internet-Draft                   NRTM v4                   November 2022
 
 12.1.  Normative References
 
-   [RFC0020]  Cerf, V., "ASCII format for network interchange", STD 80,
-              RFC 20, DOI 10.17487/RFC0020, October 1969,
-              <https://www.rfc-editor.org/info/rfc20>.
-
-
-
-
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 19]
-
-Internet-Draft                   NRTM v4                   November 2022
-
+   [RFC1952]  Deutsch, P., "GZIP file format specification version 4.3",
+              RFC 1952, DOI 10.17487/RFC1952, May 1996,
+              <https://www.rfc-editor.org/info/rfc1952>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1086,25 +1058,32 @@ Internet-Draft                   NRTM v4                   November 2022
               (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
               <https://www.rfc-editor.org/info/rfc4012>.
 
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 19]
+
+Internet-Draft                   NRTM v4                       June 2023
+
+
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,
               DOI 10.17487/RFC4122, July 2005,
               <https://www.rfc-editor.org/info/rfc4122>.
 
-   [RFC4627]  Crockford, D., "The application/json Media Type for
-              JavaScript Object Notation (JSON)", RFC 4627,
-              DOI 10.17487/RFC4627, July 2006,
-              <https://www.rfc-editor.org/info/rfc4627>.
-
    [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
               <https://www.rfc-editor.org/info/rfc4648>.
 
+   [RFC7464]  Williams, N., "JavaScript Object Notation (JSON) Text
+              Sequences", RFC 7464, DOI 10.17487/RFC7464, February 2015,
+              <https://www.rfc-editor.org/info/rfc7464>.
+
    [RFC7525]  Sheffer, Y., Holz, R., and P. Saint-Andre,
               "Recommendations for Secure Use of Transport Layer
               Security (TLS) and Datagram Transport Layer Security
-              (DTLS)", BCP 195, RFC 7525, DOI 10.17487/RFC7525, May
-              2015, <https://www.rfc-editor.org/info/rfc7525>.
+              (DTLS)", RFC 7525, DOI 10.17487/RFC7525, May 2015,
+              <https://www.rfc-editor.org/info/rfc7525>.
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,
@@ -1115,12 +1094,10 @@ Internet-Draft                   NRTM v4                   November 2022
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-Romijn, et al.             Expires 25 May 2023                 [Page 20]
-
-Internet-Draft                   NRTM v4                   November 2022
-
+   [RFC8259]  Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/info/rfc8259>.
 
    [SHS]      National Institute of Standards and Technology, "Secure
               Hash Standard", March 2012,
@@ -1135,6 +1112,15 @@ Internet-Draft                   NRTM v4                   November 2022
               <https://www.rfc-editor.org/info/rfc8182>.
 
 Authors' Addresses
+
+
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 20]
+
+Internet-Draft                   NRTM v4                       June 2023
+
 
    Sasha Romijn
    Reliably Coded
@@ -1173,4 +1159,18 @@ Authors' Addresses
 
 
 
-Romijn, et al.             Expires 25 May 2023                 [Page 21]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Romijn, et al.           Expires 4 December 2023               [Page 21]
