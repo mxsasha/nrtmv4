@@ -200,7 +200,7 @@
         <list style="symbols">
           <t>
             The mirror server MUST generate a new session ID.
-            This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions. However, if the server instance is serving two different IRR databases (e.g. RIPE IRR and RIPE-NONAUTH IRR), then it MUST generate two session IDs, each one associated with the different database. 
+            This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions. However, if the server instance is serving two different IRR databases (e.g. RIPE IRR and RIPE-NONAUTH IRR), then it MUST generate two session IDs, each one associated with the different database.
           </t>
           <t>
             The server MUST generate a snapshot for version number one.
@@ -814,7 +814,7 @@
       This scales poorly, and there are no standard protections against denial-of-service available.
     </t>
     <t>
-      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="RFC7525"/>.
+      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="RFC9325"/>.
       Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.
     </t>
   </section>
@@ -852,6 +852,7 @@
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
     <?rfc include="reference.RFC.8259.xml"?>
+    <?rfc include="reference.RFC.9325.xml"?>
     <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
