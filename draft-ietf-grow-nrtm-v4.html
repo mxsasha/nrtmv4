@@ -22,7 +22,7 @@
 <meta content="draft-ietf-grow-nrtm-v4-01" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.10.0
-    Python 3.9.12
+    Python 3.9.16
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.0
@@ -31,13 +31,12 @@
     Jinja2 2.11.3
     kitchen 1.2.6
     lxml 4.6.3
-    pycairo 1.20.1
     pycountry 20.7.3
     pyflakes 2.4.0
     PyYAML 6.0
     requests 2.26.0
-    setuptools 57.4.0
-    six 1.15.0
+    setuptools 65.6.3
+    six 1.16.0
 -->
 <link href="draft-ietf-grow-nrtm-v4.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1194,11 +1193,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">November 2022</td>
+<td class="right">June 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 25 May 2023</td>
+<td class="center">Expires 4 December 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1211,12 +1210,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-ietf-grow-nrtm-v4-01</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-11-21" class="published">21 November 2022</time>
+<time datetime="2023-06-02" class="published">2 June 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-05-25">25 May 2023</time></dd>
+<dd class="expires"><time datetime="2023-12-04">4 December 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1271,7 +1270,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 May 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 December 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1280,7 +1279,7 @@ li > p:last-of-type {
 <a href="#name-copyright-notice-2" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2022 IETF Trust and the persons identified as the
+            Copyright (c) 2023 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1487,26 +1486,30 @@ li > p:last-of-type {
 </li>
       </ul>
 <p id="section-2-4">
-       All files MUST be in the JavaScript Object Notation (JSON) format <span>[<a href="#RFC4627" class="xref">RFC4627</a>]</span>.<a href="#section-2-4" class="pilcrow">¶</a></p>
+      <em>Other compressions than GZIP are being considered by the authors pending further research.</em><a href="#section-2-4" class="pilcrow">¶</a></p>
 <p id="section-2-5">
+       The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <span>[<a href="#RFC8259" class="xref">RFC8259</a>]</span>.
+       The Snapshot File and Delta Files MUST be in the JSON Text Sequences <span>[<a href="#RFC7464" class="xref">RFC7464</a>]</span> format, so that each object in large files can be parsed independently.
+       All files MUST use UTF-8 encoding and MAY be compressed with GZIP <span>[<a href="#RFC1952" class="xref">RFC1952</a>]</span>.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimizes data transfer.
-       Deltas have sequential versions.<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">
-       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-6" class="pilcrow">¶</a></p>
+       Deltas have sequential versions.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">
+       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">
        Upon initialization, the mirror server generates a session ID for the Database.
        This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
-       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">
-       Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
-       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.<a href="#section-2-8" class="pilcrow">¶</a></p>
+       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-8" class="pilcrow">¶</a></p>
 <p id="section-2-9">
+       Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
+       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.<a href="#section-2-9" class="pilcrow">¶</a></p>
+<p id="section-2-10">
        Note that in NRTMv4, a contiguous version number is used for the Database version and Delta Files.
        This is different and unrelated to the serial in NRTMv3.
        NRTMv3 serials refer to a single change to a single object, whereas a NRTMv4 version refers to one delta, possibly containing multiple changes to multiple objects.
-       NRTMv3 serials can also contain gaps, NRTMv4 versions may not.<a href="#section-2-9" class="pilcrow">¶</a></p>
+       NRTMv3 serials can also contain gaps, NRTMv4 versions may not.<a href="#section-2-10" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3">
       <h2 id="name-mirror-server-use-2">
@@ -1622,6 +1625,10 @@ li > p:last-of-type {
             <li class="normal" id="section-3.3.2-2.5">
               The Update Notification File MUST be updated to include the new snapshot, if one was generated.<a href="#section-3.3.2-2.5" class="pilcrow">¶</a>
 </li>
+            <li class="normal" id="section-3.3.2-2.6">
+              Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
+              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
+</li>
           </ul>
 </section>
 <section id="section-3.3.3">
@@ -1678,6 +1685,7 @@ li > p:last-of-type {
 </li>
           <li class="normal" id="section-4.2-2.4">
           The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
+          If the Snapshot File was compressed with GZIP, the hash MUST match the compressed data.
           In case of a mismatch of this hash, the file MUST be rejected.<a href="#section-4.2-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.5">
@@ -1714,7 +1722,9 @@ li > p:last-of-type {
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.7">
-            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it. In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+            If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
+            In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.8">
             The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
@@ -1791,7 +1801,7 @@ li > p:last-of-type {
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json",
+    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
@@ -1851,14 +1861,12 @@ li > p:last-of-type {
             The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.10" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.11">
-            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.<a href="#section-5.3-5.11" class="pilcrow">¶</a>
+            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
+            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.11" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.12">
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="xref">SHS</a>]</span> of the referenced file.
             The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-5.3-5.12" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-5.3-5.13">
-            The file MUST only contain US-ASCII characters.<a href="#section-5.3-5.13" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1906,23 +1914,22 @@ li > p:last-of-type {
         Example Snapshot File:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.3-2">
 <pre>
-{
+␞{
   "nrtm_version": 4,
   "type": "snapshot",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-  "version": 3,
-  "objects": [
-    "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE",
-    "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
-  ]
+  "version": 3
 }
+␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
+␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
 </pre><a href="#section-6.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-6.3-3">
         Note: IRR object texts in this example are shortened because of formatting.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">
-        The following validation rules MUST be observed when creating or parsing Snapshot Files:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="xref">RFC7464</a>]</span> format, and MUST contain one or more records.
+        The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-5.1">
             The nrtm_version MUST be 4.<a href="#section-6.3-5.1" class="pilcrow">¶</a>
@@ -1939,17 +1946,10 @@ li > p:last-of-type {
           <li class="normal" id="section-6.3-5.5">
             The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.<a href="#section-6.3-5.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.6">
-            The objects attribute MUST be an array of zero or more elements, each containing a string representation of an IRR object.
-                In the string representation all characters that are not ASCII graphic characters (<span>[<a href="#RFC0020" class="xref">RFC0020</a>]</span> section 4.5) must be escaped as described in <span>[<a href="#RFC4627" class="xref">RFC4627</a>]</span> section 2.5.<a href="#section-6.3-5.6" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-6.3-5.7">
-            The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.<a href="#section-6.3-5.7" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-6.3-5.8">
-            The file MUST only contain ASCII graphic characters (<span>[<a href="#RFC0020" class="xref">RFC0020</a>]</span> section 4.5).<a href="#section-6.3-5.8" class="pilcrow">¶</a>
-</li>
         </ul>
+<p id="section-6.3-6">
+        The remaining records (zero or more) MUST each contain a string representation of an IRR object.
+        The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.<a href="#section-6.3-6" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-7">
@@ -1983,35 +1983,34 @@ li > p:last-of-type {
         Example Delta File:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-7.3-2">
 <pre>
-{
+␞{
   "nrtm_version": 4,
   "type": "delta",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
-  "version": 3,
-  "changes": [
-    {
-      "action": "delete",
-      "object_class": "person",
-      "primary_key": "PRSN1-EXAMPLE"
-    },
-    {
-      "action": "delete",
-      "object_class": "route",
-      "primary_key": "192.0.2.0/24AS65530"
-    },
-    {
-      "action": "add_modify",
-      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
-    }
-  ]
+  "version": 3
+}
+␞{
+  "action": "delete",
+  "object_class": "person",
+  "primary_key": "PRSN1-EXAMPLE"
+}
+␞{
+  "action": "delete",
+  "object_class": "route",
+  "primary_key": "192.0.2.0/24AS65530"
+}
+␞{
+  "action": "add_modify",
+  "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
 }
 </pre><a href="#section-7.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-7.3-3">
         Note: IRR object texts in this example are shortened because of formatting.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <p id="section-7.3-4">
-        The following validation rules MUST be observed when creating or parsing Delta Files:<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="xref">RFC7464</a>]</span> format, and MUST contain one or more records.
+        The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-5.1">
             The nrtm_version MUST be 4.<a href="#section-7.3-5.1" class="pilcrow">¶</a>
@@ -2028,32 +2027,21 @@ li > p:last-of-type {
           <li class="normal" id="section-7.3-5.5">
             The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.<a href="#section-7.3-5.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.3-5.6">
-            <p id="section-7.3-5.6.1">
-            The changes attribute MUST be an array of one or more elements, each having:<a href="#section-7.3-5.6.1" class="pilcrow">¶</a></p>
+        </ul>
+<p id="section-7.3-6">
+        The remaining records (zero or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.3-5.6.2.1">
-                An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-5.6.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.3-7.1">
+            An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-7.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-7.3-5.6.2.2">
-                If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
-                For objects that are listed in <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span> and <span>[<a href="#RFC4012" class="xref">RFC4012</a>]</span> the primary key is the value of the RPSL field defined as "class key".
-                For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
-                For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.<a href="#section-7.3-5.6.2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.3-7.2">
+            If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
+            For objects that are listed in <span>[<a href="#RFC2622" class="xref">RFC2622</a>]</span> and <span>[<a href="#RFC4012" class="xref">RFC4012</a>]</span> the primary key is the value of the RPSL field defined as "class key".
+            For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
+            For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.<a href="#section-7.3-7.2" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-7.3-5.6.2.3">
-                If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-5.6.2.3" class="pilcrow">¶</a>
-</li>
-              <li class="normal" id="section-7.3-5.6.2.4">
-                In the string representation all characters that are not ASCII graphic characters (<span>[<a href="#RFC0020" class="xref">RFC0020</a>]</span> section 4.5) must be escaped as described in <span>[<a href="#RFC4627" class="xref">RFC4627</a>]</span> section 2.5.<a href="#section-7.3-5.6.2.4" class="pilcrow">¶</a>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-7.3-5.7">
-             The source attribute in the IRR object texts MUST match the source attribute of the Delta File.<a href="#section-7.3-5.7" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-7.3-5.8">
-            The file MUST only contain ASCII graphic characters (<span>[<a href="#RFC0020" class="xref">RFC0020</a>]</span> section 4.5).<a href="#section-7.3-5.8" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.3-7.3">
+            If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-7.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2166,7 +2154,8 @@ li > p:last-of-type {
       In contrast, NRTMv3 required mirror clients to directly query the IRR server instance with special whois queries.
       This scales poorly, and there are no standard protections against denial-of-service available.<a href="#section-9-4" class="pilcrow">¶</a></p>
 <p id="section-9-5">
-      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span>.<a href="#section-9-5" class="pilcrow">¶</a></p>
+      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <span>[<a href="#RFC7525" class="xref">RFC7525</a>]</span>.
+      Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-10">
       <h2 id="name-iana-considerations-2">
@@ -2195,9 +2184,9 @@ li > p:last-of-type {
 <a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references-2" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="RFC0020">[RFC0020]</dt>
+<dt id="RFC1952">[RFC1952]</dt>
         <dd>
-<span class="refAuthor">Cerf, V.</span>, <span class="refTitle">"ASCII format for network interchange"</span>, <span class="seriesInfo">STD 80</span>, <span class="seriesInfo">RFC 20</span>, <span class="seriesInfo">DOI 10.17487/RFC0020</span>, <time datetime="1969-10" class="refDate">October 1969</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc20">https://www.rfc-editor.org/info/rfc20</a>&gt;</span>. </dd>
+<span class="refAuthor">Deutsch, P.</span>, <span class="refTitle">"GZIP file format specification version 4.3"</span>, <span class="seriesInfo">RFC 1952</span>, <span class="seriesInfo">DOI 10.17487/RFC1952</span>, <time datetime="1996-05" class="refDate">May 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1952">https://www.rfc-editor.org/info/rfc1952</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2219,17 +2208,17 @@ li > p:last-of-type {
         <dd>
 <span class="refAuthor">Leach, P.</span>, <span class="refAuthor">Mealling, M.</span>, and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"A Universally Unique IDentifier (UUID) URN Namespace"</span>, <span class="seriesInfo">RFC 4122</span>, <span class="seriesInfo">DOI 10.17487/RFC4122</span>, <time datetime="2005-07" class="refDate">July 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4122">https://www.rfc-editor.org/info/rfc4122</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC4627">[RFC4627]</dt>
-        <dd>
-<span class="refAuthor">Crockford, D.</span>, <span class="refTitle">"The application/json Media Type for JavaScript Object Notation (JSON)"</span>, <span class="seriesInfo">RFC 4627</span>, <span class="seriesInfo">DOI 10.17487/RFC4627</span>, <time datetime="2006-07" class="refDate">July 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4627">https://www.rfc-editor.org/info/rfc4627</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC4648">[RFC4648]</dt>
         <dd>
 <span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"The Base16, Base32, and Base64 Data Encodings"</span>, <span class="seriesInfo">RFC 4648</span>, <span class="seriesInfo">DOI 10.17487/RFC4648</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4648">https://www.rfc-editor.org/info/rfc4648</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7464">[RFC7464]</dt>
+        <dd>
+<span class="refAuthor">Williams, N.</span>, <span class="refTitle">"JavaScript Object Notation (JSON) Text Sequences"</span>, <span class="seriesInfo">RFC 7464</span>, <span class="seriesInfo">DOI 10.17487/RFC7464</span>, <time datetime="2015-02" class="refDate">February 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7464">https://www.rfc-editor.org/info/rfc7464</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7525">[RFC7525]</dt>
         <dd>
-<span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Holz, R.</span>, and <span class="refAuthor">P. Saint-Andre</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">BCP 195</span>, <span class="seriesInfo">RFC 7525</span>, <span class="seriesInfo">DOI 10.17487/RFC7525</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7525">https://www.rfc-editor.org/info/rfc7525</a>&gt;</span>. </dd>
+<span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Holz, R.</span>, and <span class="refAuthor">P. Saint-Andre</span>, <span class="refTitle">"Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">RFC 7525</span>, <span class="seriesInfo">DOI 10.17487/RFC7525</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7525">https://www.rfc-editor.org/info/rfc7525</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8032">[RFC8032]</dt>
         <dd>
@@ -2238,6 +2227,10 @@ li > p:last-of-type {
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8259">[RFC8259]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8259">https://www.rfc-editor.org/info/rfc8259</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SHS">[SHS]</dt>
       <dd>
