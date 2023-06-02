@@ -141,8 +141,11 @@
         </t>
        </list>
      </t>
+    <t>
+      <em>Other compressions than GZIP are being considered by the authors pending further research.</em>
+    </t>
      <t>
-       The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC4627" />.
+       The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
        All files MUST use UTF-8 encoding and MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
@@ -280,6 +283,10 @@
             </t>
             <t>
               The Update Notification File MUST be updated to include the new snapshot, if one was generated.
+            </t>
+            <t>
+              Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
+              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File.
             </t>
           </list>
         </t>
@@ -564,14 +571,15 @@
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 3
 }
-␞"route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"
-␞"route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
+␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
 ]]></artwork>
       </t>
       <t>
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
       <t>
+        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records.
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:
       </t>
       <t>
@@ -653,6 +661,7 @@
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
       <t>
+        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records.
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:
       </t>
       <t>
@@ -806,6 +815,7 @@
     </t>
     <t>
       The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="RFC7525"/>.
+      Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.
     </t>
   </section>
 
@@ -837,11 +847,11 @@
     <?rfc include="reference.RFC.4122.xml"?>
     <?rfc include="reference.RFC.4012.xml"?>
     <?rfc include="reference.RFC.4648.xml"?>
-    <?rfc include="reference.RFC.4627.xml"?>
     <?rfc include="reference.RFC.7464.xml"?>
     <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
+    <?rfc include="reference.RFC.8259.xml"?>
     <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
