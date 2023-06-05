@@ -848,7 +848,6 @@
     <?rfc include="reference.RFC.4012.xml"?>
     <?rfc include="reference.RFC.4648.xml"?>
     <?rfc include="reference.RFC.7464.xml"?>
-    <?rfc include="reference.RFC.7525.xml"?>
     <?rfc include="reference.RFC.8032.xml"?>
     <?rfc include="reference.RFC.8174.xml"?>
     <?rfc include="reference.RFC.8259.xml"?>
