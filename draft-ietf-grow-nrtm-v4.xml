@@ -444,7 +444,7 @@
 <artwork><![CDATA[
 {
   "nrtm_version": 4,
-  "timestamp": "2022-01-00T15:00:00Z",
+  "timestamp": "2022-01-01T15:00:00Z",
   "type": "notification",
   "next_signing_key": "96..ae",
   "source": "EXAMPLE",
