@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 7 December 2023                                          Fastly
+Expires: 1 March 2024                                             Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                             5 June 2023
+                                                          29 August 2023
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,16 +46,16 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 December 2023.
+   This Internet-Draft will expire on 1 March 2024.
 
 
 
 
 
 
-Romijn, et al.           Expires 7 December 2023                [Page 1]
+Romijn, et al.            Expires 1 March 2024                  [Page 1]
 
-Internet-Draft                   NRTM v4                       June 2023
+Internet-Draft                   NRTM v4                     August 2023
 
 
 Copyright Notice
@@ -92,26 +92,26 @@ Table of Contents
      4.5.  Policy Restrictions . . . . . . . . . . . . . . . . . . .  10
    5.  Update Notification File  . . . . . . . . . . . . . . . . . .  10
      5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  10
+     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  11
      5.3.  File format and validation  . . . . . . . . . . . . . . .  11
-     5.4.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  12
-   6.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  12
+     5.4.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  13
+   6.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  13
      6.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  13
      6.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  13
      6.3.  File format and validation  . . . . . . . . . . . . . . .  13
    7.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  14
-     7.3.  File format and validation  . . . . . . . . . . . . . . .  14
+     7.3.  File format and validation  . . . . . . . . . . . . . . .  15
    8.  Operational Considerations  . . . . . . . . . . . . . . . . .  16
      8.1.  IRR object Validation . . . . . . . . . . . . . . . . . .  16
      8.2.  Intermediate mirror instances . . . . . . . . . . . . . .  17
 
 
 
-Romijn, et al.           Expires 7 December 2023                [Page 2]
+Romijn, et al.            Expires 1 March 2024                  [Page 2]
 
-Internet-Draft                   NRTM v4                       June 2023
+Internet-Draft                   NRTM v4                     August 2023
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  17
@@ -122,7 +122,7 @@ Internet-Draft                   NRTM v4                       June 2023
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  19
      12.2.  Informative References . . . . . . . . . . . . . . . . .  20
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
 
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                       June 2023
 
 
 
-Romijn, et al.           Expires 7 December 2023                [Page 3]
+Romijn, et al.            Expires 1 March 2024                  [Page 3]
 
-Internet-Draft                   NRTM v4                       June 2023
+Internet-Draft                   NRTM v4                     August 2023
 
 
    *  A single Update Notification File.  This specifies the current
@@ -221,9 +221,9 @@ Internet-Draft                   NRTM v4                       June 2023
 
 
 
-Romijn, et al.           Expires 7 December 2023                [Page 4]
+Romijn, et al.            Expires 1 March 2024                  [Page 4]
 
-Internet-Draft                   NRTM v4                       June 2023
+Internet-Draft                   NRTM v4                     August 2023
 
 
    Note that in NRTMv4, a contiguous version number is used for the
@@ -241,7 +241,8 @@ Internet-Draft                   NRTM v4                       June 2023
    MUST generate and configure a private Ed25519 [RFC8032] key.  The
    operator then provides this public key, the name of the IRR Database,
    and publication URL of the Update Notification File to any operators
-   of mirror clients.  The process for providing this is not in scope of
+   of mirror clients.  The published public key MUST be encoded in
+   base64 [RFC4648].  The process for providing this is not in scope of
    this protocol, but a typical case is publication on the operator's
    known website.  Key rotation is described in Section 8.4.
 
@@ -266,10 +267,9 @@ Internet-Draft                   NRTM v4                       June 2023
 
    *  The mirror server MUST generate a new session ID.  This MUST be a
       random v4 UUID [RFC4122] and MUST be the same across all client
-      sessions.  However, if the server instance is serving two
-      different IRR databases (e.g.  RIPE IRR and RIPE-NONAUTH IRR),
-      then it MUST generate two session IDs, each one associated with
-      the different database.
+      sessions.  However, the session ID is unique to the IRR Database,
+      so an instance that serves multiple IRR Databases, will create a
+      separate session ID for each.
 
    *  The server MUST generate a snapshot for version number one.  This
       may contain an empty array of objects if the IRR Database is
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                       June 2023
 
 
 
-Romijn, et al.           Expires 7 December 2023                [Page 5]
+Romijn, et al.            Expires 1 March 2024                  [Page 5]
 
-Internet-Draft                   NRTM v4                       June 2023
+Internet-Draft                   NRTM v4                     August 2023
 
 
    *  The server MUST generate a new Update Notification File with the
@@ -288,13 +288,15 @@ Internet-Draft                   NRTM v4                       June 2023
    *  The Update Notification Signature File MUST be updated for the new
       Update Notification File contents.
 
-   Note that session IDs, versions and all files always relate to a
-   specific IRR Database.  For example, a mirror server publishing
-   NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update
-   Notification Files, referring two Snapshot Files, and two sets of
-   Delta Files each with contiguous version numbers - all completely
-   independent to each other, with different session IDs.  This applies
-   even if the same IRR server instance produces both.
+   Note that a publication, and its associated session IDs and versions,
+   always relates to a single specific IRR Database, even if multiple
+   databases are published from one instance.  For example, a mirror
+   server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two
+   Update Notification Files, referring two Snapshot Files, and two sets
+   of Delta Files each with contiguous version numbers - all completely
+   independent to each other, with different session IDs, potentially at
+   different times.  This applies even if the same IRR server instance
+   produces both.
 
 3.3.  Publishing updates
 
@@ -326,17 +328,20 @@ Internet-Draft                   NRTM v4                       June 2023
    *  The Delta File MUST include all changes that happened during the
       time frame, in the order in which they occurred.
 
+
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                  [Page 6]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    *  The URL where the Delta File is published MUST contain the session
       ID and version number to allow it to be indefinitely cached.  It
       MUST also contain a random value that can not be predicted before
       publication, to counter negative caching issues.
-
-
-
-Romijn, et al.           Expires 7 December 2023                [Page 6]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    *  After generating a new Delta File, a mirror server MUST remove all
       Delta Files older than 24 hours.
@@ -373,7 +378,8 @@ Internet-Draft                   NRTM v4                       June 2023
       changes may occur that are not part of the snapshot in progress.
       The mirror server SHOULD continue to produce Delta Files during
       this window, which means the server MAY publish a Snapshot File
-      with a version number older than the most recent Delta File.
+      with a version number older than the most recent Delta File at the
+      time of publication.
 
 3.3.3.  Update Notification File
 
@@ -381,18 +387,16 @@ Internet-Draft                   NRTM v4                       June 2023
    Snapshot File is published and, even if there have been no changes,
    at least every 24 hours.
 
+
+
+Romijn, et al.            Expires 1 March 2024                  [Page 7]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    After any update to the Update Notification file, the mirror server
    MUST also update the Update Notification Signature File for the new
    Update Notification File contents.
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023                [Page 7]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
 3.3.4.  Publication Policy Restrictions
 
@@ -436,31 +440,28 @@ Internet-Draft                   NRTM v4                       June 2023
    *  The client MUST retrieve the Snapshot File and load the objects
       into its local storage.
 
+
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                  [Page 8]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    *  The mirror client MUST verify that the hash of the Snapshot File
       matches the hash in the Update Notification File that referenced
       it.  If the Snapshot File was compressed with GZIP, the hash MUST
       match the compressed data.  In case of a mismatch of this hash,
       the file MUST be rejected.
 
-
-
-
-Romijn, et al.           Expires 7 December 2023                [Page 8]
-
-Internet-Draft                   NRTM v4                       June 2023
-
-
-   *  The client MUST record the configured authoritative domain, the
-      session_id and version from the Update Notification File.
+   *  The client MUST record the session_id and version of the loaded
+      Snapshot File.
 
 4.3.  Processing Delta Files
 
    If a mirror client has previously initialized from a snapshot:
-
-   *  The client MUST verify that the configured Update Notification
-      File URL matches the previously known URL.  If this does not
-      match, the client MUST reinitialize from the Snapshot File, using
-      the new Update Notification File URL.
 
    *  The client MUST retrieve the Update Notification File.
 
@@ -474,10 +475,12 @@ Internet-Draft                   NRTM v4                       June 2023
       If not, the Update Notification File MUST be rejected.
 
    *  The client MUST verify that the Update Notification File contains
-      one contiguous set of Delta File versions from the client's
+      one contiguous set of Delta File versions after the client's
       current most recent version up to the latest version in the Update
-      Notification File.  If this is not found, the client MUST
-      reinitialize from the snapshot.
+      Notification File.  If the Delta File versions are not contiguous,
+      the Update Notification File MUST be rejected.  If the available
+      Delta File versions do not range from the client's most recent
+      version plus one, the client MUST reinitialize from the snapshot.
 
    *  The client MUST retrieve all Delta Files for versions since the
       client's last known version, if there are any.
@@ -495,16 +498,19 @@ Internet-Draft                   NRTM v4                       June 2023
    *  The client MUST update its record of the most recent version to
       the version of the Update Notification File.
 
+
+
+
+Romijn, et al.            Expires 1 March 2024                  [Page 9]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    If the Update Notification File or one of the Delta Files is
    rejected, the mirror client MUST NOT process any newer Deltas than
-   those that are valid and have been successfully verified.
-
-
-
-Romijn, et al.           Expires 7 December 2023                [Page 9]
-
-Internet-Draft                   NRTM v4                       June 2023
-
+   those that are valid and have been successfully verified.  If some
+   Delta Files are rejected, it MAY process the valid Delta Files, but
+   MUST NOT skip over any rejected Delta Files while doing so.
 
 4.4.  Signature and Staleness Verification
 
@@ -548,19 +554,18 @@ Internet-Draft                   NRTM v4                       June 2023
    time there are new deltas or snapshots and, even if there have been
    no changes, at least every 24 hours.
 
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 10]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
 5.2.  Cache concerns
 
    A mirror server may use caching infrastructure to cache the Update
    Notification File and reduce the load of HTTPS requests.
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 10]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    However, since this file is used by mirror clients to determine
    whether any updates are available, the mirror server SHOULD ensure
@@ -574,9 +579,9 @@ Internet-Draft                   NRTM v4                       June 2023
 
 {
   "nrtm_version": 4,
-  "timestamp": "2022-01-00T15:00:00Z",
+  "timestamp": "2022-01-01T15:00:00Z",
   "type": "notification",
-  "next_signing_key": "96..ae",
+  "next_signing_key": "bnJ0..bXY0",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 4,
@@ -604,19 +609,20 @@ Internet-Draft                   NRTM v4                       June 2023
   ]
 }
 
-   Note: hash values in this example are shortened because of
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 11]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
+   Note: hash and key values in this example are shortened because of
    formatting.
 
    The following validation rules MUST be observed when creating or
    parsing Update Notification Files:
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 11]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    *  The nrtm_version MUST be 4.
 
@@ -656,23 +662,27 @@ Internet-Draft                   NRTM v4                       June 2023
       file.  The mirror client MUST verify this hash when the file is
       retrieved and reject the file if the hash does not match.
 
+
+
+
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 12]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
 5.4.  Signature
 
    The contents of Update Notification File MUST be signed using Ed25519
    [RFC8032].  The public key for this signature is configured in the
    client.  The signature of the Update Notification File MUST be
    published under the same path as the Update Notification File,
-   appending ".sig".
+   appending ".sig", with the signature encoded in base64 [RFC4648].
 
 6.  Snapshot File
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 12]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
 6.1.  Purpose
 
@@ -713,6 +723,13 @@ Internet-Draft                   NRTM v4                       June 2023
    ␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
    ␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
 
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 13]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    Note: IRR object texts in this example are shortened because of
    formatting.
 
@@ -722,13 +739,6 @@ Internet-Draft                   NRTM v4                       June 2023
    a Snapshot File header:
 
    *  The nrtm_version MUST be 4.
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 13]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    *  The type MUST be "snapshot".
 
@@ -768,23 +778,17 @@ Internet-Draft                   NRTM v4                       June 2023
    Notification File is published that no longer contains these Delta
    Files.
 
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 14]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
 7.3.  File format and validation
 
    Example Delta File:
-
-
-
-
-
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 14]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    ␞{
      "nrtm_version": 4,
@@ -831,16 +835,15 @@ Internet-Draft                   NRTM v4                       June 2023
    The remaining records (zero or more) MUST each contain a JSON object
    representing a change, which MUST meet the following rules:
 
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 15]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    *  An action attribute, which is either "delete" for object
       deletions, or "add_modify" for additions or modifications.
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 15]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    *  If action is "delete": an object_class attribute with the RPSL
       object class name, and a primary_key attribute with the primary
@@ -887,17 +890,17 @@ Internet-Draft                   NRTM v4                       June 2023
    and reasonable when applying their own validation rules to IRR
    objects retrieved from mirror servers.  For example, a route object
    with an origin attribute that is not a valid AS number can't be
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 16]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    usefully interpreted.  There is no way for an IRR server to correctly
    parse and index such an object.  However, a route-set object whose
    name does not start with "RS-" [RFC2622], or an inetnum with an
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 16]
-
-Internet-Draft                   NRTM v4                       June 2023
-
-
    unknown extra "org" attribute, still allows the mirror client to
    interpret it unambiguously even if it does not meet the mirror
    client's own validation rules for authoritative records.
@@ -926,7 +929,8 @@ Internet-Draft                   NRTM v4                       June 2023
    operators want to use a different method to retrieve or distribute
    the files.  When reading from local files, mirror clients SHOULD
    still follow all validation rules, including the validation of the
-   signature and hashes.
+   signature and hashes.  Mirror clients MUST NOT allow a mix of reading
+   from local files and HTTPS for a specific IRR Database.
 
 8.4.  Public key rotation
 
@@ -942,17 +946,18 @@ Internet-Draft                   NRTM v4                       June 2023
       field in any Update Notification File generated while the new
       signing key is configured.  Hence, the new signing key will start
       being propagated to the mirror clients with the next publication
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 17]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
       of the Notification File, which will take at most 24 hours.
       Mirror server implementations MAY offer a method to cause the
       Notification Update File to be refreshed earlier, with the
       new_signing_key included, and thus start the propagation earlier.
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 17]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    *  When mirror clients next retrieve the Update Notification File,
       they MUST detect the next_signing_key field, and store the key in
@@ -994,21 +999,22 @@ Internet-Draft                   NRTM v4                       June 2023
    authenticity, and there are various scenarios where mirroring may not
    be reliable.
 
+
+
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 18]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    NRTMv4 requires integrity verification.  The Delta and Snapshot Files
    are verified using the SHA-256 hash in the Update Notification File,
    and the Update Notification File is verified using its signature
    file.  Additionally, the channel security offered by HTTPS further
    limits security risks.
-
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 18]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    By allowing publication on any HTTPS endpoint, NRTMv4 allows for
    extensive scaling, and there are many existing techniques and
@@ -1053,18 +1059,17 @@ Internet-Draft                   NRTM v4                       June 2023
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
 
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 19]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
               "Routing Policy Specification Language next generation
               (RPSLng)", RFC 4012, DOI 10.17487/RFC4012, March 2005,
               <https://www.rfc-editor.org/info/rfc4012>.
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 19]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,
@@ -1106,21 +1111,23 @@ Internet-Draft                   NRTM v4                       June 2023
 
 12.2.  Informative References
 
+
+
+
+
+
+
+Romijn, et al.            Expires 1 March 2024                 [Page 20]
+
+Internet-Draft                   NRTM v4                     August 2023
+
+
    [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
               "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
               DOI 10.17487/RFC8182, July 2017,
               <https://www.rfc-editor.org/info/rfc8182>.
 
 Authors' Addresses
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 20]
-
-Internet-Draft                   NRTM v4                       June 2023
-
 
    Sasha Romijn
    Reliably Coded
@@ -1166,11 +1173,4 @@ Internet-Draft                   NRTM v4                       June 2023
 
 
 
-
-
-
-
-
-
-
-Romijn, et al.           Expires 7 December 2023               [Page 21]
+Romijn, et al.            Expires 1 March 2024                 [Page 21]
