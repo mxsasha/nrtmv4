@@ -22,7 +22,7 @@
 <meta content="draft-ietf-grow-nrtm-v4-02" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.17.2
-    Python 3.9.16
+    Python 3.9.17
     appdirs 1.4.4
     ConfigArgParse 1.5.3
     google-i18n-address 2.5.0
@@ -1210,11 +1210,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">June 2023</td>
+<td class="right">August 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 7 December 2023</td>
+<td class="center">Expires 1 March 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1227,12 +1227,12 @@ li > p:last-of-type:only-child {
 <dd class="internet-draft">draft-ietf-grow-nrtm-v4-02</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-06-05" class="published">5 June 2023</time>
+<time datetime="2023-08-29" class="published">29 August 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-12-07">7 December 2023</time></dd>
+<dd class="expires"><time datetime="2024-03-01">1 March 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1287,7 +1287,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 December 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1539,6 +1539,7 @@ li > p:last-of-type:only-child {
 <p id="section-3.1-1">
         When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> key.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
+        The published public key MUST be encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.
         The process for providing this is not in scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">
@@ -1558,7 +1559,8 @@ li > p:last-of-type:only-child {
 <ul class="normal">
 <li class="normal" id="section-3.2-4.1">
             The mirror server MUST generate a new session ID.
-            This MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> and MUST be the same across all client sessions. However, if the server instance is serving two different IRR databases (e.g. RIPE IRR and RIPE-NONAUTH IRR), then it MUST generate two session IDs, each one associated with the different database.<a href="#section-3.2-4.1" class="pilcrow">¶</a>
+            This MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> and MUST be the same across all client sessions.
+            However, the session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.<a href="#section-3.2-4.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-3.2-4.2">
             The server MUST generate a snapshot for version number one.
@@ -1572,8 +1574,8 @@ li > p:last-of-type:only-child {
 </li>
         </ul>
 <p id="section-3.2-5">
-        Note that session IDs, versions and all files always relate to a specific IRR Database.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs.
+        Note that a publication, and its associated session IDs and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3">
@@ -1644,7 +1646,7 @@ li > p:last-of-type:only-child {
 </li>
             <li class="normal" id="section-3.3.2-2.6">
               Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
-              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
+              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1706,7 +1708,7 @@ li > p:last-of-type:only-child {
           In case of a mismatch of this hash, the file MUST be rejected.<a href="#section-4.2-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.2-2.5">
-          The client MUST record the configured authoritative domain, the session_id and version from the Update Notification File.<a href="#section-4.2-2.5" class="pilcrow">¶</a>
+          The client MUST record the session_id and version of the loaded Snapshot File.<a href="#section-4.2-2.5" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -1718,40 +1720,39 @@ li > p:last-of-type:only-child {
         If a mirror client has previously initialized from a snapshot:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
-            The client MUST verify that the configured Update Notification File URL matches the previously known URL. If this does not match, the client MUST reinitialize from the Snapshot File, using the new Update Notification File URL.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+            The client MUST retrieve the Update Notification File.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
-            The client MUST retrieve the Update Notification File.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+            The client MUST verify that the session ID matches the previously known session ID.
+            If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.3">
-            The client MUST verify that the session ID matches the previously known session ID.
-            If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.3" class="pilcrow">¶</a>
+            The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
+            If not, the Update Notification File MUST be rejected.<a href="#section-4.3-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.4">
-            The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
-            If not, the Update Notification File MUST be rejected.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
+            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
+            If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
+            If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.5">
-            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version up to the latest version in the Update Notification File.
-            If this is not found, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
+            The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.6">
-            The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.3-2.7">
             The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
             If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
-            In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+            In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.3-2.7">
+            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.8">
-            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.3-2.9">
-            The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
+            The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-4.3-3">
-        If the Update Notification File or one of the Delta Files is rejected, the mirror client MUST NOT process any newer Deltas than those that are valid and have been successfully verified.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+        If the Update Notification File or one of the Delta Files is rejected, the mirror client MUST NOT process any newer Deltas than those that are valid and have been successfully verified.
+        If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.4">
         <h3 id="name-signature-and-staleness-veri">
@@ -1810,9 +1811,9 @@ li > p:last-of-type:only-child {
 <pre>
 {
   "nrtm_version": 4,
-  "timestamp": "2022-01-00T15:00:00Z",
+  "timestamp": "2022-01-01T15:00:00Z",
   "type": "notification",
-  "next_signing_key": "96..ae",
+  "next_signing_key": "bnJ0..bXY0",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 4,
@@ -1842,7 +1843,7 @@ li > p:last-of-type:only-child {
 </pre><a href="#section-5.3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.3-3">
-        Note: hash values in this example are shortened because of formatting.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+        Note: hash and key values in this example are shortened because of formatting.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.3-4">
         The following validation rules MUST be observed when creating or parsing Update Notification Files:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1894,7 +1895,7 @@ li > p:last-of-type:only-child {
 <p id="section-5.4-1">
         The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
         The public key for this signature is configured in the client.
-        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig".<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig", with the signature encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-6">
@@ -2111,7 +2112,8 @@ li > p:last-of-type:only-child {
 <p id="section-8.3-1">
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
         However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
-        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.
+        Mirror clients MUST NOT allow a mix of reading from local files and HTTPS for a specific IRR Database.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 </section>
 <div id="public_key_rotation">
 <section id="section-8.4">

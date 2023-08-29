@@ -180,6 +180,7 @@
       <t>
         When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <xref target="RFC8032"/> key.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
+        The published public key MUST be encoded in base64 <xref target="RFC4648"/>.
         The process for providing this is not in scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <xref target="public_key_rotation" />.
       </t>
@@ -200,7 +201,8 @@
         <list style="symbols">
           <t>
             The mirror server MUST generate a new session ID.
-            This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions. However, if the server instance is serving two different IRR databases (e.g. RIPE IRR and RIPE-NONAUTH IRR), then it MUST generate two session IDs, each one associated with the different database.
+            This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions.
+            However, the session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.
           </t>
           <t>
             The server MUST generate a snapshot for version number one.
@@ -215,8 +217,8 @@
         </list>
       </t>
       <t>
-        Note that session IDs, versions and all files always relate to a specific IRR Database.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs.
+        Note that a publication, and its associated session IDs and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.
       </t>
     </section>
@@ -286,7 +288,7 @@
             </t>
             <t>
               Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
-              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File.
+              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.
             </t>
           </list>
         </t>
@@ -343,7 +345,7 @@
           In case of a mismatch of this hash, the file MUST be rejected.
         </t>
         <t>
-          The client MUST record the configured authoritative domain, the session_id and version from the Update Notification File.
+          The client MUST record the session_id and version of the loaded Snapshot File.
         </t>
       </list>
     </section>
@@ -353,9 +355,6 @@
       </t>
       <t>
         <list style="symbols">
-          <t>
-            The client MUST verify that the configured Update Notification File URL matches the previously known URL. If this does not match, the client MUST reinitialize from the Snapshot File, using the new Update Notification File URL.
-          </t>
           <t>
             The client MUST retrieve the Update Notification File.
           </t>
@@ -368,8 +367,9 @@
             If not, the Update Notification File MUST be rejected.
           </t>
           <t>
-            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions from the client's current most recent version up to the latest version in the Update Notification File.
-            If this is not found, the client MUST reinitialize from the snapshot.
+            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
+            If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
+            If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.
           </t>
           <t>
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
@@ -389,6 +389,7 @@
       </t>
       <t>
         If the Update Notification File or one of the Delta Files is rejected, the mirror client MUST NOT process any newer Deltas than those that are valid and have been successfully verified.
+        If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.
       </t>
     </section>
     <section title="Signature and Staleness Verification">
@@ -446,7 +447,7 @@
   "nrtm_version": 4,
   "timestamp": "2022-01-01T15:00:00Z",
   "type": "notification",
-  "next_signing_key": "96..ae",
+  "next_signing_key": "bnJ0..bXY0",
   "source": "EXAMPLE",
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 4,
@@ -476,7 +477,7 @@
 ]]></artwork>
       </t>
       <t>
-        Note: hash values in this example are shortened because of formatting.
+        Note: hash and key values in this example are shortened because of formatting.
       </t>
       <t>
         The following validation rules MUST be observed when creating or parsing Update Notification Files:
@@ -529,7 +530,7 @@
       <t>
         The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
         The public key for this signature is configured in the client.
-        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig".
+        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig", with the signature encoded in base64 <xref target="RFC4648"/>.
       </t>
     </section>
   </section>
@@ -753,6 +754,7 @@
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
         However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
         When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.
+        Mirror clients MUST NOT allow a mix of reading from local files and HTTPS for a specific IRR Database.
       </t>
     </section>
 
