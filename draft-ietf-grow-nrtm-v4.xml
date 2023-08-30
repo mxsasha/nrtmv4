@@ -697,6 +697,7 @@
             For objects that are listed in <xref target="RFC2622"/> and <xref target="RFC4012"/> the primary key is the value of the RPSL field defined as "class key".
             For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
             For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
+            The primary key is not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.
           </t>
           <t>
             If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
