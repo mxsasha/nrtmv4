@@ -786,6 +786,7 @@
           <t>
             When mirror clients retrieve an Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
             If the signature matches for this new key, the client MUST update its configuration to use the new key for validation.
+            After this, the client MUST NOT use the old key for validation at any time: a mirror server can not switch back to an old key.
           </t>
         </list>
         <t>

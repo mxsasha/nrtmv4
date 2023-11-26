@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 2 March 2024                                             Fastly
+Expires: 29 May 2024                                              Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                          30 August 2023
+                                                        26 November 2023
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,16 +46,16 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 March 2024.
+   This Internet-Draft will expire on 29 May 2024.
 
 
 
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 1]
+Romijn, et al.             Expires 29 May 2024                  [Page 1]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 2]
+Romijn, et al.             Expires 29 May 2024                  [Page 2]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  17
@@ -121,7 +121,7 @@ Internet-Draft                   NRTM v4                     August 2023
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  19
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  19
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  20
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  21
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 3]
+Romijn, et al.             Expires 29 May 2024                  [Page 3]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  A single Update Notification File.  This specifies the current
@@ -221,9 +221,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 4]
+Romijn, et al.             Expires 29 May 2024                  [Page 4]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    Note that in NRTMv4, a contiguous version number is used for the
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 5]
+Romijn, et al.             Expires 29 May 2024                  [Page 5]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  The server MUST generate a new Update Notification File with the
@@ -333,9 +333,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 6]
+Romijn, et al.             Expires 29 May 2024                  [Page 6]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  The URL where the Delta File is published MUST contain the session
@@ -389,9 +389,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 7]
+Romijn, et al.             Expires 29 May 2024                  [Page 7]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    After any update to the Update Notification file, the mirror server
@@ -445,9 +445,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 8]
+Romijn, et al.             Expires 29 May 2024                  [Page 8]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  The mirror client MUST verify that the hash of the Snapshot File
@@ -501,9 +501,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                  [Page 9]
+Romijn, et al.             Expires 29 May 2024                  [Page 9]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    If the Update Notification File or one of the Delta Files is
@@ -557,9 +557,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 10]
+Romijn, et al.             Expires 29 May 2024                 [Page 10]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
 5.2.  Cache concerns
@@ -613,9 +613,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 11]
+Romijn, et al.             Expires 29 May 2024                 [Page 11]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    Note: hash and key values in this example are shortened because of
@@ -669,9 +669,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 12]
+Romijn, et al.             Expires 29 May 2024                 [Page 12]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
 5.4.  Signature
@@ -725,9 +725,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 13]
+Romijn, et al.             Expires 29 May 2024                 [Page 13]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    Note: IRR object texts in this example are shortened because of
@@ -781,9 +781,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 14]
+Romijn, et al.             Expires 29 May 2024                 [Page 14]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
 7.3.  File format and validation
@@ -837,9 +837,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 15]
+Romijn, et al.             Expires 29 May 2024                 [Page 15]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  An action attribute, which is either "delete" for object
@@ -893,9 +893,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 16]
+Romijn, et al.             Expires 29 May 2024                 [Page 16]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    It is RECOMMENDED for mirror clients to be flexible where possible
@@ -949,9 +949,9 @@ Internet-Draft                   NRTM v4                     August 2023
 
 
 
-Romijn, et al.            Expires 2 March 2024                 [Page 17]
+Romijn, et al.             Expires 29 May 2024                 [Page 17]
 
-Internet-Draft                   NRTM v4                     August 2023
+Internet-Draft                   NRTM v4                   November 2023
 
 
    *  The mirror server MUST include this key in the next_signing_key
@@ -983,7 +983,9 @@ Internet-Draft                   NRTM v4                     August 2023
       that the signature does not match, they MUST attempt to verify
       against a next_signing_key encountered in a previous (valid) file.
       If the signature matches for this new key, the client MUST update
-      its configuration to use the new key for validation.
+      its configuration to use the new key for validation.  After this,
+      the client MUST NOT use the old key for validation at any time: a
+      mirror server can not switch back to an old key.
 
    If a mirror client never retrieves an Update Notification file at any
    point during the rotation process, it will no longer be able to
@@ -997,18 +999,22 @@ Internet-Draft                   NRTM v4                     August 2023
    therefore have a significant security impact.  However, security in
    existing protocols is mostly absent.
 
+
+
+
+
+
+
+Romijn, et al.             Expires 29 May 2024                 [Page 18]
+
+Internet-Draft                   NRTM v4                   November 2023
+
+
    Before NRTMv4, the most common protocols for IRR Database mirroring
    are FTP for retrieving full snapshots, and NRTM version 3 for
    retrieving later changes.  There are no provisions for integrity or
    authenticity, and there are various scenarios where mirroring may not
    be reliable.
-
-
-
-Romijn, et al.            Expires 2 March 2024                 [Page 18]
-
-Internet-Draft                   NRTM v4                     August 2023
-
 
    NRTMv4 requires integrity verification.  The Delta and Snapshot Files
    are verified using the SHA-256 hash in the Update Notification File,
@@ -1049,6 +1055,17 @@ Internet-Draft                   NRTM v4                     August 2023
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+
+
+
+
+Romijn, et al.             Expires 29 May 2024                 [Page 19]
+
+Internet-Draft                   NRTM v4                   November 2023
+
+
    [RFC2622]  Alaettinoglu, C., Villamizar, C., Gerich, E., Kessens, D.,
               Meyer, D., Bates, T., Karrenberg, D., and M. Terpstra,
               "Routing Policy Specification Language (RPSL)", RFC 2622,
@@ -1058,13 +1075,6 @@ Internet-Draft                   NRTM v4                     August 2023
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
-
-
-
-Romijn, et al.            Expires 2 March 2024                 [Page 19]
-
-Internet-Draft                   NRTM v4                     August 2023
-
 
    [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
               "Routing Policy Specification Language next generation
@@ -1104,23 +1114,20 @@ Internet-Draft                   NRTM v4                     August 2023
               (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
               2022, <https://www.rfc-editor.org/info/rfc9325>.
 
+
+
+
+Romijn, et al.             Expires 29 May 2024                 [Page 20]
+
+Internet-Draft                   NRTM v4                   November 2023
+
+
    [SHS]      National Institute of Standards and Technology, "Secure
               Hash Standard", March 2012,
               <https://csrc.nist.gov/publications/fips/fips180-4/fips-
               180-4.pdf>.
 
 12.2.  Informative References
-
-
-
-
-
-
-
-Romijn, et al.            Expires 2 March 2024                 [Page 20]
-
-Internet-Draft                   NRTM v4                     August 2023
-
 
    [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
               "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
@@ -1166,11 +1173,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-Romijn, et al.            Expires 2 March 2024                 [Page 21]
+Romijn, et al.             Expires 29 May 2024                 [Page 21]
