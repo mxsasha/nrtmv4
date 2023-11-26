@@ -267,8 +267,8 @@ Internet-Draft                   NRTM v4                   November 2023
 
    *  The mirror server MUST generate a new session ID.  This MUST be a
       random v4 UUID [RFC4122] and MUST be the same across all client
-      sessions.  However, the session ID is unique to the IRR Database,
-      so an instance that serves multiple IRR Databases, will create a
+      sessions.  The session ID is unique to the IRR Database, so an
+      instance that serves multiple IRR Databases, will create a
       separate session ID for each.
 
    *  The server MUST generate a snapshot for version number one.  This
