@@ -662,7 +662,7 @@
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
       <t>
-        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records.
+        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain two or more records (at least the header and one change).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:
       </t>
       <t>
@@ -685,7 +685,7 @@
         </list>
       </t>
       <t>
-        The remaining records (zero or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:
+        The remaining records (one or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:
       </t>
       <t>
         <list style="symbols">
