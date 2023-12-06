@@ -580,7 +580,7 @@
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
       <t>
-        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records.
+        The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records (it must contain at least the header).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:
       </t>
       <t>
