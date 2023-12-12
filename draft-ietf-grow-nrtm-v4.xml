@@ -253,7 +253,7 @@
               It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
             </t>
             <t>
-              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.
+              After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.
             </t>
             <t>
               The Update Notification File MUST be updated to include the new Delta File and update the database version.
