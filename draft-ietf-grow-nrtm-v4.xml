@@ -298,7 +298,7 @@
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.
         </t>
         <t>
-          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File for the new Update Notification File contents.
+          After any update to the Update Notification file, the mirror server MUST also generate a new Update Notification Signature File for the new Update Notification File contents.
         </t>
       </section>
       <section title="Publication Policy Restrictions">
@@ -528,9 +528,23 @@
     </section>
     <section title="Signature">
       <t>
-        The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
-        The public key for this signature is configured in the client.
-        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig", with the signature encoded in base64 <xref target="RFC4648"/>.
+        The mirror server publishes a signature for each Update Notification File, which the client uses to verify the contents against the known public key.
+      </t>
+      <t>
+        <list style="symbols">
+          <t>
+            The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
+          </t>
+          <t>
+            The Update Notification File Signature File contains the Ed25519 signature encoded in base64 <xref target="RFC4648"/>.
+          </t>
+          <t>
+            The Update Notification File Signature File MUST be published under the same path as the Update Notification File, under the filename "update-notification-file-[hash].sig", where the hash is the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the Update Notification File contents.
+          </t>
+          <t>
+            To avoid race conditions, the mirror server MUST publish the new signature file before publishing the new Update Notification File, and SHOULD retain old signature files for at least 5 minutes after a new Update Notification File is published.
+          </t>
+        </list>
       </t>
     </section>
   </section>
