@@ -1210,11 +1210,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">November 2023</td>
+<td class="right">January 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 29 May 2024</td>
+<td class="center">Expires 6 July 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1227,12 +1227,12 @@ li > p:last-of-type:only-child {
 <dd class="internet-draft">draft-ietf-grow-nrtm-v4-03</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-26" class="published">26 November 2023</time>
+<time datetime="2024-01-03" class="published">3 January 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-29">29 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-07-06">6 July 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1287,7 +1287,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1296,7 +1296,7 @@ li > p:last-of-type:only-child {
 <a href="#name-copyright-notice-2" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2023 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1657,7 +1657,7 @@ li > p:last-of-type:only-child {
 <p id="section-3.3.3-1">
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.3-2">
-          After any update to the Update Notification file, the mirror server MUST also update the Update Notification Signature File for the new Update Notification File contents.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
+          After any update to the Update Notification file, the mirror server MUST also generate a new Update Notification Signature File for the new Update Notification File contents.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3.4">
           <h4 id="name-publication-policy-restricti">
@@ -1893,9 +1893,21 @@ li > p:last-of-type:only-child {
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-signature-2" class="section-name selfRef">Signature</a>
         </h3>
 <p id="section-5.4-1">
-        The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.
-        The public key for this signature is configured in the client.
-        The signature of the Update Notification File MUST be published under the same path as the Update Notification File, appending ".sig", with the signature encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+        The mirror server publishes a signature for each Update Notification File, which the client uses to verify the contents against the known public key.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.4-2.1">
+            The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-5.4-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.4-2.2">
+            The Update Notification File Signature File contains the Ed25519 signature encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.4-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.4-2.3">
+            The Update Notification File Signature File MUST be published under the same path as the Update Notification File, under the filename "update-notification-file-[hash].sig", where the hash is the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the Update Notification File contents.<a href="#section-5.4-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.4-2.4">
+            To avoid race conditions, the mirror server MUST publish the new signature file before publishing the new Update Notification File, and SHOULD retain old signature files for at least 5 minutes after a new Update Notification File is published.<a href="#section-5.4-2.4" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </section>
 <section id="section-6">
@@ -1946,7 +1958,7 @@ li > p:last-of-type:only-child {
 <p id="section-6.3-3">
         Note: IRR object texts in this example are shortened because of formatting.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">
-        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, and MUST contain one or more records.
+        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, and MUST contain one or more records (it must contain at least the header).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-5.1">
@@ -2027,7 +2039,7 @@ li > p:last-of-type:only-child {
 <p id="section-7.3-3">
         Note: IRR object texts in this example are shortened because of formatting.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <p id="section-7.3-4">
-        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, and MUST contain one or more records.
+        The file is in JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, and MUST contain two or more records (at least the header and one change).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-5.1">
@@ -2047,7 +2059,7 @@ li > p:last-of-type:only-child {
 </li>
         </ul>
 <p id="section-7.3-6">
-        The remaining records (zero or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:<a href="#section-7.3-6" class="pilcrow">¶</a></p>
+        The remaining records (one or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-7.1">
             An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-7.1" class="pilcrow">¶</a>
@@ -2057,7 +2069,7 @@ li > p:last-of-type:only-child {
             For objects that are listed in <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span> and <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span> the primary key is the value of the RPSL field defined as "class key".
             For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
             For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
-            The primary key is not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.<a href="#section-7.3-7.2" class="pilcrow">¶</a>
+            The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.<a href="#section-7.3-7.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-7.3-7.3">
             If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-7.3" class="pilcrow">¶</a>
@@ -2191,7 +2203,7 @@ li > p:last-of-type:only-child {
       </h2>
 <p id="section-11-1">
       The authors would like to thank
-        George Michaelson,
+        George Michaelson, Shon Huang
       and
       ...
       for their helpful review of this document.<a href="#section-11-1" class="pilcrow">¶</a></p>
