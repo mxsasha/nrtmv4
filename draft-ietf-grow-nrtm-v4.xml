@@ -141,9 +141,6 @@
         </t>
        </list>
      </t>
-    <t>
-      <em>Other compressions than GZIP are being considered by the authors pending further research.</em>
-    </t>
      <t>
        The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
@@ -485,6 +482,9 @@
       <t>
         <list style="symbols">
           <t>
+            The filename MUST be "update-notification-file.json".
+          </t>
+          <t>
             The nrtm_version MUST be 4.
           </t>
           <t>
@@ -496,6 +496,7 @@
           <t>
             The optional field next_signing_key is used for in-band key rotation. If present, it MUST be an Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
             Key rotation is described in <xref target="public_key_rotation" />.
+            If there is no next signing key, this key MUST be omitted.
           </t>
           <t>
             The source MUST be a valid IRR object name <xref target="RFC2622"/>.
@@ -517,7 +518,7 @@
           </t>
           <t>
             Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
-            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
+            If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
           </t>
           <t>
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.

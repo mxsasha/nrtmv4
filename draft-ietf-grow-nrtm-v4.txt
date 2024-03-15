@@ -183,9 +183,6 @@ Internet-Draft                   NRTM v4                      March 2024
    *  Zero or more Delta Files.  These contain the changes between two
       database version numbers.
 
-   _Other compressions than GZIP are being considered by the authors
-   pending further research._
-
    The Update Notification file MUST be in the JavaScript Object
    Notation (JSON) format [RFC8259].  The Snapshot File and Delta Files
    MUST be in the JSON Text Sequences [RFC7464] format, so that each
@@ -218,6 +215,9 @@ Internet-Draft                   NRTM v4                      March 2024
    version number.  These are also the largest files.  Update
    Notification Files may not be cached for longer than one minute, but
    are fairly small.
+
+
+
 
 
 
@@ -343,8 +343,8 @@ Internet-Draft                   NRTM v4                      March 2024
       MUST also contain a random value that can not be predicted before
       publication, to counter negative caching issues.
 
-   *  After generating a new Delta File, a mirror server MUST remove all
-      Delta Files older than 24 hours.
+   *  After generating a new Delta File, a mirror server SHOULD remove
+      all Delta Files older than 24 hours.
 
    *  The Update Notification File MUST be updated to include the new
       Delta File and update the database version.
@@ -624,6 +624,8 @@ Internet-Draft                   NRTM v4                      March 2024
    The following validation rules MUST be observed when creating or
    parsing Update Notification Files:
 
+   *  The filename MUST be "update-notification-file.json".
+
    *  The nrtm_version MUST be 4.
 
    *  The timestamp MUST be an [RFC3339] timestamp.
@@ -635,7 +637,8 @@ Internet-Draft                   NRTM v4                      March 2024
       encoded in base64 [RFC4648], which matches the private key the
       mirror server will start using to sign the Update Notification
       File in the near future.  Key rotation is described in
-      Section 8.4.
+      Section 8.4.  If there is no next signing key, this key MUST be
+      omitted.
 
    *  The source MUST be a valid IRR object name [RFC2622].
 
@@ -653,17 +656,14 @@ Internet-Draft                   NRTM v4                      March 2024
       numbers.
 
    *  Each snapshot and delta element MUST have a version, HTTPS URL and
-      hash attribute.  If the file was compressed with GZIP, the
-      filename MUST end in ".gz". and the hash MUST match the compressed
-      data.
+      hash attribute.  If the snapshot or delta file was compressed with
+      GZIP, the filename MUST end in ".gz". and the hash MUST match the
+      compressed data.
 
    *  The hash attribute in snapshot and delta elements MUST be the
       hexadecimal encoding of the SHA-256 hash [SHS] of the referenced
       file.  The mirror client MUST verify this hash when the file is
       retrieved and reject the file if the hash does not match.
-
-
-
 
 
 
