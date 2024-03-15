@@ -15,26 +15,26 @@
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.
        
     " name="description">
-<meta content="xml2rfc 3.17.2" name="generator">
+<meta content="xml2rfc 3.20.1" name="generator">
 <meta content="NRTM" name="keyword">
 <meta content="RPSL" name="keyword">
 <meta content="IRR" name="keyword">
 <meta content="draft-ietf-grow-nrtm-v4-03" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.17.2
-    Python 3.9.17
-    appdirs 1.4.4
-    ConfigArgParse 1.5.3
-    google-i18n-address 2.5.0
+  xml2rfc 3.20.1
+    Python 3.12.2
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.0
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.2
-    pycountry 22.3.5
-    PyYAML 6.0
-    requests 2.26.0
-    setuptools 65.6.3
+    Jinja2 3.1.3
+    lxml 4.9.4
+    platformdirs 4.2.0
+    pycountry 23.12.11
+    PyYAML 6.0.1
+    requests 2.31.0
+    setuptools 69.2.0
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.13
 -->
 <link href="draft-ietf-grow-nrtm-v4.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -81,6 +81,7 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   scroll-behavior: smooth;
+  overflow-wrap: break-word;
 }
 .ears {
   display: none;
@@ -259,8 +260,7 @@ a[href]:hover {
   background-color: #f2f2f2;
 }
 figcaption a[href],
-a[href].selfRef,
-.iref + a[href].internal {
+a[href].selfRef {
   color: #222;
 }
 /* XXX probably not this:
@@ -311,6 +311,9 @@ blockquote {
   border: 1px solid #ddd;
   border-radius: 3px;
   margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
 }
 cite {
   display: block;
@@ -458,6 +461,10 @@ nav.toc li {
 }
 
 .refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
   margin-bottom: 1.25em;
 }
 
@@ -649,7 +656,6 @@ hr.addr {
 /* pagination */
 @media print {
   body {
-
     width: 100%;
   }
   p {
@@ -1210,11 +1216,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">January 2024</td>
+<td class="right">March 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 6 July 2024</td>
+<td class="center">Expires 16 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1227,12 +1233,12 @@ li > p:last-of-type:only-child {
 <dd class="internet-draft">draft-ietf-grow-nrtm-v4-03</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-03" class="published">3 January 2024</time>
+<time datetime="2024-03-15" class="published">15 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-07-06">6 July 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-16">16 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1262,16 +1268,16 @@ li > p:last-of-type:only-child {
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note" id="section-note.1">
-      <h2 id="name-requirements-language-2">
-<a href="#name-requirements-language-2" class="section-name selfRef">Requirements Language</a>
+      <h2 id="name-requirements-language">
+<a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
       </h2>
 <p id="section-note.1-1">
       The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they appear in all capitals, as shown here.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
-        <h2 id="name-status-of-this-memo-2">
-<a href="#name-status-of-this-memo-2" class="section-name selfRef">Status of This Memo</a>
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
         </h2>
 <p id="section-boilerplate.1-1">
         This Internet-Draft is submitted in full conformance with the
@@ -1287,13 +1293,13 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
 <section id="section-boilerplate.2">
-        <h2 id="name-copyright-notice-2">
-<a href="#name-copyright-notice-2" class="section-name selfRef">Copyright Notice</a>
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
             Copyright (c) 2024 IETF Trust and the persons identified as the
@@ -1312,156 +1318,156 @@ li > p:last-of-type:only-child {
 </div>
 <div id="toc">
 <section id="section-toc.1">
-        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents-2">
-<a href="#name-table-of-contents-2" class="section-name selfRef">Table of Contents</a>
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction-2" class="internal xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-informal-overview-2" class="internal xref">Informal overview</a></p>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-informal-overview" class="internal xref">Informal overview</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-mirror-server-use-2" class="internal xref">Mirror server use</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-mirror-server-use" class="internal xref">Mirror server use</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-key-configuration-2" class="internal xref">Key Configuration</a></p>
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-key-configuration" class="internal xref">Key Configuration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-snapshot-initialization-2" class="internal xref">Snapshot Initialization</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-snapshot-initialization" class="internal xref">Snapshot Initialization</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-publishing-updates-2" class="internal xref">Publishing updates</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-publishing-updates" class="internal xref">Publishing updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-delta-files-2" class="internal xref">Delta Files</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-delta-files" class="internal xref">Delta Files</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
-                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-snapshot-files-2" class="internal xref">Snapshot Files</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-snapshot-files" class="internal xref">Snapshot Files</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
-                    <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-update-notification-file-3" class="internal xref">Update Notification File</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-update-notification-file" class="internal xref">Update Notification File</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.4">
-                    <p id="section-toc.1-1.3.2.3.2.4.1"><a href="#section-3.3.4" class="auto internal xref">3.3.4</a>.  <a href="#name-publication-policy-restricti" class="internal xref">Publication Policy Restrictions</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.4.1"><a href="#section-3.3.4" class="auto internal xref">3.3.4</a>.  <a href="#name-publication-policy-restrict" class="internal xref">Publication Policy Restrictions</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-mirror-client-use-2" class="internal xref">Mirror client use</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-mirror-client-use" class="internal xref">Mirror client use</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-client-configuration-2" class="internal xref">Client Configuration</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-client-configuration" class="internal xref">Client Configuration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-initialization-from-snapshot" class="internal xref">Initialization from snapshot</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-initialization-from-snapsho" class="internal xref">Initialization from snapshot</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-processing-delta-files-2" class="internal xref">Processing Delta Files</a></p>
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-processing-delta-files" class="internal xref">Processing Delta Files</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
-                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-signature-and-staleness-veri" class="internal xref">Signature and Staleness Verification</a></p>
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-signature-and-staleness-ver" class="internal xref">Signature and Staleness Verification</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
-                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-policy-restrictions-2" class="internal xref">Policy Restrictions</a></p>
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-policy-restrictions" class="internal xref">Policy Restrictions</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-update-notification-file-4" class="internal xref">Update Notification File</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-update-notification-file-2" class="internal xref">Update Notification File</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-purpose-4" class="internal xref">Purpose</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-purpose" class="internal xref">Purpose</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-cache-concerns-4" class="internal xref">Cache concerns</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-cache-concerns" class="internal xref">Cache concerns</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-file-format-and-validation-4" class="internal xref">File format and validation</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-file-format-and-validation" class="internal xref">File format and validation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-signature-2" class="internal xref">Signature</a></p>
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-signature" class="internal xref">Signature</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-snapshot-file-2" class="internal xref">Snapshot File</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-snapshot-file" class="internal xref">Snapshot File</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-purpose-5" class="internal xref">Purpose</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-purpose-2" class="internal xref">Purpose</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-cache-concerns-5" class="internal xref">Cache Concerns</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-cache-concerns-2" class="internal xref">Cache Concerns</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-file-format-and-validation-5" class="internal xref">File format and validation</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-file-format-and-validation-2" class="internal xref">File format and validation</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-delta-file-2" class="internal xref">Delta File</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-delta-file" class="internal xref">Delta File</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-purpose-6" class="internal xref">Purpose</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-purpose-3" class="internal xref">Purpose</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-cache-concerns-6" class="internal xref">Cache Concerns</a></p>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-cache-concerns-3" class="internal xref">Cache Concerns</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-file-format-and-validation-6" class="internal xref">File format and validation</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-file-format-and-validation-3" class="internal xref">File format and validation</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-operational-considerations-2" class="internal xref">Operational Considerations</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-irr-object-validation-2" class="internal xref">IRR object Validation</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-irr-object-validation" class="internal xref">IRR object Validation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-intermediate-mirror-instance" class="internal xref">Intermediate mirror instances</a></p>
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-intermediate-mirror-instanc" class="internal xref">Intermediate mirror instances</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-reading-from-local-files-2" class="internal xref">Reading from local files</a></p>
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-reading-from-local-files" class="internal xref">Reading from local files</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
-                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-public-key-rotation-2" class="internal xref">Public key rotation</a></p>
+                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-public-key-rotation" class="internal xref">Public key rotation</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-security-considerations-2" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-iana-considerations-2" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-acknowledgments-2" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-references-2" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
-                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-normative-references-2" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
-                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-informative-references-2" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses-2" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
 </section>
 </div>
 <section id="section-1">
-      <h2 id="name-introduction-2">
-<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction-2" class="section-name selfRef">Introduction</a>
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">
       The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
@@ -1478,8 +1484,8 @@ li > p:last-of-type:only-child {
       It borrows some concepts in <span>[<a href="#RFC8182" class="cite xref">RFC8182</a>]</span>, as there are overlaps between the two protocols.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2">
-      <h2 id="name-informal-overview-2">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-informal-overview-2" class="section-name selfRef">Informal overview</a>
+      <h2 id="name-informal-overview">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-informal-overview" class="section-name selfRef">Informal overview</a>
       </h2>
 <p id="section-2-1">
       In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
@@ -1488,18 +1494,21 @@ li > p:last-of-type:only-child {
       Publication consists of three different files:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-3.1">
+          <p id="section-2-3.1.1">
           A single Update Notification File.
           This specifies the current Database version and locations of the Snapshot File and Delta Files.
-          Additionally, there is an Update Notification Signature File, used to verify the authenticity of the Update Notification File.<a href="#section-2-3.1" class="pilcrow">¶</a>
+          Additionally, there is an Update Notification Signature File, used to verify the authenticity of the Update Notification File.<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-3.2">
+          <p id="section-2-3.2.1">
           A single active Snapshot File.
           This contains all published IRR objects at a particular version.
-          The mirror server periodically generates a new snapshot.<a href="#section-2-3.2" class="pilcrow">¶</a>
+          The mirror server periodically generates a new snapshot.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-3.3">
+          <p id="section-2-3.3.1">
           Zero or more Delta Files.
-          These contain the changes between two database version numbers.<a href="#section-2-3.3" class="pilcrow">¶</a>
+          These contain the changes between two database version numbers.<a href="#section-2-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-2-4">
@@ -1529,12 +1538,12 @@ li > p:last-of-type:only-child {
        NRTMv3 serials can also contain gaps, NRTMv4 versions may not.<a href="#section-2-10" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3">
-      <h2 id="name-mirror-server-use-2">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-mirror-server-use-2" class="section-name selfRef">Mirror server use</a>
+      <h2 id="name-mirror-server-use">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-mirror-server-use" class="section-name selfRef">Mirror server use</a>
       </h2>
 <section id="section-3.1">
-        <h3 id="name-key-configuration-2">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-key-configuration-2" class="section-name selfRef">Key Configuration</a>
+        <h3 id="name-key-configuration">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-key-configuration" class="section-name selfRef">Key Configuration</a>
         </h3>
 <p id="section-3.1-1">
         When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> key.
@@ -1547,8 +1556,8 @@ li > p:last-of-type:only-child {
         All configuration options SHOULD be clearly named to indicate that they are private keys.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.2">
-        <h3 id="name-snapshot-initialization-2">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-snapshot-initialization-2" class="section-name selfRef">Snapshot Initialization</a>
+        <h3 id="name-snapshot-initialization">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-snapshot-initialization" class="section-name selfRef">Snapshot Initialization</a>
         </h3>
 <p id="section-3.2-1">
         A mirror server MUST follow the initialization steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
@@ -1558,19 +1567,23 @@ li > p:last-of-type:only-child {
         Initialization consists of these actions:<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-4.1">
+            <p id="section-3.2-4.1.1">
             The mirror server MUST generate a new session ID.
             This MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> and MUST be the same across all client sessions.
-            The session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.<a href="#section-3.2-4.1" class="pilcrow">¶</a>
+            The session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.<a href="#section-3.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.2">
+            <p id="section-3.2-4.2.1">
             The server MUST generate a snapshot for version number one.
-            This may contain an empty array of objects if the IRR Database is currently empty.<a href="#section-3.2-4.2" class="pilcrow">¶</a>
+            This may contain an empty array of objects if the IRR Database is currently empty.<a href="#section-3.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.3">
-            The server MUST generate a new Update Notification File with the new session ID, a reference to the new snapshot, and no deltas.<a href="#section-3.2-4.3" class="pilcrow">¶</a>
+            <p id="section-3.2-4.3.1">
+            The server MUST generate a new Update Notification File with the new session ID, a reference to the new snapshot, and no deltas.<a href="#section-3.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.2-4.4">
-            The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.2-4.4" class="pilcrow">¶</a>
+            <p id="section-3.2-4.4.1">
+            The Update Notification Signature File MUST be updated for the new Update Notification File contents.<a href="#section-3.2-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.2-5">
@@ -1579,12 +1592,12 @@ li > p:last-of-type:only-child {
         This applies even if the same IRR server instance produces both.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3">
-        <h3 id="name-publishing-updates-2">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-publishing-updates-2" class="section-name selfRef">Publishing updates</a>
+        <h3 id="name-publishing-updates">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-publishing-updates" class="section-name selfRef">Publishing updates</a>
         </h3>
 <section id="section-3.3.1">
-          <h4 id="name-delta-files-2">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-delta-files-2" class="section-name selfRef">Delta Files</a>
+          <h4 id="name-delta-files">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-delta-files" class="section-name selfRef">Delta Files</a>
           </h4>
 <p id="section-3.3.1-1">
           Changes to IRR objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
@@ -1592,67 +1605,82 @@ li > p:last-of-type:only-child {
           Updates are generated as follows:<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1-3.1">
-              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.<a href="#section-3.3.1-3.1" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.1.1">
+              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.<a href="#section-3.3.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.2">
-              If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.<a href="#section-3.3.1-3.2" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.2.1">
+              If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.<a href="#section-3.3.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.3">
-              If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.<a href="#section-3.3.1-3.3" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.3.1">
+              If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.<a href="#section-3.3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.4">
-              A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.<a href="#section-3.3.1-3.4" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.4.1">
+              A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.<a href="#section-3.3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.5">
-              The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.<a href="#section-3.3.1-3.5" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.5.1">
+              The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.<a href="#section-3.3.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.6">
+              <p id="section-3.3.1-3.6.1">
               The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.1-3.6" class="pilcrow">¶</a>
+              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.7">
-              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.7.1">
+              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.8">
-              The Update Notification File MUST be updated to include the new Delta File and update the database version.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.8.1">
+              The Update Notification File MUST be updated to include the new Delta File and update the database version.<a href="#section-3.3.1-3.8.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.9">
-              Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.<a href="#section-3.3.1-3.9" class="pilcrow">¶</a>
+              <p id="section-3.3.1-3.9.1">
+              Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.<a href="#section-3.3.1-3.9.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 <section id="section-3.3.2">
-          <h4 id="name-snapshot-files-2">
-<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-snapshot-files-2" class="section-name selfRef">Snapshot Files</a>
+          <h4 id="name-snapshot-files">
+<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-snapshot-files" class="section-name selfRef">Snapshot Files</a>
           </h4>
 <p id="section-3.3.2-1">
           Snapshot Files after initialization are generated as follows:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.2-2.1">
-              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.<a href="#section-3.3.2-2.1" class="pilcrow">¶</a>
+              <p id="section-3.3.2-2.1.1">
+              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.<a href="#section-3.3.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.2-2.2">
-              The version number of the new snapshot MUST be equal to the last Delta File version.<a href="#section-3.3.2-2.2" class="pilcrow">¶</a>
+              <p id="section-3.3.2-2.2.1">
+              The version number of the new snapshot MUST be equal to the last Delta File version.<a href="#section-3.3.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.2-2.3">
-              If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.<a href="#section-3.3.2-2.3" class="pilcrow">¶</a>
+              <p id="section-3.3.2-2.3.1">
+              If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.<a href="#section-3.3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.2-2.4">
+              <p id="section-3.3.2-2.4.1">
               The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.2-2.4" class="pilcrow">¶</a>
+              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.2-2.5">
-              The Update Notification File MUST be updated to include the new snapshot, if one was generated.<a href="#section-3.3.2-2.5" class="pilcrow">¶</a>
+              <p id="section-3.3.2-2.5.1">
+              The Update Notification File MUST be updated to include the new snapshot, if one was generated.<a href="#section-3.3.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.2-2.6">
+              <p id="section-3.3.2-2.6.1">
               Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
-              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.<a href="#section-3.3.2-2.6" class="pilcrow">¶</a>
+              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.<a href="#section-3.3.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 <section id="section-3.3.3">
-          <h4 id="name-update-notification-file-3">
-<a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-update-notification-file-3" class="section-name selfRef">Update Notification File</a>
+          <h4 id="name-update-notification-file">
+<a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-update-notification-file" class="section-name selfRef">Update Notification File</a>
           </h4>
 <p id="section-3.3.3-1">
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
@@ -1660,8 +1688,8 @@ li > p:last-of-type:only-child {
           After any update to the Update Notification file, the mirror server MUST also generate a new Update Notification Signature File for the new Update Notification File contents.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3.4">
-          <h4 id="name-publication-policy-restricti">
-<a href="#section-3.3.4" class="section-number selfRef">3.3.4. </a><a href="#name-publication-policy-restricti" class="section-name selfRef">Publication Policy Restrictions</a>
+          <h4 id="name-publication-policy-restrict">
+<a href="#section-3.3.4" class="section-number selfRef">3.3.4. </a><a href="#name-publication-policy-restrict" class="section-name selfRef">Publication Policy Restrictions</a>
           </h4>
 <p id="section-3.3.4-1">
           A mirror server MAY have a policy that restricts the publication of certain IRR objects or attributes, or modifies these before publication.
@@ -1675,79 +1703,92 @@ li > p:last-of-type:only-child {
 </section>
 </section>
 <section id="section-4">
-      <h2 id="name-mirror-client-use-2">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-mirror-client-use-2" class="section-name selfRef">Mirror client use</a>
+      <h2 id="name-mirror-client-use">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-mirror-client-use" class="section-name selfRef">Mirror client use</a>
       </h2>
 <section id="section-4.1">
-        <h3 id="name-client-configuration-2">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-client-configuration-2" class="section-name selfRef">Client Configuration</a>
+        <h3 id="name-client-configuration">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-client-configuration" class="section-name selfRef">Client Configuration</a>
         </h3>
 <p id="section-4.1-1">
         Mirror clients are configured with the name of the IRR Database, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
         Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.2">
-        <h3 id="name-initialization-from-snapshot">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-initialization-from-snapshot" class="section-name selfRef">Initialization from snapshot</a>
+        <h3 id="name-initialization-from-snapsho">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-initialization-from-snapsho" class="section-name selfRef">Initialization from snapshot</a>
         </h3>
 <p id="section-4.2-1">
         Clients MUST initialize from a Snapshot File when initially configured or if they are not able to update their local data from the provided Delta Files:<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
-          The client MUST retrieve the Update Notification File.<a href="#section-4.2-2.1" class="pilcrow">¶</a>
+            <p id="section-4.2-2.1.1">
+          The client MUST retrieve the Update Notification File.<a href="#section-4.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.2-2.2">
-          The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.<a href="#section-4.2-2.2" class="pilcrow">¶</a>
+            <p id="section-4.2-2.2.1">
+          The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.<a href="#section-4.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.2-2.3">
-          The client MUST retrieve the Snapshot File and load the objects into its local storage.<a href="#section-4.2-2.3" class="pilcrow">¶</a>
+            <p id="section-4.2-2.3.1">
+          The client MUST retrieve the Snapshot File and load the objects into its local storage.<a href="#section-4.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.2-2.4">
+            <p id="section-4.2-2.4.1">
           The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
           If the Snapshot File was compressed with GZIP, the hash MUST match the compressed data.
-          In case of a mismatch of this hash, the file MUST be rejected.<a href="#section-4.2-2.4" class="pilcrow">¶</a>
+          In case of a mismatch of this hash, the file MUST be rejected.<a href="#section-4.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.2-2.5">
-          The client MUST record the session_id and version of the loaded Snapshot File.<a href="#section-4.2-2.5" class="pilcrow">¶</a>
+            <p id="section-4.2-2.5.1">
+          The client MUST record the session_id and version of the loaded Snapshot File.<a href="#section-4.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 <section id="section-4.3">
-        <h3 id="name-processing-delta-files-2">
-<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-processing-delta-files-2" class="section-name selfRef">Processing Delta Files</a>
+        <h3 id="name-processing-delta-files">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-processing-delta-files" class="section-name selfRef">Processing Delta Files</a>
         </h3>
 <p id="section-4.3-1">
         If a mirror client has previously initialized from a snapshot:<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-2.1">
-            The client MUST retrieve the Update Notification File.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
+            <p id="section-4.3-2.1.1">
+            The client MUST retrieve the Update Notification File.<a href="#section-4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.2">
+            <p id="section-4.3-2.2.1">
             The client MUST verify that the session ID matches the previously known session ID.
-            If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+            If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.3">
+            <p id="section-4.3-2.3.1">
             The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
-            If not, the Update Notification File MUST be rejected.<a href="#section-4.3-2.3" class="pilcrow">¶</a>
+            If not, the Update Notification File MUST be rejected.<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.4">
+            <p id="section-4.3-2.4.1">
             The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
             If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
-            If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
+            If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.5">
-            The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
+            <p id="section-4.3-2.5.1">
+            The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.6">
+            <p id="section-4.3-2.6.1">
             The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
             If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
-            In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
+            In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.7">
-            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+            <p id="section-4.3-2.7.1">
+            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-4.3-2.8">
-            The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
+            <p id="section-4.3-2.8.1">
+            The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-4.3-3">
@@ -1755,8 +1796,8 @@ li > p:last-of-type:only-child {
         If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.4">
-        <h3 id="name-signature-and-staleness-veri">
-<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-signature-and-staleness-veri" class="section-name selfRef">Signature and Staleness Verification</a>
+        <h3 id="name-signature-and-staleness-ver">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-signature-and-staleness-ver" class="section-name selfRef">Signature and Staleness Verification</a>
         </h3>
 <p id="section-4.4-1">
         Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the Update Notification Signature File.
@@ -1767,8 +1808,8 @@ li > p:last-of-type:only-child {
         If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages or other alerting, but MAY continue to process it otherwise.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.5">
-        <h3 id="name-policy-restrictions-2">
-<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-policy-restrictions-2" class="section-name selfRef">Policy Restrictions</a>
+        <h3 id="name-policy-restrictions">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-policy-restrictions" class="section-name selfRef">Policy Restrictions</a>
         </h3>
 <p id="section-4.5-1">
         A mirror client MAY have a policy that restricts the processing of objects to certain object classes, or other limitations on which objects it processes.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
@@ -1777,12 +1818,12 @@ li > p:last-of-type:only-child {
 </section>
 </section>
 <section id="section-5">
-      <h2 id="name-update-notification-file-4">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-update-notification-file-4" class="section-name selfRef">Update Notification File</a>
+      <h2 id="name-update-notification-file-2">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-update-notification-file-2" class="section-name selfRef">Update Notification File</a>
       </h2>
 <section id="section-5.1">
-        <h3 id="name-purpose-4">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-purpose-4" class="section-name selfRef">Purpose</a>
+        <h3 id="name-purpose">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-purpose" class="section-name selfRef">Purpose</a>
         </h3>
 <p id="section-5.1-1">
         The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and of the mirror client's.
@@ -1792,8 +1833,8 @@ li > p:last-of-type:only-child {
         The mirror server MUST generate a new Update Notification File every time there are new deltas or snapshots and, even if there have been no changes, at least every 24 hours.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-5.2">
-        <h3 id="name-cache-concerns-4">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-cache-concerns-4" class="section-name selfRef">Cache concerns</a>
+        <h3 id="name-cache-concerns">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-cache-concerns" class="section-name selfRef">Cache concerns</a>
         </h3>
 <p id="section-5.2-1">
         A mirror server may use caching infrastructure to cache the Update Notification File and reduce the load of HTTPS requests.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
@@ -1802,8 +1843,8 @@ li > p:last-of-type:only-child {
         An exception to this rule is that it is better to serve a stale Update Notification File rather than no Update Notification File.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-5.3">
-        <h3 id="name-file-format-and-validation-4">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-file-format-and-validation-4" class="section-name selfRef">File format and validation</a>
+        <h3 id="name-file-format-and-validation">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-file-format-and-validation" class="section-name selfRef">File format and validation</a>
         </h3>
 <p id="section-5.3-1">
         Example Update Notification File:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
@@ -1848,83 +1889,99 @@ li > p:last-of-type:only-child {
         The following validation rules MUST be observed when creating or parsing Update Notification Files:<a href="#section-5.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-5.1">
-            The nrtm_version MUST be 4.<a href="#section-5.3-5.1" class="pilcrow">¶</a>
+            <p id="section-5.3-5.1.1">
+            The nrtm_version MUST be 4.<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.2">
-            The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp.<a href="#section-5.3-5.2" class="pilcrow">¶</a>
+            <p id="section-5.3-5.2.1">
+            The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp.<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.3">
-            The type MUST be "notification".<a href="#section-5.3-5.3" class="pilcrow">¶</a>
+            <p id="section-5.3-5.3.1">
+            The type MUST be "notification".<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.4">
+            <p id="section-5.3-5.4.1">
             The optional field next_signing_key is used for in-band key rotation. If present, it MUST be an Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> public key encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
-            Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.<a href="#section-5.3-5.4" class="pilcrow">¶</a>
+            Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.<a href="#section-5.3-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.5">
-            The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-5.3-5.5" class="pilcrow">¶</a>
+            <p id="section-5.3-5.5.1">
+            The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-5.3-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.6">
-            The session_id attribute MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> unique to this session for this source.<a href="#section-5.3-5.6" class="pilcrow">¶</a>
+            <p id="section-5.3-5.6.1">
+            The session_id attribute MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> unique to this session for this source.<a href="#section-5.3-5.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.7">
-            The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-5.3-5.7" class="pilcrow">¶</a>
+            <p id="section-5.3-5.7.1">
+            The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-5.3-5.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.8">
-            The file MUST contain exactly one snapshot.<a href="#section-5.3-5.8" class="pilcrow">¶</a>
+            <p id="section-5.3-5.8.1">
+            The file MUST contain exactly one snapshot.<a href="#section-5.3-5.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.9">
-            The file MAY contain one or more deltas.<a href="#section-5.3-5.9" class="pilcrow">¶</a>
+            <p id="section-5.3-5.9.1">
+            The file MAY contain one or more deltas.<a href="#section-5.3-5.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.10">
-            The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.10" class="pilcrow">¶</a>
+            <p id="section-5.3-5.10.1">
+            The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.11">
+            <p id="section-5.3-5.11.1">
             Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
-            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.11" class="pilcrow">¶</a>
+            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.12">
+            <p id="section-5.3-5.12.1">
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the referenced file.
-            The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-5.3-5.12" class="pilcrow">¶</a>
+            The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-5.3-5.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 <section id="section-5.4">
-        <h3 id="name-signature-2">
-<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-signature-2" class="section-name selfRef">Signature</a>
+        <h3 id="name-signature">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-signature" class="section-name selfRef">Signature</a>
         </h3>
 <p id="section-5.4-1">
         The mirror server publishes a signature for each Update Notification File, which the client uses to verify the contents against the known public key.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4-2.1">
-            The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-5.4-2.1" class="pilcrow">¶</a>
+            <p id="section-5.4-2.1.1">
+            The contents of Update Notification File MUST be signed using Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-5.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.4-2.2">
-            The Update Notification File Signature File contains the Ed25519 signature encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.4-2.2" class="pilcrow">¶</a>
+            <p id="section-5.4-2.2.1">
+            The Update Notification File Signature File contains the Ed25519 signature encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>.<a href="#section-5.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.4-2.3">
-            The Update Notification File Signature File MUST be published under the same path as the Update Notification File, under the filename "update-notification-file-[hash].sig", where the hash is the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the Update Notification File contents.<a href="#section-5.4-2.3" class="pilcrow">¶</a>
+            <p id="section-5.4-2.3.1">
+            The Update Notification File Signature File MUST be published under the same path as the Update Notification File, under the filename "update-notification-file-[hash].sig", where the hash is the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the Update Notification File contents.<a href="#section-5.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.4-2.4">
-            To avoid race conditions, the mirror server MUST publish the new signature file before publishing the new Update Notification File, and SHOULD retain old signature files for at least 5 minutes after a new Update Notification File is published.<a href="#section-5.4-2.4" class="pilcrow">¶</a>
+            <p id="section-5.4-2.4.1">
+            To avoid race conditions, the mirror server MUST publish the new signature file before publishing the new Update Notification File, and SHOULD retain old signature files for at least 5 minutes after a new Update Notification File is published.<a href="#section-5.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </section>
 <section id="section-6">
-      <h2 id="name-snapshot-file-2">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-snapshot-file-2" class="section-name selfRef">Snapshot File</a>
+      <h2 id="name-snapshot-file">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-snapshot-file" class="section-name selfRef">Snapshot File</a>
       </h2>
 <section id="section-6.1">
-        <h3 id="name-purpose-5">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-purpose-5" class="section-name selfRef">Purpose</a>
+        <h3 id="name-purpose-2">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-purpose-2" class="section-name selfRef">Purpose</a>
         </h3>
 <p id="section-6.1-1">
         The Snapshot File reflects the complete and current contents of all IRR objects in an IRR Database.
         Mirror clients MUST use this to initialize their local copy of the IRR Database.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-6.2">
-        <h3 id="name-cache-concerns-5">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-cache-concerns-5" class="section-name selfRef">Cache Concerns</a>
+        <h3 id="name-cache-concerns-2">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-cache-concerns-2" class="section-name selfRef">Cache Concerns</a>
         </h3>
 <p id="section-6.2-1">
         A snapshot reflects the content of the IRR Database at a specific point in time; for that reason, it can be considered immutable data.
@@ -1937,8 +1994,8 @@ li > p:last-of-type:only-child {
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Snapshot Files for at least 5 minutes after a new Update Notification File is published.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-6.3">
-        <h3 id="name-file-format-and-validation-5">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-file-format-and-validation-5" class="section-name selfRef">File format and validation</a>
+        <h3 id="name-file-format-and-validation-2">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-file-format-and-validation-2" class="section-name selfRef">File format and validation</a>
         </h3>
 <p id="section-6.3-1">
         Example Snapshot File:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
@@ -1962,19 +2019,24 @@ li > p:last-of-type:only-child {
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-5.1">
-            The nrtm_version MUST be 4.<a href="#section-6.3-5.1" class="pilcrow">¶</a>
+            <p id="section-6.3-5.1.1">
+            The nrtm_version MUST be 4.<a href="#section-6.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.2">
-            The type MUST be "snapshot".<a href="#section-6.3-5.2" class="pilcrow">¶</a>
+            <p id="section-6.3-5.2.1">
+            The type MUST be "snapshot".<a href="#section-6.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.3">
-            The source MUST match the source in the Update Notification File.<a href="#section-6.3-5.3" class="pilcrow">¶</a>
+            <p id="section-6.3-5.3.1">
+            The source MUST match the source in the Update Notification File.<a href="#section-6.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.4">
-            The session_id attribute MUST match the session_id in the Update Notification File.<a href="#section-6.3-5.4" class="pilcrow">¶</a>
+            <p id="section-6.3-5.4.1">
+            The session_id attribute MUST match the session_id in the Update Notification File.<a href="#section-6.3-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.5">
-            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.<a href="#section-6.3-5.5" class="pilcrow">¶</a>
+            <p id="section-6.3-5.5.1">
+            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.<a href="#section-6.3-5.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.3-6">
@@ -1983,20 +2045,20 @@ li > p:last-of-type:only-child {
 </section>
 </section>
 <section id="section-7">
-      <h2 id="name-delta-file-2">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-delta-file-2" class="section-name selfRef">Delta File</a>
+      <h2 id="name-delta-file">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-delta-file" class="section-name selfRef">Delta File</a>
       </h2>
 <section id="section-7.1">
-        <h3 id="name-purpose-6">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-purpose-6" class="section-name selfRef">Purpose</a>
+        <h3 id="name-purpose-3">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-purpose-3" class="section-name selfRef">Purpose</a>
         </h3>
 <p id="section-7.1-1">
         A Delta File contains all changes for exactly one incremental update of the IRR Database.
         It may include new, modified and deleted objects. Delta Files can contain multiple alterations to multiple objects.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-7.2">
-        <h3 id="name-cache-concerns-6">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-cache-concerns-6" class="section-name selfRef">Cache Concerns</a>
+        <h3 id="name-cache-concerns-3">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-cache-concerns-3" class="section-name selfRef">Cache Concerns</a>
         </h3>
 <p id="section-7.2-1">
         Deltas reflect the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
@@ -2006,8 +2068,8 @@ li > p:last-of-type:only-child {
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Delta Files for at least 5 minutes after a new Update Notification File is published that no longer contains these Delta Files.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-7.3">
-        <h3 id="name-file-format-and-validation-6">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-file-format-and-validation-6" class="section-name selfRef">File format and validation</a>
+        <h3 id="name-file-format-and-validation-3">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-file-format-and-validation-3" class="section-name selfRef">File format and validation</a>
         </h3>
 <p id="section-7.3-1">
         Example Delta File:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
@@ -2043,47 +2105,55 @@ li > p:last-of-type:only-child {
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-5.1">
-            The nrtm_version MUST be 4.<a href="#section-7.3-5.1" class="pilcrow">¶</a>
+            <p id="section-7.3-5.1.1">
+            The nrtm_version MUST be 4.<a href="#section-7.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-5.2">
-            The type MUST be "delta".<a href="#section-7.3-5.2" class="pilcrow">¶</a>
+            <p id="section-7.3-5.2.1">
+            The type MUST be "delta".<a href="#section-7.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-5.3">
-            The source MUST match the source in the Update Notification File.<a href="#section-7.3-5.3" class="pilcrow">¶</a>
+            <p id="section-7.3-5.3.1">
+            The source MUST match the source in the Update Notification File.<a href="#section-7.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-5.4">
-            The session_id attribute MUST match the session_id in the Update Notification File.<a href="#section-7.3-5.4" class="pilcrow">¶</a>
+            <p id="section-7.3-5.4.1">
+            The session_id attribute MUST match the session_id in the Update Notification File.<a href="#section-7.3-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-5.5">
-            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.<a href="#section-7.3-5.5" class="pilcrow">¶</a>
+            <p id="section-7.3-5.5.1">
+            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.<a href="#section-7.3-5.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.3-6">
         The remaining records (one or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-7.1">
-            An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-7.1" class="pilcrow">¶</a>
+            <p id="section-7.3-7.1.1">
+            An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.<a href="#section-7.3-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-7.2">
+            <p id="section-7.3-7.2.1">
             If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
             For objects that are listed in <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span> and <span>[<a href="#RFC4012" class="cite xref">RFC4012</a>]</span> the primary key is the value of the RPSL field defined as "class key".
             For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
             For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
-            The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.<a href="#section-7.3-7.2" class="pilcrow">¶</a>
+            The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.<a href="#section-7.3-7.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-7.3">
-            If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-7.3" class="pilcrow">¶</a>
+            <p id="section-7.3-7.3.1">
+            If action is "add_modify": an object attribute with the RPSL text of the new version of the object.<a href="#section-7.3-7.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </section>
 <section id="section-8">
-      <h2 id="name-operational-considerations-2">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-operational-considerations-2" class="section-name selfRef">Operational Considerations</a>
+      <h2 id="name-operational-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
       </h2>
 <section id="section-8.1">
-        <h3 id="name-irr-object-validation-2">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-irr-object-validation-2" class="section-name selfRef">IRR object Validation</a>
+        <h3 id="name-irr-object-validation">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-irr-object-validation" class="section-name selfRef">IRR object Validation</a>
         </h3>
 <p id="section-8.1-1">
         Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL.
@@ -2106,8 +2176,8 @@ li > p:last-of-type:only-child {
         However, a route-set object whose name does not start with "RS-" <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>, or an inetnum with an unknown extra "org" attribute, still allows the mirror client to interpret it unambiguously even if it does not meet the mirror client's own validation rules for authoritative records.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-8.2">
-        <h3 id="name-intermediate-mirror-instance">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-intermediate-mirror-instance" class="section-name selfRef">Intermediate mirror instances</a>
+        <h3 id="name-intermediate-mirror-instanc">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-intermediate-mirror-instanc" class="section-name selfRef">Intermediate mirror instances</a>
         </h3>
 <p id="section-8.2-1">
         An IRR Database generally has a single authoritative source.
@@ -2119,8 +2189,8 @@ li > p:last-of-type:only-child {
         The intermediate server MUST NOT republish the same files it retrieved from the authoritative source with the same session ID.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-8.3">
-        <h3 id="name-reading-from-local-files-2">
-<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-reading-from-local-files-2" class="section-name selfRef">Reading from local files</a>
+        <h3 id="name-reading-from-local-files">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-reading-from-local-files" class="section-name selfRef">Reading from local files</a>
         </h3>
 <p id="section-8.3-1">
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
@@ -2130,35 +2200,41 @@ li > p:last-of-type:only-child {
 </section>
 <div id="public_key_rotation">
 <section id="section-8.4">
-        <h3 id="name-public-key-rotation-2">
-<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-public-key-rotation-2" class="section-name selfRef">Public key rotation</a>
+        <h3 id="name-public-key-rotation">
+<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-public-key-rotation" class="section-name selfRef">Public key rotation</a>
         </h3>
 <p id="section-8.4-1">
         It is RECOMMENDED that IRR Database operators rotate the signing key on their mirror server about once per year.
         The next_signing_key field in the Update Notification File supports in-band key rotation using the following process:<a href="#section-8.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.4-2.1">
-            The server operator generates a new key and configures this in the mirror server implementation as the upcoming new signing key.<a href="#section-8.4-2.1" class="pilcrow">¶</a>
+            <p id="section-8.4-2.1.1">
+            The server operator generates a new key and configures this in the mirror server implementation as the upcoming new signing key.<a href="#section-8.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-2.2">
+            <p id="section-8.4-2.2.1">
             The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
             Hence, the new signing key will start being propagated to the mirror clients with the next publication of the Notification File, which will take at most 24 hours.
-            Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.<a href="#section-8.4-2.2" class="pilcrow">¶</a>
+            Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.<a href="#section-8.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-2.3">
-            When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.<a href="#section-8.4-2.3" class="pilcrow">¶</a>
+            <p id="section-8.4-2.3.1">
+            When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.<a href="#section-8.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-2.4">
+            <p id="section-8.4-2.4.1">
             After allowing mirror clients time to have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
-            Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.<a href="#section-8.4-2.4" class="pilcrow">¶</a>
+            Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.<a href="#section-8.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-2.5">
-            The RECOMMENDED period between publication of the upcoming key in the next_signing_key field, and removal of the old key, is one week. This offers all active clients a reasonable chance to follow the rotation process.<a href="#section-8.4-2.5" class="pilcrow">¶</a>
+            <p id="section-8.4-2.5.1">
+            The RECOMMENDED period between publication of the upcoming key in the next_signing_key field, and removal of the old key, is one week. This offers all active clients a reasonable chance to follow the rotation process.<a href="#section-8.4-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-2.6">
+            <p id="section-8.4-2.6.1">
             When mirror clients retrieve an Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
             If the signature matches for this new key, the client MUST update its configuration to use the new key for validation.
-            After this, the client MUST NOT use the old key for validation at any time: a mirror server can not switch back to an old key.<a href="#section-8.4-2.6" class="pilcrow">¶</a>
+            After this, the client MUST NOT use the old key for validation at any time: a mirror server can not switch back to an old key.<a href="#section-8.4-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-8.4-3">
@@ -2168,8 +2244,8 @@ li > p:last-of-type:only-child {
 </div>
 </section>
 <section id="section-9">
-      <h2 id="name-security-considerations-2">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations-2" class="section-name selfRef">Security Considerations</a>
+      <h2 id="name-security-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-9-1">
       IRR objects serve many purposes, including automated network configuration and filtering.
@@ -2191,15 +2267,15 @@ li > p:last-of-type:only-child {
       Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
 <section id="section-10">
-      <h2 id="name-iana-considerations-2">
-<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations-2" class="section-name selfRef">IANA Considerations</a>
+      <h2 id="name-iana-considerations">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-10-1">
       This document requests IANA to ...<a href="#section-10-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-11">
-      <h2 id="name-acknowledgments-2">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-acknowledgments-2" class="section-name selfRef">Acknowledgments</a>
+      <h2 id="name-acknowledgments">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="section-11-1">
       The authors would like to thank
@@ -2209,12 +2285,12 @@ li > p:last-of-type:only-child {
       for their helpful review of this document.<a href="#section-11-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-12">
-      <h2 id="name-references-2">
-<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references-2" class="section-name selfRef">References</a>
+      <h2 id="name-references">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <section id="section-12.1">
-        <h3 id="name-normative-references-2">
-<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references-2" class="section-name selfRef">Normative References</a>
+        <h3 id="name-normative-references">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC1952">[RFC1952]</dt>
@@ -2272,8 +2348,8 @@ li > p:last-of-type:only-child {
 </dl>
 </section>
 <section id="section-12.2">
-        <h3 id="name-informative-references-2">
-<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references-2" class="section-name selfRef">Informative References</a>
+        <h3 id="name-informative-references">
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC8182">[RFC8182]</dt>
@@ -2285,8 +2361,8 @@ li > p:last-of-type:only-child {
 </section>
 <div id="authors-addresses">
 <section id="appendix-A">
-      <h2 id="name-authors-addresses-2">
-<a href="#name-authors-addresses-2" class="section-name selfRef">Authors' Addresses</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Sasha Romijn</span></div>
