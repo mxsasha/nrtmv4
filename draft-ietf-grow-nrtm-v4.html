@@ -1512,30 +1512,28 @@ li > p:last-of-type:only-child {
 </li>
       </ul>
 <p id="section-2-4">
-      <em>Other compressions than GZIP are being considered by the authors pending further research.</em><a href="#section-2-4" class="pilcrow">¶</a></p>
-<p id="section-2-5">
        The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span>.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, so that each object in large files can be parsed independently.
-       All files MUST use UTF-8 encoding and MAY be compressed with GZIP <span>[<a href="#RFC1952" class="cite xref">RFC1952</a>]</span>.<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">
+       All files MUST use UTF-8 encoding and MAY be compressed with GZIP <span>[<a href="#RFC1952" class="cite xref">RFC1952</a>]</span>.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimizes data transfer.
-       Deltas have sequential versions.<a href="#section-2-6" class="pilcrow">¶</a></p>
+       Deltas have sequential versions.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">
+       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">
-       Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">
        Upon initialization, the mirror server generates a session ID for the Database.
        This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
-       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<p id="section-2-9">
+       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session ID change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">
        Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session ID and version number.
-       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.<a href="#section-2-9" class="pilcrow">¶</a></p>
-<p id="section-2-10">
+       These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">
        Note that in NRTMv4, a contiguous version number is used for the Database version and Delta Files.
        This is different and unrelated to the serial in NRTMv3.
        NRTMv3 serials refer to a single change to a single object, whereas a NRTMv4 version refers to one delta, possibly containing multiple changes to multiple objects.
-       NRTMv3 serials can also contain gaps, NRTMv4 versions may not.<a href="#section-2-10" class="pilcrow">¶</a></p>
+       NRTMv3 serials can also contain gaps, NRTMv4 versions may not.<a href="#section-2-9" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3">
       <h2 id="name-mirror-server-use">
@@ -1631,7 +1629,7 @@ li > p:last-of-type:only-child {
 </li>
             <li class="normal" id="section-3.3.1-3.7">
               <p id="section-3.3.1-3.7.1">
-              After generating a new Delta File, a mirror server MUST remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7.1" class="pilcrow">¶</a></p>
+              After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3.3.1-3.8">
               <p id="section-3.3.1-3.8.1">
@@ -1890,54 +1888,59 @@ li > p:last-of-type:only-child {
 <ul class="normal">
 <li class="normal" id="section-5.3-5.1">
             <p id="section-5.3-5.1.1">
-            The nrtm_version MUST be 4.<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
+            The filename MUST be "update-notification-file.json".<a href="#section-5.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.2">
             <p id="section-5.3-5.2.1">
-            The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp.<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
+            The nrtm_version MUST be 4.<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.3">
             <p id="section-5.3-5.3.1">
-            The type MUST be "notification".<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
+            The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp.<a href="#section-5.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.4">
             <p id="section-5.3-5.4.1">
-            The optional field next_signing_key is used for in-band key rotation. If present, it MUST be an Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> public key encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
-            Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.<a href="#section-5.3-5.4.1" class="pilcrow">¶</a></p>
+            The type MUST be "notification".<a href="#section-5.3-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.5">
             <p id="section-5.3-5.5.1">
-            The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-5.3-5.5.1" class="pilcrow">¶</a></p>
+            The optional field next_signing_key is used for in-band key rotation. If present, it MUST be an Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> public key encoded in base64 <span>[<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
+            Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 8.4</a>.
+            If there is no next signing key, this key MUST be omitted.<a href="#section-5.3-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.6">
             <p id="section-5.3-5.6.1">
-            The session_id attribute MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> unique to this session for this source.<a href="#section-5.3-5.6.1" class="pilcrow">¶</a></p>
+            The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-5.3-5.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.7">
             <p id="section-5.3-5.7.1">
-            The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-5.3-5.7.1" class="pilcrow">¶</a></p>
+            The session_id attribute MUST be a random v4 UUID <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</span> unique to this session for this source.<a href="#section-5.3-5.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.8">
             <p id="section-5.3-5.8.1">
-            The file MUST contain exactly one snapshot.<a href="#section-5.3-5.8.1" class="pilcrow">¶</a></p>
+            The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-5.3-5.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.9">
             <p id="section-5.3-5.9.1">
-            The file MAY contain one or more deltas.<a href="#section-5.3-5.9.1" class="pilcrow">¶</a></p>
+            The file MUST contain exactly one snapshot.<a href="#section-5.3-5.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.10">
             <p id="section-5.3-5.10.1">
-            The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.10.1" class="pilcrow">¶</a></p>
+            The file MAY contain one or more deltas.<a href="#section-5.3-5.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.11">
             <p id="section-5.3-5.11.1">
-            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
-            If the file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.11.1" class="pilcrow">¶</a></p>
+            The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-5.12">
             <p id="section-5.3-5.12.1">
+            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
+            If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-5.13">
+            <p id="section-5.3-5.13.1">
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the referenced file.
-            The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-5.3-5.12.1" class="pilcrow">¶</a></p>
+            The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-5.3-5.13.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
