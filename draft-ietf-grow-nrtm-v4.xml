@@ -268,7 +268,8 @@
         <t>
           <list style="symbols">
             <t>
-              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
+              The mirror server MUST periodically generate a new Snapshot File, if there have been changes to the IRR objects.
+              This SHOULD happen between once per hour and once per day.
             </t>
             <t>
               The version number of the new snapshot MUST be equal to the last Delta File version.
