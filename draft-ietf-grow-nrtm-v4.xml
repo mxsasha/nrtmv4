@@ -377,6 +377,11 @@
             In case of a mismatch of this hash, the Delta File MUST be rejected.
           </t>
           <t>
+            The mirror client MUST verify that previously seen hashes of previously downloaded Deltas match the hash in the Update Notification File.
+            If this does not match, the client MUST reinitialize from the snapshot.
+            This can be implemented by caching the previous Update Notification File and comparing the overlapping entries with the current Update Notification File.
+          </t>
+          <t>
             The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
           </t>
           <t>
