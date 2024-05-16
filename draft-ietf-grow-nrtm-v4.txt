@@ -5,16 +5,16 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 16 September 2024                                        Fastly
+Expires: 17 November 2024                                         Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                           15 March 2024
+                                                             16 May 2024
 
 
                Near Real Time Mirroring (NRTM) version 4
-                       draft-ietf-grow-nrtm-v4-03
+                       draft-ietf-grow-nrtm-v4-04
 
 Abstract
 
@@ -46,16 +46,16 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 September 2024.
+   This Internet-Draft will expire on 17 November 2024.
 
 
 
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 1]
+Romijn, et al.          Expires 17 November 2024                [Page 1]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 Copyright Notice
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 2]
+Romijn, et al.          Expires 17 November 2024                [Page 2]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  18
@@ -165,9 +165,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 3]
+Romijn, et al.          Expires 17 November 2024                [Page 3]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    *  A single Update Notification File.  This specifies the current
@@ -221,9 +221,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 4]
+Romijn, et al.          Expires 17 November 2024                [Page 4]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    Note that in NRTMv4, a contiguous version number is used for the
@@ -277,9 +277,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 5]
+Romijn, et al.          Expires 17 November 2024                [Page 5]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    *  The server MUST generate a new Update Notification File with the
@@ -333,9 +333,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 6]
+Romijn, et al.          Expires 17 November 2024                [Page 6]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    *  The URL where the Delta File is published MUST contain the session
@@ -389,9 +389,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 7]
+Romijn, et al.          Expires 17 November 2024                [Page 7]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    After any update to the Update Notification file, the mirror server
@@ -445,9 +445,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 8]
+Romijn, et al.          Expires 17 November 2024                [Page 8]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    *  The mirror client MUST verify that the hash of the Snapshot File
@@ -501,9 +501,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024               [Page 9]
+Romijn, et al.          Expires 17 November 2024                [Page 9]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    If the Update Notification File or one of the Delta Files is
@@ -557,9 +557,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 10]
+Romijn, et al.          Expires 17 November 2024               [Page 10]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 5.2.  Cache concerns
@@ -613,9 +613,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 11]
+Romijn, et al.          Expires 17 November 2024               [Page 11]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    Note: hash and key values in this example are shortened because of
@@ -669,9 +669,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 12]
+Romijn, et al.          Expires 17 November 2024               [Page 12]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 5.4.  Signature
@@ -725,9 +725,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 13]
+Romijn, et al.          Expires 17 November 2024               [Page 13]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    To avoid race conditions where a mirror client retrieves an Update
@@ -781,9 +781,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 14]
+Romijn, et al.          Expires 17 November 2024               [Page 14]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 7.1.  Purpose
@@ -837,9 +837,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 15]
+Romijn, et al.          Expires 17 November 2024               [Page 15]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    Note: IRR object texts in this example are shortened because of
@@ -893,9 +893,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 16]
+Romijn, et al.          Expires 17 November 2024               [Page 16]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 8.1.  IRR object Validation
@@ -949,9 +949,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 17]
+Romijn, et al.          Expires 17 November 2024               [Page 17]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    treated as separate processes.  In particular, this means they MUST
@@ -1005,9 +1005,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 18]
+Romijn, et al.          Expires 17 November 2024               [Page 18]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    *  The RECOMMENDED period between publication of the upcoming key in
@@ -1061,9 +1061,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 19]
+Romijn, et al.          Expires 17 November 2024               [Page 19]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
 10.  IANA Considerations
@@ -1117,9 +1117,9 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 20]
+Romijn, et al.          Expires 17 November 2024               [Page 20]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    [RFC7464]  Williams, N., "JavaScript Object Notation (JSON) Text
@@ -1173,9 +1173,9 @@ Authors' Addresses
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 21]
+Romijn, et al.          Expires 17 November 2024               [Page 21]
 
-Internet-Draft                   NRTM v4                      March 2024
+Internet-Draft                   NRTM v4                        May 2024
 
 
    Job Snijders
@@ -1229,4 +1229,4 @@ Internet-Draft                   NRTM v4                      March 2024
 
 
 
-Romijn, et al.          Expires 16 September 2024              [Page 22]
+Romijn, et al.          Expires 17 November 2024               [Page 22]
