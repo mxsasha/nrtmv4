@@ -469,7 +469,8 @@
       "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
-  ]
+  ],
+  "metadata": {}
 }
 ]]></artwork>
       </t>
@@ -523,6 +524,12 @@
           <t>
             The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
             The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.
+          </t>
+          <t>
+            The metadata key MAY be present, used for metadata produced by the server to aid in tracing and debugging.
+            This can contain information like the name of the host on which the file was generated or the name and version of the software used.
+            Each mirror server may choose which fields to include, or choose to not include any metadata.
+            The mirror server SHOULD not cause excessive size increases by adding extensive metadata in the Update Notification File, as it is the most frequently retrieved file.
           </t>
         </list>
       </t>
