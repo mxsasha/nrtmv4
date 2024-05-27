@@ -369,17 +369,17 @@
             If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.
           </t>
           <t>
+            The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
+            If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
+            This can be implemented by caching the previous Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.
+          </t>
+          <t>
             The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
           </t>
           <t>
             The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
             If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
             In case of a mismatch of this hash, the Delta File MUST be rejected.
-          </t>
-          <t>
-            The mirror client MUST verify that previously seen hashes of previously downloaded Deltas match the hash in the Update Notification File.
-            If this does not match, the client MUST reinitialize from the snapshot.
-            This can be implemented by caching the previous Update Notification File and comparing the overlapping entries with the current Update Notification File.
           </t>
           <t>
             The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
