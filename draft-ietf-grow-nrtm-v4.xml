@@ -362,6 +362,8 @@
           <t>
             The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
             If not, the Update Notification File MUST be rejected.
+            It is RECOMMENDED for the client to distinguish between an Update Notification File that is a single version older, and a much older version, in any status messages.
+            The former can occur from time to time in synchronisation issues, the latter is more likely a faulty implementation.
           </t>
           <t>
             The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
