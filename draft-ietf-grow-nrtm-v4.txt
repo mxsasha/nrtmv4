@@ -232,21 +232,13 @@ Internet-Draft                   NRTM v4                        May 2024
 
 3.  Mirror server use
 
-3.1.  Key Configuration <Check ont this>
+3.1.  Key Configuration
 
-   It is RECOMMENDED that JSON Web Signature (JWS) [RFC7515] and JSON
-   Web Key (JWK) [RFC7517] be used to sign and validate the JSON data
-   returned for a Bulk RDAP response.  It is further RECOMMENDED that
-   Elliptic Curve Digital Signature Algorithm (ECDSA) (Section 3.4 of
-   [RFC7518]) be used for JWS. The process for providing public key is 
-   not in scope of this protocol, but a typical case is publication on the 
-   operator's known website.  Key rotation is described in Section 8.4.
-
-   It is RECOMMENDED that implementations provide easily accessible
-   tools for operators to generate new Ed25519 keys to enter into their
-   configuration and assist with key rotation.  All configuration
-   options SHOULD be clearly named to indicate that they are private
-   keys.
+   It is RECOMMENDED that Elliptic Curve Digital Signature Algorithm (ECDSA) 
+   (Section 3.4 of [RFC7518]) be used for JWS to generate a key. 
+   The process for providing public key is not in scope of this protocol, 
+   but a typical case is publication on the operator's known website.  
+   Key rotation is described in Section 8.4.
 
 3.2.  Snapshot Initialization
 
@@ -609,10 +601,10 @@ Internet-Draft                   NRTM v4                        May 2024
    *  The type MUST be "notification".
 
    *  The optional field next_signing_key is used for in-band key
-      rotation.  <Check how to frame this>If present, it MUST be an Ed25519 [RFC8032] public key
-      encoded in base64 [RFC4648], which matches the private key the
-      mirror server will start using to sign the Update Notification
-      File in the near future.  Key rotation is described in
+      rotation. If present, it MUST be an JSON Web Key (JWK) [RFC8032] 
+      public key encoded in base64 [RFC4648] as mentioned in section 5, 
+      which matches the private key the mirror server will start using to 
+      sign the all Files in the near future. Key rotation is described in
       Section 8.4.  If there is no next signing key, this key MUST be
       omitted.
 
@@ -680,7 +672,6 @@ Internet-Draft                   NRTM v4                        May 2024
 6.3.  File format and validation
 
    Example Snapshot File:
-
    ␞{
      "nrtm_version": 4,
      "type": "snapshot",
