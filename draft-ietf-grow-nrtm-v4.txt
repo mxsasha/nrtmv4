@@ -155,7 +155,7 @@ Internet-Draft                   NRTM v4                        May 2024
    mirroring by others.  This can be retrieved by mirror clients, which
    then load the IRR objects into their local storage.
 
-   Publication consists of three different files:
+   Publication consists of three different files :
 
 
 
@@ -180,10 +180,16 @@ Internet-Draft                   NRTM v4                        May 2024
    *  Zero or more Delta Files.  These contain the changes between two
       database version numbers.
 
-   The Update Notification file MUST be in the JavaScript Object
-   Notation (JSON) format [RFC8259].  The Snapshot File and Delta Files
-   MUST be in the JSON Text Sequences [RFC7464] format, so that each
-   object in large files can be parsed independently.  All files MUST
+
+   Note that each file will be signed using JSON Web Signature (JWS) [RFC7515] and
+   JSON Web Key (JWK) [RFC7517]. JWS response will have 3 parts seperated by dot:
+   Header , Payload and signature and each part is encoded in Base64URL.
+
+   Client must verify the signature using the public key, if it fails client must discard
+   the file. Payload part will have the file content. In case of Update Notification file ,
+   payload MUST be in the JavaScript Object Notation (JSON) format [RFC8259].  
+   If it is Snapshot File or  Delta Files, payload MUST be in the JSON Text Sequences [RFC7464] 
+   format, so that each object in large files can be parsed independently. All files MUST
    use UTF-8 encoding and MAY be compressed with GZIP [RFC1952].
 
    Mirror clients initially retrieve the small Update Notification File
