@@ -448,23 +448,23 @@
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
   ],
@@ -514,7 +514,9 @@
           The deltas MUST have a sequential contiguous set of version numbers.
         </li>
         <li>
-          Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
+          Each snapshot and delta element MUST have a version, URL and hash attribute.
+          The URL must be relative to the path of the Update Notification File.
+          For example, if the Update Notification File example above is published on https://example.com/nrtm/update-notification-file.json, the full URL for the referred snapshot is https://example.com/nrtm/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz.
           If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
         </li>
         <li>
