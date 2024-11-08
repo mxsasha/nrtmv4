@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!DOCTYPE rfc>
 
 <?rfc sortrefs="yes"?>
 <?rfc subcompact="no"?>
@@ -9,10 +9,13 @@
 <?rfc tocdepth="3"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-
 <rfc
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  version="3"
   category="std"
-  docName="draft-ietf-grow-nrtm-v4-03"
+  docName="draft-ietf-grow-nrtm-v4-04"
+  submissionType="IETF"
+  consensus="true"
   ipr="trust200902">
 
 <front>
@@ -124,25 +127,25 @@
     </t>
     <t>
       Publication consists of three different files:
-      <list style="symbols">
-        <t>
-          A single Update Notification File.
-          This specifies the current Database version and locations of the Snapshot File and Delta Files.
-          Additionally, there is an Update Notification Signature File, used to verify the authenticity of the Update Notification File.
-        </t>
-        <t>
-          A single active Snapshot File.
-          This contains all published IRR objects at a particular version.
-          The mirror server periodically generates a new snapshot.
-        </t>
-        <t>
-          Zero or more Delta Files.
-          These contain the changes between two database version numbers.
-        </t>
-       </list>
-     </t>
+    </t>
+    <ul>
+      <li>
+        A single Update Notification File.
+        This specifies the current Database version and locations of the Snapshot File and Delta Files.
+        It is signed to allow verification of the authenticity of the Update Notification File.
+      </li>
+      <li>
+        A single active Snapshot File.
+        This contains all published IRR objects at a particular version.
+        The mirror server periodically generates a new snapshot.
+      </li>
+      <li>
+        Zero or more Delta Files.
+        These contain the changes between two database version numbers.
+      </li>
+     </ul>
      <t>
-       The Update Notification file MUST be in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
+       The Update Notification File MUST be in the JSON Web Signature <xref target="RFC7515" /> format, where the payload is in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
        All files MUST use UTF-8 encoding and MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
@@ -175,14 +178,14 @@
   <section title="Mirror server use">
     <section title="Key Configuration">
       <t>
-        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Ed25519 <xref target="RFC8032"/> key.
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
-        The published public key MUST be encoded in base64 <xref target="RFC4648"/>.
+        The published public key MUST be encoded in PEM.
         The process for providing this is not in scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <xref target="public_key_rotation" />.
       </t>
       <t>
-        It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new Ed25519 keys to enter into their configuration and assist with key rotation.
+        It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new signing keys to enter into their configuration and assist with key rotation.
         All configuration options SHOULD be clearly named to indicate that they are private keys.
       </t>
     </section>
@@ -195,24 +198,21 @@
       </t>
       <t>
         Initialization consists of these actions:
-        <list style="symbols">
-          <t>
-            The mirror server MUST generate a new session ID.
-            This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions.
-            The session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.
-          </t>
-          <t>
-            The server MUST generate a snapshot for version number one.
-            This may contain an empty array of objects if the IRR Database is currently empty.
-          </t>
-          <t>
-            The server MUST generate a new Update Notification File with the new session ID, a reference to the new snapshot, and no deltas.
-          </t>
-          <t>
-            The Update Notification Signature File MUST be updated for the new Update Notification File contents.
-          </t>
-        </list>
       </t>
+      <ul>
+        <li>
+          The mirror server MUST generate a new session ID.
+          This MUST be a random v4 UUID <xref target="RFC4122"/> and MUST be the same across all client sessions.
+          The session ID is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session ID for each.
+        </li>
+        <li>
+          The server MUST generate a snapshot for version number one.
+          This may contain an empty array of objects if the IRR Database is currently empty.
+        </li>
+        <li>
+          The server MUST generate a new Update Notification File with the new session ID, a reference to the new snapshot, and no deltas.
+        </li>
+      </ul>
       <t>
         Note that a publication, and its associated session IDs and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
         For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
@@ -228,74 +228,67 @@
         <t>
           Updates are generated as follows:
         </t>
-        <t>
-          <list style="symbols">
-            <t>
-              A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.
-            </t>
-            <t>
-              If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
-            </t>
-            <t>
-              If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
-            </t>
-            <t>
-              A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.
-            </t>
-            <t>
-              The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
-            </t>
-            <t>
-              The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
-            </t>
-            <t>
-              After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.
-            </t>
-            <t>
-              The Update Notification File MUST be updated to include the new Delta File and update the database version.
-            </t>
-            <t>
-              Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.
-            </t>
-          </list>
-        </t>
+        <ul>
+          <li>
+            A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.
+          </li>
+          <li>
+            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
+          </li>
+          <li>
+            If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
+          </li>
+          <li>
+            A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.
+          </li>
+          <li>
+            The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
+          </li>
+          <li>
+            The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+            It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
+          </li>
+          <li>
+            After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.
+          </li>
+          <li>
+            The Update Notification File MUST be updated to include the new Delta File and update the database version.
+          </li>
+          <li>
+            Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.
+          </li>
+        </ul>
       </section>
       <section title="Snapshot Files">
         <t>
           Snapshot Files after initialization are generated as follows:
         </t>
-        <t>
-          <list style="symbols">
-            <t>
-              The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
-            </t>
-            <t>
-              The version number of the new snapshot MUST be equal to the last Delta File version.
-            </t>
-            <t>
-              If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
-            </t>
-            <t>
-              The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-              It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
-            </t>
-            <t>
-              The Update Notification File MUST be updated to include the new snapshot, if one was generated.
-            </t>
-            <t>
-              Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
-              The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.
-            </t>
-          </list>
-        </t>
+        <ul>
+          <li>
+            The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
+          </li>
+          <li>
+            The version number of the new snapshot MUST be equal to the last Delta File version.
+          </li>
+          <li>
+            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
+          </li>
+          <li>
+            The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+            It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
+          </li>
+          <li>
+            The Update Notification File MUST be updated to include the new snapshot, if one was generated.
+          </li>
+          <li>
+            Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
+            The mirror server SHOULD continue to produce Delta Files during this window, which means the server MAY publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.
+          </li>
+        </ul>
       </section>
       <section title="Update Notification File">
         <t>
           The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.
-        </t>
-        <t>
-          After any update to the Update Notification file, the mirror server MUST also generate a new Update Notification Signature File for the new Update Notification File contents.
         </t>
       </section>
       <section title="Publication Policy Restrictions">
@@ -326,69 +319,69 @@
       <t>
         Clients MUST initialize from a Snapshot File when initially configured or if they are not able to update their local data from the provided Delta Files:
       </t>
-      <list style="symbols">
-        <t>
+      <ul>
+        <li>
           The client MUST retrieve the Update Notification File.
-        </t>
-        <t>
+        </li>
+        <li>
           The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.
-        </t>
-        <t>
+        </li>
+        <li>
           The client MUST retrieve the Snapshot File and load the objects into its local storage.
-        </t>
-        <t>
+        </li>
+        <li>
           The mirror client MUST verify that the hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
           If the Snapshot File was compressed with GZIP, the hash MUST match the compressed data.
           In case of a mismatch of this hash, the file MUST be rejected.
-        </t>
-        <t>
+        </li>
+        <li>
           The client MUST record the session_id and version of the loaded Snapshot File.
-        </t>
-      </list>
+        </li>
+      </ul>
     </section>
     <section title="Processing Delta Files">
       <t>
         If a mirror client has previously initialized from a snapshot:
       </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The client MUST retrieve the Update Notification File.
-          </t>
-          <t>
-            The client MUST verify that the session ID matches the previously known session ID.
-            If this does not match, the client MUST reinitialize from the snapshot.
-          </t>
-          <t>
-            The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
-            If not, the Update Notification File MUST be rejected.
-          </t>
-          <t>
-            The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
-            If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
-            If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.
-          </t>
-          <t>
-            The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
-            If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
-            This can be implemented by caching the previous Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.
-          </t>
-          <t>
-            The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
-          </t>
-          <t>
-            The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
-            If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
-            In case of a mismatch of this hash, the Delta File MUST be rejected.
-          </t>
-          <t>
-            The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
-          </t>
-          <t>
-            The client MUST update its record of the most recent version to the version of the Update Notification File.
-          </t>
-        </list>
-      </t>
+      <ul>
+        <li>
+          The client MUST retrieve the Update Notification File.
+        </li>
+        <li>
+          The client MUST verify that the session ID matches the previously known session ID.
+          If this does not match, the client MUST reinitialize from the snapshot.
+        </li>
+        <li>
+          The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
+          If not, the Update Notification File MUST be rejected.
+          It is RECOMMENDED for the client to distinguish between an Update Notification File that is a single version older, and a much older version, in any status messages.
+          The former can occur from time to time in synchronisation issues, the latter is more likely a faulty implementation.
+        </li>
+        <li>
+          The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
+          If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
+          If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.
+        </li>
+        <li>
+          The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
+          If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
+          The client can do this by recording the files referenced by each previous valid Update Notification File and comparing the overlapping entries with a retrieved Update Notification File.
+        </li>
+        <li>
+          The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
+        </li>
+        <li>
+          The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+          If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
+          In case of a mismatch of this hash, the Delta File MUST be rejected.
+        </li>
+        <li>
+          The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
+        </li>
+        <li>
+          The client MUST update its record of the most recent version to the version of the Update Notification File.
+        </li>
+      </ul>
       <t>
         If the Update Notification File or one of the Delta Files is rejected, the mirror client MUST NOT process any newer Deltas than those that are valid and have been successfully verified.
         If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.
@@ -396,7 +389,7 @@
     </section>
     <section title="Signature and Staleness Verification">
       <t>
-        Every time a mirror client retrieves a new version of the Update Notification File, it MUST retrieve and verify the Update Notification Signature File.
+        Every time a mirror client retrieves a new version of the Update Notification File, it MUST verify the included signature.
         The signature MUST be valid for the configured public key for the contents of the Update Notification File.
         If the signature does not match, the mirror client MUST reject the Update Notification File, unless a key rotation is in progress as described in <xref target="public_key_rotation" />.
       </t>
@@ -417,10 +410,9 @@
 
 
   <section title="Update Notification File">
-
     <section title="Purpose">
       <t>
-        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and of the mirror client's.
+        The Update Notification File is generated by the mirror server and used by mirror clients to discover whether any changes exist between the state of the IRR mirror server and of the mirror client.
         It also describes the location of the Snapshot File and incremental Delta Files.
         Finally, the generation timestamp can be used to detect whether the file is stale.
       </t>
@@ -439,12 +431,11 @@
       </t>
     </section>
 
-    <section title="File format and validation">
+    <section title="Payload format and validation">
       <t>
-        Example Update Notification File:
+        Example payload of an Update Notification File:
       </t>
-      <t>
-<artwork><![CDATA[
+<sourcecode><![CDATA[
 {
   "nrtm_version": 4,
   "timestamp": "2022-01-01T15:00:00Z",
@@ -455,105 +446,105 @@
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
-  ]
+  ],
+  "metadata": {}
 }
-]]></artwork>
-      </t>
+]]></sourcecode>
       <t>
         Note: hash and key values in this example are shortened because of formatting.
       </t>
       <t>
         The following validation rules MUST be observed when creating or parsing Update Notification Files:
       </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The filename MUST be "update-notification-file.json".
-          </t>
-          <t>
-            The nrtm_version MUST be 4.
-          </t>
-          <t>
-            The timestamp MUST be an <xref target="RFC3339"/> timestamp.
-          </t>
-          <t>
-            The type MUST be "notification".
-          </t>
-          <t>
-            The optional field next_signing_key is used for in-band key rotation. If present, it MUST be an Ed25519 <xref target="RFC8032"/> public key encoded in base64 <xref target="RFC4648"/>, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
-            Key rotation is described in <xref target="public_key_rotation" />.
-            If there is no next signing key, this key MUST be omitted.
-          </t>
-          <t>
-            The source MUST be a valid IRR object name <xref target="RFC2622"/>.
-          </t>
-          <t>
-            The session_id attribute MUST be a random v4 UUID <xref target="RFC4122"/> unique to this session for this source.
-          </t>
-          <t>
-            The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.
-          </t>
-          <t>
-            The file MUST contain exactly one snapshot.
-          </t>
-          <t>
-            The file MAY contain one or more deltas.
-          </t>
-          <t>
-            The deltas MUST have a sequential contiguous set of version numbers.
-          </t>
-          <t>
-            Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
-            If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
-          </t>
-          <t>
-            The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
-            The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.
-          </t>
-        </list>
-      </t>
+      <ul>
+        <li>
+          The nrtm_version MUST be 4.
+        </li>
+        <li>
+          The timestamp MUST be an <xref target="RFC3339"/> timestamp.
+        </li>
+        <li>
+          The type MUST be "notification".
+        </li>
+        <li>
+          The optional field next_signing_key is used for in-band key rotation.
+          If present, it MUST be an Elliptic Curve JWK <xref target="RFC7517"/> public key encoded in PEM, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
+          Key rotation is described in <xref target="public_key_rotation" />.
+          If there is no next signing key, this key MUST be omitted.
+        </li>
+        <li>
+          The source MUST be a valid IRR object name <xref target="RFC2622"/>.
+        </li>
+        <li>
+          The session_id attribute MUST be a random v4 UUID <xref target="RFC4122"/> unique to this session for this source.
+        </li>
+        <li>
+          The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.
+        </li>
+        <li>
+          The file MUST contain exactly one snapshot.
+        </li>
+        <li>
+          The file MAY contain one or more deltas.
+        </li>
+        <li>
+          The deltas MUST have a sequential contiguous set of version numbers.
+        </li>
+        <li>
+          Each snapshot and delta element MUST have a version, URL and hash attribute.
+          The URL must be relative to the path of the Update Notification File.
+          For example, if the Update Notification File example above is published on https://example.com/nrtm/update-notification-file.json, the full URL for the referred snapshot is https://example.com/nrtm/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz.
+          If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
+        </li>
+        <li>
+          The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
+          The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.
+        </li>
+        <li>
+          The metadata key MAY be present, used for metadata produced by the server to aid in tracing and debugging.
+          This can contain information like the name of the host on which the file was generated or the name and version of the software used.
+          Each mirror server may choose which fields to include, or choose to not include any metadata.
+          The mirror server SHOULD not cause excessive size increases by adding extensive metadata in the Update Notification File, as it is the most frequently retrieved file.
+        </li>
+      </ul>
     </section>
-    <section title="Signature">
-      <t>
-        The mirror server publishes a signature for each Update Notification File, which the client uses to verify the contents against the known public key.
-      </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The contents of Update Notification File MUST be signed using Ed25519 <xref target="RFC8032"/>.
-          </t>
-          <t>
-            The Update Notification File Signature File contains the Ed25519 signature encoded in base64 <xref target="RFC4648"/>.
-          </t>
-          <t>
-            The Update Notification File Signature File MUST be published under the same path as the Update Notification File, under the filename "update-notification-file-[hash].sig", where the hash is the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the Update Notification File contents.
-          </t>
-          <t>
-            To avoid race conditions, the mirror server MUST publish the new signature file before publishing the new Update Notification File, and SHOULD retain old signature files for at least 5 minutes after a new Update Notification File is published.
-          </t>
-        </list>
-      </t>
+    <section title="Encoding and signature">
+      <ul>
+        <li>
+          The actual Update Notification File contents MUST be a JSON Web Signature <xref target="RFC7515"/> and MUST use JWS Compact Serialization.
+        </li>
+        <li>
+          The JWS Payload MUST be the JavaScript Object Notation (JSON) <xref target="RFC8259"/> serialization of the structure described in the previous section.
+        </li>
+        <li>
+          The filename of the serialized data MUST be "update-notification-file.jose".
+        </li>
+        <li>
+          The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as defined in JSON Web Algorithms <xref target="RFC7518"/>
+        </li>
+      </ul>
     </section>
   </section>
+
 
   <section title="Snapshot File">
 
@@ -583,8 +574,7 @@
       <t>
         Example Snapshot File:
       </t>
-      <t>
-<artwork><![CDATA[
+<sourcecode><![CDATA[
 ␞{
   "nrtm_version": 4,
   "type": "snapshot",
@@ -594,8 +584,7 @@
 }
 ␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
 ␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
-]]></artwork>
-      </t>
+]]></sourcecode>
       <t>
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
@@ -603,25 +592,23 @@
         The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain one or more records (it must contain at least the header).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Snapshot File header:
       </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The nrtm_version MUST be 4.
-          </t>
-          <t>
-            The type MUST be "snapshot".
-          </t>
-          <t>
-            The source MUST match the source in the Update Notification File.
-          </t>
-          <t>
-            The session_id attribute MUST match the session_id in the Update Notification File.
-          </t>
-          <t>
-            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.
-          </t>
-        </list>
-      </t>
+      <ul>
+        <li>
+          The nrtm_version MUST be 4.
+        </li>
+        <li>
+          The type MUST be "snapshot".
+        </li>
+        <li>
+          The source MUST match the source in the Update Notification File.
+        </li>
+        <li>
+          The session_id attribute MUST match the session_id in the Update Notification File.
+        </li>
+        <li>
+          The version MUST be an unsigned positive integer, matching the Update Notification File entry for this snapshot.
+        </li>
+      </ul>
       <t>
         The remaining records (zero or more) MUST each contain a string representation of an IRR object.
         The source attribute in the IRR object texts MUST match the source attribute of the Snapshot File.
@@ -653,8 +640,7 @@
       <t>
         Example Delta File:
       </t>
-      <t>
-<artwork><![CDATA[
+<sourcecode><![CDATA[
 ␞{
   "nrtm_version": 4,
   "type": "delta",
@@ -676,8 +662,7 @@
   "action": "add_modify",
   "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
 }
-]]></artwork>
-      </t>
+]]></sourcecode>
       <t>
         Note: IRR object texts in this example are shortened because of formatting.
       </t>
@@ -685,45 +670,41 @@
         The file is in JSON Text Sequences <xref target="RFC7464" /> format, and MUST contain two or more records (at least the header and one change).
         The first record is the file header, and the following validation rules MUST be observed when creating or parsing a Delta File header:
       </t>
-      <t>
-        <list style="symbols">
-          <t>
-            The nrtm_version MUST be 4.
-          </t>
-          <t>
-            The type MUST be "delta".
-          </t>
-          <t>
-            The source MUST match the source in the Update Notification File.
-          </t>
-          <t>
-            The session_id attribute MUST match the session_id in the Update Notification File.
-          </t>
-          <t>
-            The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.
-          </t>
-        </list>
-      </t>
+      <ul>
+        <li>
+          The nrtm_version MUST be 4.
+        </li>
+        <li>
+          The type MUST be "delta".
+        </li>
+        <li>
+          The source MUST match the source in the Update Notification File.
+        </li>
+        <li>
+          The session_id attribute MUST match the session_id in the Update Notification File.
+        </li>
+        <li>
+          The version MUST be an unsigned positive integer, matching the Update Notification File entry for this delta.
+        </li>
+      </ul>
       <t>
         The remaining records (one or more) MUST each contain a JSON object representing a change, which MUST meet the following rules:
       </t>
-      <t>
-        <list style="symbols">
-          <t>
-            An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.
-          </t>
-          <t>
-            If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
-            For objects that are listed in <xref target="RFC2622"/> and <xref target="RFC4012"/> the primary key is the value of the RPSL field defined as "class key".
-            For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
-            For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
-            The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.
-          </t>
-          <t>
-            If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
-          </t>
-        </list>
-      </t>
+      <ul>
+        <li>
+          An action attribute, which is either "delete" for object deletions, or "add_modify" for additions or modifications.
+        </li>
+        <li>
+          If action is "delete": an object_class attribute with the RPSL object class name, and a primary_key attribute with the primary key, of the deleted object.
+          For objects that are listed in <xref target="RFC2622"/> and <xref target="RFC4012"/> the primary key is the value of the RPSL field defined as "class key".
+          For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
+          For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
+          The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.
+        </li>
+        <li>
+          If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
+        </li>
+      </ul>
 
     </section>
   </section>
@@ -783,36 +764,35 @@
       <t>
         It is RECOMMENDED that IRR Database operators rotate the signing key on their mirror server about once per year.
         The next_signing_key field in the Update Notification File supports in-band key rotation using the following process:
-
-        <list style="symbols">
-          <t>
+      </t>
+        <ul>
+          <li>
             The server operator generates a new key and configures this in the mirror server implementation as the upcoming new signing key.
-          </t>
-          <t>
+          </li>
+          <li>
             The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
             Hence, the new signing key will start being propagated to the mirror clients with the next publication of the Notification File, which will take at most 24 hours.
             Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.
-          </t>
-          <t>
+          </li>
+          <li>
             When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.
-          </t>
-          <t>
+          </li>
+          <li>
             After allowing mirror clients time to have seen the new Update Notification File with the next_signing_key field, the mirror server operator configures the new key as currently active key, and removes the old key.
             Any Update Notification File generated after this point MUST be signed with this new key, and will not contain a next_signing_key field.
-          </t>
-          <t>
+          </li>
+          <li>
             The RECOMMENDED period between publication of the upcoming key in the next_signing_key field, and removal of the old key, is one week. This offers all active clients a reasonable chance to follow the rotation process.
-          </t>
-          <t>
+          </li>
+          <li>
             When mirror clients retrieve an Update Notification File and find that the signature does not match, they MUST attempt to verify against a next_signing_key encountered in a previous (valid) file.
             If the signature matches for this new key, the client MUST update its configuration to use the new key for validation.
             After this, the client MUST NOT use the old key for validation at any time: a mirror server can not switch back to an old key.
-          </t>
-        </list>
-        <t>
-          If a mirror client never retrieves an Update Notification file at any point during the rotation process, it will no longer be able to verify the signature.
-          In that scenario manual recovery is required, similar to a first time configuration of a new mirror client.
-        </t>
+          </li>
+        </ul>
+      <t>
+        If a mirror client never retrieves an Update Notification file at any point during the rotation process, it will no longer be able to verify the signature.
+        In that scenario manual recovery is required, similar to a first time configuration of a new mirror client.
       </t>
     </section>
   </section>
@@ -829,7 +809,7 @@
     </t>
     <t>
       NRTMv4 requires integrity verification.
-      The Delta and Snapshot Files are verified using the SHA-256 hash in the Update Notification File, and the Update Notification File is verified using its signature file.
+      The Delta and Snapshot Files are verified using the SHA-256 hash in the Update Notification File, and the Update Notification File is verified using its signature.
       Additionally, the channel security offered by HTTPS further limits security risks.
     </t>
     <t>
@@ -852,7 +832,7 @@
   <section title="Acknowledgments">
     <t>
       The authors would like to thank
-        George Michaelson, Shon Huang
+        George Michaelson, Shon Huang, Tim Bruijnzeels
       and
       ...
       for their helpful review of this document.
@@ -864,18 +844,19 @@
 <back>
 
   <references title="Normative References">
-    <?rfc include="reference.RFC.1952.xml"?>
-    <?rfc include="reference.RFC.2119.xml"?>
-    <?rfc include="reference.RFC.2622.xml"?>
-    <?rfc include="reference.RFC.3339.xml"?>
-    <?rfc include="reference.RFC.4122.xml"?>
-    <?rfc include="reference.RFC.4012.xml"?>
-    <?rfc include="reference.RFC.4648.xml"?>
-    <?rfc include="reference.RFC.7464.xml"?>
-    <?rfc include="reference.RFC.8032.xml"?>
-    <?rfc include="reference.RFC.8174.xml"?>
-    <?rfc include="reference.RFC.8259.xml"?>
-    <?rfc include="reference.RFC.9325.xml"?>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2622.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4122.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7464.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7518.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9325.xml"/>
     <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
@@ -888,7 +869,7 @@
   </references>
 
   <references title="Informative References">
-    <?rfc include="reference.RFC.8182.xml"?>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
   </references>
 
 </back>
