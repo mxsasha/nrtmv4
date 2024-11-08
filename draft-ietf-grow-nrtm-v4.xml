@@ -365,7 +365,7 @@
         <li>
           The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
           If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
-          The client can do this by recording the files referenced by each previous valid Update Notification File and comparing the overlapping entries with a retrieved Update Notification File.
+          The client can do this by recording the files referenced by the previous valid Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.
         </li>
         <li>
           The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
