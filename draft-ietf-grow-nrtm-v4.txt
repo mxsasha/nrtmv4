@@ -92,20 +92,20 @@ Table of Contents
      4.5.  Policy Restrictions . . . . . . . . . . . . . . . . . . .  10
    5.  Update Notification File  . . . . . . . . . . . . . . . . . .  10
      5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  10
+     5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  11
      5.3.  Payload format and validation . . . . . . . . . . . . . .  11
      5.4.  Encoding and signature  . . . . . . . . . . . . . . . . .  13
    6.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  13
      6.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  13
      6.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  13
      6.3.  File format and validation  . . . . . . . . . . . . . . .  14
-   7.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Delta File  . . . . . . . . . . . . . . . . . . . . . . . . .  15
      7.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  15
      7.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  15
      7.3.  File format and validation  . . . . . . . . . . . . . . .  15
-   8.  Operational Considerations  . . . . . . . . . . . . . . . . .  16
+   8.  Operational Considerations  . . . . . . . . . . . . . . . . .  17
      8.1.  IRR object Validation . . . . . . . . . . . . . . . . . .  17
-     8.2.  Intermediate mirror instances . . . . . . . . . . . . . .  17
+     8.2.  Intermediate mirror instances . . . . . . . . . . . . . .  18
 
 
 
@@ -121,7 +121,7 @@ Internet-Draft                   NRTM v4                   November 2024
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  20
    12. Normative References  . . . . . . . . . . . . . . . . . . . .  20
    13. Informative References  . . . . . . . . . . . . . . . . . . .  21
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
 
@@ -472,6 +472,16 @@ Internet-Draft                   NRTM v4                   November 2024
       Delta File versions do not range from the client's most recent
       version plus one, the client MUST reinitialize from the snapshot.
 
+   *  The mirror client MUST verify that the hashes of each Delta and
+      Snapshot File have not changed compared to previous entries seen
+      for the same file type and version.  If a newer Update
+      Notification File contains a different hash for a specific file,
+      this indicates a misconfiguration in the server and the client
+      MUST reject the Update Notification File.  The client can do this
+      by recording the files referenced by the previous valid Update
+      Notification File and comparing the overlapping entries with the
+      retrieved Update Notification File.
+
    *  The client MUST retrieve all Delta Files for versions since the
       client's last known version, if there are any.
 
@@ -488,16 +498,6 @@ Internet-Draft                   NRTM v4                   November 2024
    *  The client MUST update its record of the most recent version to
       the version of the Update Notification File.
 
-   If the Update Notification File or one of the Delta Files is
-   rejected, the mirror client MUST NOT process any newer Deltas than
-   those that are valid and have been successfully verified.  If some
-   Delta Files are rejected, it MAY process the valid Delta Files, but
-   MUST NOT skip over any rejected Delta Files while doing so.
-
-
-
-
-
 
 
 
@@ -505,6 +505,12 @@ Romijn, et al.             Expires 12 May 2025                  [Page 9]
 
 Internet-Draft                   NRTM v4                   November 2024
 
+
+   If the Update Notification File or one of the Delta Files is
+   rejected, the mirror client MUST NOT process any newer Deltas than
+   those that are valid and have been successfully verified.  If some
+   Delta Files are rejected, it MAY process the valid Delta Files, but
+   MUST NOT skip over any rejected Delta Files while doing so.
 
 4.4.  Signature and Staleness Verification
 
@@ -547,12 +553,6 @@ Internet-Draft                   NRTM v4                   November 2024
    time there are new deltas or snapshots and, even if there have been
    no changes, at least every 24 hours.
 
-5.2.  Cache concerns
-
-   A mirror server may use caching infrastructure to cache the Update
-   Notification File and reduce the load of HTTPS requests.
-
-
 
 
 
@@ -561,6 +561,11 @@ Romijn, et al.             Expires 12 May 2025                 [Page 10]
 
 Internet-Draft                   NRTM v4                   November 2024
 
+
+5.2.  Cache concerns
+
+   A mirror server may use caching infrastructure to cache the Update
+   Notification File and reduce the load of HTTPS requests.
 
    However, since this file is used by mirror clients to determine
    whether any updates are available, the mirror server SHOULD ensure
@@ -605,11 +610,6 @@ Internet-Draft                   NRTM v4                   November 2024
      "metadata": {}
    }
 
-   Note: hash and key values in this example are shortened because of
-   formatting.
-
-   The following validation rules MUST be observed when creating or
-   parsing Update Notification Files:
 
 
 
@@ -617,6 +617,12 @@ Romijn, et al.             Expires 12 May 2025                 [Page 11]
 
 Internet-Draft                   NRTM v4                   November 2024
 
+
+   Note: hash and key values in this example are shortened because of
+   formatting.
+
+   The following validation rules MUST be observed when creating or
+   parsing Update Notification Files:
 
    *  The nrtm_version MUST be 4.
 
@@ -658,14 +664,8 @@ Internet-Draft                   NRTM v4                   November 2024
       filename MUST end in ".gz". and the hash MUST match the compressed
       data.
 
-   *  The hash attribute in snapshot and delta elements MUST be the
-      hexadecimal encoding of the SHA-256 hash [SHS] of the referenced
-      file.  The mirror client MUST verify this hash when the file is
-      retrieved and reject the file if the hash does not match.
 
-   *  The metadata key MAY be present, used for metadata produced by the
-      server to aid in tracing and debugging.  This can contain
-      information like the name of the host on which the file was
+
 
 
 
@@ -674,6 +674,14 @@ Romijn, et al.             Expires 12 May 2025                 [Page 12]
 Internet-Draft                   NRTM v4                   November 2024
 
 
+   *  The hash attribute in snapshot and delta elements MUST be the
+      hexadecimal encoding of the SHA-256 hash [SHS] of the referenced
+      file.  The mirror client MUST verify this hash when the file is
+      retrieved and reject the file if the hash does not match.
+
+   *  The metadata key MAY be present, used for metadata produced by the
+      server to aid in tracing and debugging.  This can contain
+      information like the name of the host on which the file was
       generated or the name and version of the software used.  Each
       mirror server may choose which fields to include, or choose to not
       include any metadata.  The mirror server SHOULD not cause
@@ -714,14 +722,6 @@ Internet-Draft                   NRTM v4                   November 2024
    value that can not be predicted before publication, to counter
    negative caching issues.
 
-   Because these files never change, they MAY be cached indefinitely.
-   However, as snapshots are large and old snapshots will no longer be
-   referred by newer Update Notification Files, it is RECOMMENDED that a
-   limited interval is used in the order of hours or days.
-
-
-
-
 
 
 
@@ -729,6 +729,11 @@ Romijn, et al.             Expires 12 May 2025                 [Page 13]
 
 Internet-Draft                   NRTM v4                   November 2024
 
+
+   Because these files never change, they MAY be cached indefinitely.
+   However, as snapshots are large and old snapshots will no longer be
+   referred by newer Update Notification Files, it is RECOMMENDED that a
+   limited interval is used in the order of hours or days.
 
    To avoid race conditions where a mirror client retrieves an Update
    Notification File moments before it's updated, mirror servers SHOULD
@@ -773,11 +778,6 @@ Internet-Draft                   NRTM v4                   November 2024
    representation of an IRR object.  The source attribute in the IRR
    object texts MUST match the source attribute of the Snapshot File.
 
-7.  Delta File
-
-
-
-
 
 
 
@@ -785,6 +785,8 @@ Romijn, et al.             Expires 12 May 2025                 [Page 14]
 
 Internet-Draft                   NRTM v4                   November 2024
 
+
+7.  Delta File
 
 7.1.  Purpose
 
@@ -812,6 +814,34 @@ Internet-Draft                   NRTM v4                   November 2024
 
    Example Delta File:
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 15]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    ␞{
      "nrtm_version": 4,
      "type": "delta",
@@ -833,14 +863,6 @@ Internet-Draft                   NRTM v4                   November 2024
      "action": "add_modify",
      "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
    }
-
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 15]
-
-Internet-Draft                   NRTM v4                   November 2024
-
 
    Note: IRR object texts in this example are shortened because of
    formatting.
@@ -868,6 +890,14 @@ Internet-Draft                   NRTM v4                   November 2024
    *  An action attribute, which is either "delete" for object
       deletions, or "add_modify" for additions or modifications.
 
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 16]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    *  If action is "delete": an object_class attribute with the RPSL
       object class name, and a primary_key attribute with the primary
       key, of the deleted object.  For objects that are listed in
@@ -885,18 +915,6 @@ Internet-Draft                   NRTM v4                   November 2024
       of the new version of the object.
 
 8.  Operational Considerations
-
-
-
-
-
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 16]
-
-Internet-Draft                   NRTM v4                   November 2024
-
 
 8.1.  IRR object Validation
 
@@ -928,6 +946,14 @@ Internet-Draft                   NRTM v4                   November 2024
    and reasonable when applying their own validation rules to IRR
    objects retrieved from mirror servers.  For example, a route object
    with an origin attribute that is not a valid AS number can't be
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 17]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    usefully interpreted.  There is no way for an IRR server to correctly
    parse and index such an object.  However, a route-set object whose
    name does not start with "RS-" [RFC2622], or an inetnum with an
@@ -946,14 +972,6 @@ Internet-Draft                   NRTM v4                   November 2024
    There are various operational reasons for such a setup, such as the
    intermediate filtering certain records.  Regardless of the reason,
    the mirror client and server function of an IRR server must be
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 17]
-
-Internet-Draft                   NRTM v4                   November 2024
-
-
    treated as separate processes.  In particular, this means they MUST
    have separate session IDs.  The intermediate server MUST NOT
    republish the same files it retrieved from the authoritative source
@@ -984,6 +1002,14 @@ Internet-Draft                   NRTM v4                   November 2024
       field in any Update Notification File generated while the new
       signing key is configured.  Hence, the new signing key will start
       being propagated to the mirror clients with the next publication
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 18]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
       of the Notification File, which will take at most 24 hours.
       Mirror server implementations MAY offer a method to cause the
       Notification Update File to be refreshed earlier, with the
@@ -999,16 +1025,6 @@ Internet-Draft                   NRTM v4                   November 2024
       and removes the old key.  Any Update Notification File generated
       after this point MUST be signed with this new key, and will not
       contain a next_signing_key field.
-
-
-
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 18]
-
-Internet-Draft                   NRTM v4                   November 2024
-
 
    *  The RECOMMENDED period between publication of the upcoming key in
       the next_signing_key field, and removal of the old key, is one
@@ -1041,6 +1057,15 @@ Internet-Draft                   NRTM v4                   November 2024
    authenticity, and there are various scenarios where mirroring may not
    be reliable.
 
+
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 19]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    NRTMv4 requires integrity verification.  The Delta and Snapshot Files
    are verified using the SHA-256 hash in the Update Notification File,
    and the Update Notification File is verified using its signature.
@@ -1057,14 +1082,6 @@ Internet-Draft                   NRTM v4                   November 2024
    The HTTPS endpoint used for NRTMv4 MUST be configured according to
    the best practices in [RFC9325].  Mirror clients MUST NOT use other
    protocols than HTTPS, such as HTTP or FTP.
-
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 19]
-
-Internet-Draft                   NRTM v4                   November 2024
-
 
 10.  IANA Considerations
 
@@ -1096,6 +1113,15 @@ Internet-Draft                   NRTM v4                   November 2024
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
 
+
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 20]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,
               DOI 10.17487/RFC4122, July 2005,
@@ -1113,14 +1139,6 @@ Internet-Draft                   NRTM v4                   November 2024
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/info/rfc7515>.
-
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 20]
-
-Internet-Draft                   NRTM v4                   November 2024
-
 
    [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
               DOI 10.17487/RFC7517, May 2015,
@@ -1152,6 +1170,14 @@ Internet-Draft                   NRTM v4                   November 2024
 
 13.  Informative References
 
+
+
+
+Romijn, et al.             Expires 12 May 2025                 [Page 21]
+
+Internet-Draft                   NRTM v4                   November 2024
+
+
    [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
               "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
               DOI 10.17487/RFC8182, July 2017,
@@ -1170,14 +1196,6 @@ Authors' Addresses
    Fastly
    Amsterdam
    Netherlands
-
-
-
-Romijn, et al.             Expires 12 May 2025                 [Page 21]
-
-Internet-Draft                   NRTM v4                   November 2024
-
-
    Email: job@fastly.com
 
 
@@ -1193,24 +1211,6 @@ Internet-Draft                   NRTM v4                   November 2024
    Amsterdam
    Netherlands
    Email: stavros.konstantaras@ams-ix.net
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

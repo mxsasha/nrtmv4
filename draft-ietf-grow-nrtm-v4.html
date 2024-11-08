@@ -1733,18 +1733,23 @@ li > p:last-of-type:only-child {
           If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.5">
-          The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
+          The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
+          If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
+          The client can do this by recording the files referenced by the previous valid Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.6">
-          The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
-          If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
-          In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
+          The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.7">
-          The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+          The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+          If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
+          In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.8">
-          The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
+          The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.3-2.9">
+          The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-4.3-3">
