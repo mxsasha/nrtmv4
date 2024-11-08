@@ -1219,11 +1219,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">October 2024</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 10 April 2025</td>
+<td class="center">Expires 12 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1234,12 +1234,12 @@ li > p:last-of-type:only-child {
 <dd class="workgroup">GROW</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-07" class="published">7 October 2024</time>
+<time datetime="2024-11-08" class="published">8 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-10">10 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-05-12">12 May 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1294,7 +1294,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1816,23 +1816,23 @@ li > p:last-of-type:only-child {
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "https://example.com/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
   ],
@@ -1879,7 +1879,9 @@ li > p:last-of-type:only-child {
           The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-5.3-5.10" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.11">
-          Each snapshot and delta element MUST have a version, HTTPS URL and hash attribute.
+          Each snapshot and delta element MUST have a version, URL and hash attribute.
+          The URL must be relative to the path of the Update Notification File.
+          For example, if the Update Notification File example above is published on https://example.com/nrtm/update-notification-file.json, the full URL for the referred snapshot is https://example.com/nrtm/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz.
           If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.<a href="#section-5.3-5.11" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-5.12">
@@ -1909,7 +1911,7 @@ li > p:last-of-type:only-child {
           The filename of the serialized data MUST be "update-notification-file.jose".<a href="#section-5.4-1.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.4-1.4">
-          The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended algorithms, as defined in JSON Web Algorithms <span>[<a href="#RFC7518" class="cite xref">RFC7518</a>]</span><a href="#section-5.4-1.4" class="pilcrow">¶</a>
+          The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as defined in JSON Web Algorithms <span>[<a href="#RFC7518" class="cite xref">RFC7518</a>]</span><a href="#section-5.4-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
