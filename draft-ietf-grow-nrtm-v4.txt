@@ -117,10 +117,9 @@ Internet-Draft                   NRTM v4                   November 2024
      8.3.  Reading from local files  . . . . . . . . . . . . . . . .  18
      8.4.  Public key rotation . . . . . . . . . . . . . . . . . . .  18
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .  19
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  20
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  20
-   12. Normative References  . . . . . . . . . . . . . . . . . . . .  20
-   13. Informative References  . . . . . . . . . . . . . . . . . . .  21
+   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  20
+   11. Normative References  . . . . . . . . . . . . . . . . . . . .  20
+   12. Informative References  . . . . . . . . . . . . . . . . . . .  21
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
@@ -161,6 +160,7 @@ Internet-Draft                   NRTM v4                   November 2024
       Database version and locations of the Snapshot File and Delta
       Files.  It is signed to allow verification of the authenticity of
       the Update Notification File.
+
 
 
 
@@ -1083,16 +1083,13 @@ Internet-Draft                   NRTM v4                   November 2024
    the best practices in [RFC9325].  Mirror clients MUST NOT use other
    protocols than HTTPS, such as HTTP or FTP.
 
-10.  IANA Considerations
-
-   This document requests IANA to ...
-
-11.  Acknowledgments
+10.  Acknowledgments
 
    The authors would like to thank George Michaelson, Shon Huang, Tim
-   Bruijnzeels and ...  for their helpful review of this document.
+   Bruijnzeels and Mahesh Aggarwal for their helpful review of this
+   document.
 
-12.  Normative References
+11.  Normative References
 
    [RFC1952]  Deutsch, P., "GZIP file format specification version 4.3",
               RFC 1952, DOI 10.17487/RFC1952, May 1996,
@@ -1113,7 +1110,10 @@ Internet-Draft                   NRTM v4                   November 2024
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
               <https://www.rfc-editor.org/info/rfc3339>.
 
-
+   [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
+              Unique IDentifier (UUID) URN Namespace", RFC 4122,
+              DOI 10.17487/RFC4122, July 2005,
+              <https://www.rfc-editor.org/info/rfc4122>.
 
 
 
@@ -1121,11 +1121,6 @@ Romijn, et al.             Expires 12 May 2025                 [Page 20]
 
 Internet-Draft                   NRTM v4                   November 2024
 
-
-   [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
-              Unique IDentifier (UUID) URN Namespace", RFC 4122,
-              DOI 10.17487/RFC4122, July 2005,
-              <https://www.rfc-editor.org/info/rfc4122>.
 
    [RFC4012]  Blunk, L., Damas, J., Parent, F., and A. Robachevsky,
               "Routing Policy Specification Language next generation
@@ -1168,7 +1163,12 @@ Internet-Draft                   NRTM v4                   November 2024
               <https://csrc.nist.gov/publications/fips/fips180-4/fips-
               180-4.pdf>.
 
-13.  Informative References
+12.  Informative References
+
+   [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
+              "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
+              DOI 10.17487/RFC8182, July 2017,
+              <https://www.rfc-editor.org/info/rfc8182>.
 
 
 
@@ -1177,11 +1177,6 @@ Romijn, et al.             Expires 12 May 2025                 [Page 21]
 
 Internet-Draft                   NRTM v4                   November 2024
 
-
-   [RFC8182]  Bruijnzeels, T., Muravskiy, O., Weber, B., and R. Austein,
-              "The RPKI Repository Delta Protocol (RRDP)", RFC 8182,
-              DOI 10.17487/RFC8182, July 2017,
-              <https://www.rfc-editor.org/info/rfc8182>.
 
 Authors' Addresses
 
@@ -1211,6 +1206,11 @@ Authors' Addresses
    Amsterdam
    Netherlands
    Email: stavros.konstantaras@ams-ix.net
+
+
+
+
+
 
 
 

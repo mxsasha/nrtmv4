@@ -823,18 +823,10 @@
     </t>
   </section>
 
-  <section title="IANA Considerations">
-    <t>
-      This document requests IANA to ...
-    </t>
-  </section>
-
   <section title="Acknowledgments">
     <t>
       The authors would like to thank
-        George Michaelson, Shon Huang, Tim Bruijnzeels
-      and
-      ...
+        George Michaelson, Shon Huang, Tim Bruijnzeels and Mahesh Aggarwal
       for their helpful review of this document.
     </t>
   </section>
