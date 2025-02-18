@@ -1086,8 +1086,8 @@ Internet-Draft                   NRTM v4                   February 2025
 10.  Acknowledgments
 
    The authors would like to thank George Michaelson, Shon Huang, Tim
-   Bruijnzeels and Mahesh Aggarwal for their helpful review of this
-   document.
+   Bruijnzeels, Mahesh Aggarwal and Fedor Vompe for their helpful review
+   of this document and/or work on implementations.
 
 11.  Normative References
 
