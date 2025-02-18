@@ -178,7 +178,7 @@
   <section title="Mirror server use">
     <section title="Key Configuration">
       <t>
-        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
         The published public key MUST be encoded in PEM.
         The process for providing this is not in scope of this protocol, but a typical case is publication on the operator's known website.
@@ -288,7 +288,7 @@
       </section>
       <section title="Update Notification File">
         <t>
-          The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.
+          The Update Notification File MUST be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.
         </t>
       </section>
       <section title="Publication Policy Restrictions">
@@ -348,11 +348,14 @@
           The client MUST retrieve the Update Notification File.
         </li>
         <li>
+          The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.
+        </li>
+        <li>
           The client MUST verify that the session ID matches the previously known session ID.
           If this does not match, the client MUST reinitialize from the snapshot.
         </li>
         <li>
-          The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
+          The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version.
           If not, the Update Notification File MUST be rejected.
           It is RECOMMENDED for the client to distinguish between an Update Notification File that is a single version older, and a much older version, in any status messages.
           The former can occur from time to time in synchronisation issues, the latter is more likely a faulty implementation.
@@ -379,7 +382,7 @@
           The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.
         </li>
         <li>
-          The client MUST update its record of the most recent version to the version of the Update Notification File.
+          The client MUST update its records of the most recent version to the version of the Update Notification File.
         </li>
       </ul>
       <t>
@@ -756,7 +759,6 @@
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
         However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
         When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.
-        Mirror clients MUST NOT allow a mix of reading from local files and HTTPS for a specific IRR Database.
       </t>
     </section>
 

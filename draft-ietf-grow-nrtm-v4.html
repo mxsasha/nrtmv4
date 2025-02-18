@@ -1219,11 +1219,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">November 2024</td>
+<td class="right">February 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 17 May 2025</td>
+<td class="center">Expires 22 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1234,12 +1234,12 @@ li > p:last-of-type:only-child {
 <dd class="workgroup">GROW</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-13" class="published">13 November 2024</time>
+<time datetime="2025-02-18" class="published">18 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-05-17">17 May 2025</time></dd>
+<dd class="expires"><time datetime="2025-08-22">22 August 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1294,7 +1294,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1303,7 +1303,7 @@ li > p:last-of-type:only-child {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1534,7 +1534,7 @@ li > p:last-of-type:only-child {
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-key-configuration" class="section-name selfRef">Key Configuration</a>
         </h3>
 <p id="section-3.1-1">
-        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
         The published public key MUST be encoded in PEM.
         The process for providing this is not in scope of this protocol, but a typical case is publication on the operator's known website.
@@ -1649,7 +1649,7 @@ li > p:last-of-type:only-child {
 <a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-update-notification-file" class="section-name selfRef">Update Notification File</a>
           </h4>
 <p id="section-3.3.3-1">
-          The Update Notification File must be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
+          The Update Notification File MUST be updated when a new Delta or Snapshot File is published and, even if there have been no changes, at least every 24 hours.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-3.3.4">
           <h4 id="name-publication-policy-restrict">
@@ -1715,38 +1715,41 @@ li > p:last-of-type:only-child {
           The client MUST retrieve the Update Notification File.<a href="#section-4.3-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.2">
-          The client MUST verify that the session ID matches the previously known session ID.
-          If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
+          The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.<a href="#section-4.3-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.3">
-          The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version, to the latest version in the Update Notification File.
-          If not, the Update Notification File MUST be rejected.
-          It is RECOMMENDED for the client to distinguish between an Update Notification File that is a single version older, and a much older version, in any status messages.
-          The former can occur from time to time in synchronisation issues, the latter is more likely a faulty implementation.<a href="#section-4.3-2.3" class="pilcrow">¶</a>
+          The client MUST verify that the session ID matches the previously known session ID.
+          If this does not match, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.4">
-          The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
-          If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
-          If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
+          The client MUST verify that the Update Notification File version is the same or higher than the client's current most recent version.
+          If not, the Update Notification File MUST be rejected.
+          It is RECOMMENDED for the client to distinguish between an Update Notification File that is a single version older, and a much older version, in any status messages.
+          The former can occur from time to time in synchronisation issues, the latter is more likely a faulty implementation.<a href="#section-4.3-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.5">
-          The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
-          If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
-          The client can do this by recording the files referenced by the previous valid Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
+          The client MUST verify that the Update Notification File contains one contiguous set of Delta File versions after the client's current most recent version up to the latest version in the Update Notification File.
+          If the Delta File versions are not contiguous, the Update Notification File MUST be rejected.
+          If the available Delta File versions do not range from the client's most recent version plus one, the client MUST reinitialize from the snapshot.<a href="#section-4.3-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.6">
-          The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
+          The mirror client MUST verify that the hashes of each Delta and Snapshot File have not changed compared to previous entries seen for the same file type and version.
+          If a newer Update Notification File contains a different hash for a specific file, this indicates a misconfiguration in the server and the client MUST reject the Update Notification File.
+          The client can do this by recording the files referenced by the previous valid Update Notification File and comparing the overlapping entries with the retrieved Update Notification File.<a href="#section-4.3-2.6" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.7">
-          The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
-          If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
-          In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
+          The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.<a href="#section-4.3-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.8">
-          The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
+          The mirror client MUST verify that the hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+          If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
+          In case of a mismatch of this hash, the Delta File MUST be rejected.<a href="#section-4.3-2.8" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-4.3-2.9">
-          The client MUST update its record of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
+          The client MUST process all changes in the Delta Files in order: lowest Delta File version number first, and in the order of the changes list in the Delta File.<a href="#section-4.3-2.9" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.3-2.10">
+          The client MUST update its records of the most recent version to the version of the Update Notification File.<a href="#section-4.3-2.10" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-4.3-3">
@@ -2133,8 +2136,7 @@ li > p:last-of-type:only-child {
 <p id="section-8.3-1">
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
         However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
-        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.
-        Mirror clients MUST NOT allow a mix of reading from local files and HTTPS for a specific IRR Database.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 </section>
 <div id="public_key_rotation">
 <section id="section-8.4">
