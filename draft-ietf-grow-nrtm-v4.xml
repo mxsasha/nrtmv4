@@ -388,6 +388,7 @@
       <t>
         If the Update Notification File or one of the Delta Files is rejected, the mirror client MUST NOT process any newer Deltas than those that are valid and have been successfully verified.
         If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.
+        Additionally, the changes in a specific Delta File MUST be processed either completely, or not at all, i.e. a Delta File must never be partially processed.
       </t>
     </section>
     <section title="Signature and Staleness Verification">
