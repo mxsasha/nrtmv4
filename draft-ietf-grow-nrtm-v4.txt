@@ -5,12 +5,12 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 5 October 2025                                           Fastly
+Expires: 24 October 2025                                          Fastly
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                            3 April 2025
+                                                           22 April 2025
 
 
                Near Real Time Mirroring (NRTM) version 4
@@ -46,14 +46,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 October 2025.
+   This Internet-Draft will expire on 24 October 2025.
 
 
 
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 1]
+Romijn, et al.           Expires 24 October 2025                [Page 1]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 2]
+Romijn, et al.           Expires 24 October 2025                [Page 2]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 3]
+Romijn, et al.           Expires 24 October 2025                [Page 3]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 4]
+Romijn, et al.           Expires 24 October 2025                [Page 4]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 5]
+Romijn, et al.           Expires 24 October 2025                [Page 5]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -333,7 +333,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 6]
+Romijn, et al.           Expires 24 October 2025                [Page 6]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -389,7 +389,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 7]
+Romijn, et al.           Expires 24 October 2025                [Page 7]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -445,7 +445,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 8]
+Romijn, et al.           Expires 24 October 2025                [Page 8]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -501,7 +501,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                 [Page 9]
+Romijn, et al.           Expires 24 October 2025                [Page 9]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -557,7 +557,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 10]
+Romijn, et al.           Expires 24 October 2025               [Page 10]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -613,7 +613,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 11]
+Romijn, et al.           Expires 24 October 2025               [Page 11]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -669,7 +669,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 12]
+Romijn, et al.           Expires 24 October 2025               [Page 12]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 13]
+Romijn, et al.           Expires 24 October 2025               [Page 13]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 14]
+Romijn, et al.           Expires 24 October 2025               [Page 14]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -837,7 +837,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 15]
+Romijn, et al.           Expires 24 October 2025               [Page 15]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 16]
+Romijn, et al.           Expires 24 October 2025               [Page 16]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -949,7 +949,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 17]
+Romijn, et al.           Expires 24 October 2025               [Page 17]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1005,7 +1005,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 18]
+Romijn, et al.           Expires 24 October 2025               [Page 18]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 19]
+Romijn, et al.           Expires 24 October 2025               [Page 19]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1109,15 +1109,15 @@ Internet-Draft                   NRTM v4                      April 2025
 10.  Acknowledgments
 
    The authors would like to thank George Michaelson, Shon Huang, Tim
-   Bruijnzeels, Mahesh Aggarwal and Fedor Vompe for their helpful review
-   of this document and/or work on implementations.
+   Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, and Paul Etchells for
+   their helpful review of this document and/or work on implementations.
 
 11.  Normative References
 
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 20]
+Romijn, et al.           Expires 24 October 2025               [Page 20]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 21]
+Romijn, et al.           Expires 24 October 2025               [Page 21]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1229,7 +1229,7 @@ Authors' Addresses
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 22]
+Romijn, et al.           Expires 24 October 2025               [Page 22]
 
 Internet-Draft                   NRTM v4                      April 2025
 
@@ -1285,4 +1285,4 @@ Internet-Draft                   NRTM v4                      April 2025
 
 
 
-Romijn, et al.           Expires 5 October 2025                [Page 23]
+Romijn, et al.           Expires 24 October 2025               [Page 23]
