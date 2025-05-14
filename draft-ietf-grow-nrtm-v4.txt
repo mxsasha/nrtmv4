@@ -94,7 +94,7 @@ Table of Contents
      5.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  11
      5.2.  Cache concerns  . . . . . . . . . . . . . . . . . . . . .  11
      5.3.  Payload format and validation . . . . . . . . . . . . . .  11
-     5.4.  Encoding and signature  . . . . . . . . . . . . . . . . .  13
+     5.4.  Encoding and signature  . . . . . . . . . . . . . . . . .  14
    6.  Snapshot File . . . . . . . . . . . . . . . . . . . . . . . .  14
      6.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .  14
      6.2.  Cache Concerns  . . . . . . . . . . . . . . . . . . . . .  14
@@ -659,13 +659,13 @@ Internet-Draft                   NRTM v4                        May 2025
 
    *  The nrtm_version MUST be 4.
 
-   *  The timestamp MUST be an [RFC3339] timestamp.
+   *  The timestamp MUST be an [RFC3339] timestamp with the time-offset
+      set to "Z".
 
    *  The type MUST be "notification".
 
-   *  The optional field next_signing_key is used for in-band key
-      rotation.  If present, it MUST be an Elliptic Curve JWK [RFC7517]
-      public key encoded in PEM, which matches the private key the
+
+
 
 
 
@@ -674,6 +674,9 @@ Romijn, et al.          Expires 15 November 2025               [Page 12]
 Internet-Draft                   NRTM v4                        May 2025
 
 
+   *  The optional field next_signing_key is used for in-band key
+      rotation.  If present, it MUST be an Elliptic Curve JWK [RFC7517]
+      public key encoded in PEM, which matches the private key the
       mirror server will start using to sign the Update Notification
       File in the near future.  Key rotation is described in
       Section 8.4.  If there is no next signing key, this key MUST be
@@ -720,15 +723,14 @@ Internet-Draft                   NRTM v4                        May 2025
       Update Notification File, as it is the most frequently retrieved
       file.
 
-5.4.  Encoding and signature
-
-
 
 
 Romijn, et al.          Expires 15 November 2025               [Page 13]
 
 Internet-Draft                   NRTM v4                        May 2025
 
+
+5.4.  Encoding and signature
 
    *  The actual Update Notification File contents MUST be a JSON Web
       Signature [RFC7515] and MUST use JWS Compact Serialization.
@@ -774,8 +776,6 @@ Internet-Draft                   NRTM v4                        May 2025
 6.3.  File format and validation
 
    Example Snapshot File:
-
-
 
 
 

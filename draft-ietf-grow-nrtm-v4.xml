@@ -485,7 +485,7 @@
           The nrtm_version MUST be 4.
         </li>
         <li>
-          The timestamp MUST be an <xref target="RFC3339"/> timestamp.
+          The timestamp MUST be an <xref target="RFC3339"/> timestamp with the time-offset set to "Z".
         </li>
         <li>
           The type MUST be "notification".
