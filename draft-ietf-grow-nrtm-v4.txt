@@ -14,7 +14,7 @@ Expires: 15 November 2025                                         Fastly
 
 
                Near Real Time Mirroring (NRTM) version 4
-                       draft-ietf-grow-nrtm-v4-06
+                       draft-ietf-grow-nrtm-v4-07
 
 Abstract
 
