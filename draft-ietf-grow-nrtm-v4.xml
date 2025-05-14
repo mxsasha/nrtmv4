@@ -118,6 +118,11 @@
       It borrows some concepts in <xref target="RFC8182"/>, as there are overlaps between the two protocols.
     </t>
 
+    <t>
+      Of earlier NRTM versions, particularly NRTMv3 <xref target="NRTMv3"/> was widely deployed, although there is no formal specification.
+      Some comparisons are made in <xref target="security_considerations" />.
+    </t>
+
   </section>
 
   <section title="Informal overview">
@@ -801,7 +806,7 @@
     </section>
   </section>
 
-  <section title="Security Considerations">
+  <section title="Security Considerations" anchor="security_considerations">
     <t>
       IRR objects serve many purposes, including automated network configuration and filtering.
       Manipulation of IRR objects can therefore have a significant security impact.
@@ -866,6 +871,15 @@
 
   <references title="Informative References">
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
+    <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
+      <front>
+        <title>Access to NRTM(v3)</title>
+        <author>
+        <organization>RIPE NCC</organization>
+        </author>
+        <date month="July" year="2024" />
+      </front>
+    </reference>
   </references>
 
 </back>

@@ -1474,6 +1474,9 @@ li > p:last-of-type:only-child {
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is dramatically improved.
       It borrows some concepts in <span>[<a href="#RFC8182" class="cite xref">RFC8182</a>]</span>, as there are overlaps between the two protocols.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">
+      Of earlier NRTM versions, particularly NRTMv3 <span>[<a href="#NRTMv3" class="cite xref">NRTMv3</a>]</span> was widely deployed, although there is no formal specification.
+      Some comparisons are made in <a href="#security_considerations" class="auto internal xref">Section 9</a>.<a href="#section-1-4" class="pilcrow">¶</a></p>
 </section>
 <section id="section-2">
       <h2 id="name-informal-overview">
@@ -2177,6 +2180,7 @@ li > p:last-of-type:only-child {
 </section>
 </div>
 </section>
+<div id="security_considerations">
 <section id="section-9">
       <h2 id="name-security-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
@@ -2200,6 +2204,7 @@ li > p:last-of-type:only-child {
       The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <span>[<a href="#RFC9325" class="cite xref">RFC9325</a>]</span>.
       Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.<a href="#section-9-5" class="pilcrow">¶</a></p>
 </section>
+</div>
 <section id="section-10">
       <h2 id="name-acknowledgments">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
@@ -2278,8 +2283,12 @@ li > p:last-of-type:only-child {
       </h2>
 <dl class="references">
 <dt id="RFC8182">[RFC8182]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Bruijnzeels, T.</span>, <span class="refAuthor">Muravskiy, O.</span>, <span class="refAuthor">Weber, B.</span>, and <span class="refAuthor">R. Austein</span>, <span class="refTitle">"The RPKI Repository Delta Protocol (RRDP)"</span>, <span class="seriesInfo">RFC 8182</span>, <span class="seriesInfo">DOI 10.17487/RFC8182</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8182">https://www.rfc-editor.org/info/rfc8182</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="NRTMv3">[NRTMv3]</dt>
+    <dd>
+<span class="refAuthor">RIPE NCC</span>, <span class="refTitle">"Access to NRTM(v3)"</span>, <time datetime="2024-07" class="refDate">July 2024</time>, <span>&lt;<a href="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

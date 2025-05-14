@@ -147,6 +147,10 @@ Internet-Draft                   NRTM v4                        May 2025
    concepts in [RFC8182], as there are overlaps between the two
    protocols.
 
+   Of earlier NRTM versions, particularly NRTMv3 [NRTMv3] was widely
+   deployed, although there is no formal specification.  Some
+   comparisons are made in Section 9.
+
 2.  Informal overview
 
    In NRTMv4, a mirror server is an instance of IRR Database software
@@ -156,10 +160,6 @@ Internet-Draft                   NRTM v4                        May 2025
 
    Publication consists of three different files:
 
-   *  A single Update Notification File.  This specifies the current
-      Database version and locations of the Snapshot File and Delta
-      Files.  It is signed to allow verification of the authenticity of
-      the Update Notification File.
 
 
 
@@ -169,6 +169,11 @@ Romijn, et al.          Expires 15 November 2025                [Page 3]
 
 Internet-Draft                   NRTM v4                        May 2025
 
+
+   *  A single Update Notification File.  This specifies the current
+      Database version and locations of the Snapshot File and Delta
+      Files.  It is signed to allow verification of the authenticity of
+      the Update Notification File.
 
    *  A single active Snapshot File.  This contains all published IRR
       objects at a particular version.  The mirror server periodically
@@ -211,12 +216,7 @@ Internet-Draft                   NRTM v4                        May 2025
    Notification Files may not be cached for longer than one minute, but
    are fairly small.
 
-   Note that in NRTMv4, a contiguous version number is used for the
-   Database version and Delta Files.  This is different and unrelated to
-   the serial in NRTMv3.  NRTMv3 serials refer to a single change to a
-   single object, whereas a NRTMv4 version refers to one delta, possibly
-   containing multiple changes to multiple objects.  NRTMv3 serials can
-   also contain gaps, NRTMv4 versions may not.
+
 
 
 
@@ -225,6 +225,13 @@ Romijn, et al.          Expires 15 November 2025                [Page 4]
 
 Internet-Draft                   NRTM v4                        May 2025
 
+
+   Note that in NRTMv4, a contiguous version number is used for the
+   Database version and Delta Files.  This is different and unrelated to
+   the serial in NRTMv3.  NRTMv3 serials refer to a single change to a
+   single object, whereas a NRTMv4 version refers to one delta, possibly
+   containing multiple changes to multiple objects.  NRTMv3 serials can
+   also contain gaps, NRTMv4 versions may not.
 
 3.  Mirror server use
 
@@ -268,13 +275,6 @@ Internet-Draft                   NRTM v4                        May 2025
       may contain an empty array of objects if the IRR Database is
       currently empty.
 
-   *  The server MUST generate a new Update Notification File with the
-      new session ID, a reference to the new snapshot, and no deltas.
-
-   Note that a publication, and its associated session IDs and versions,
-   always relates to a single specific IRR Database, even if multiple
-   databases are published from one instance.  For example, a mirror
-
 
 
 Romijn, et al.          Expires 15 November 2025                [Page 5]
@@ -282,6 +282,12 @@ Romijn, et al.          Expires 15 November 2025                [Page 5]
 Internet-Draft                   NRTM v4                        May 2025
 
 
+   *  The server MUST generate a new Update Notification File with the
+      new session ID, a reference to the new snapshot, and no deltas.
+
+   Note that a publication, and its associated session IDs and versions,
+   always relates to a single specific IRR Database, even if multiple
+   databases are published from one instance.  For example, a mirror
    server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two
    Update Notification Files, referring two Snapshot Files, and two sets
    of Delta Files each with contiguous version numbers - all completely
@@ -321,13 +327,7 @@ Internet-Draft                   NRTM v4                        May 2025
       other out, like an addition and immediate deletion of the same
       object, the mirror server MUST still include all these changes.
 
-   *  The URL where the Delta File is published MUST contain the session
-      ID and version number to allow it to be indefinitely cached.  It
-      MUST also contain a random value that can not be predicted before
-      publication, to counter negative caching issues.
 
-   *  After generating a new Delta File, a mirror server SHOULD remove
-      all Delta Files older than 24 hours.
 
 
 
@@ -337,6 +337,14 @@ Romijn, et al.          Expires 15 November 2025                [Page 6]
 
 Internet-Draft                   NRTM v4                        May 2025
 
+
+   *  The URL where the Delta File is published MUST contain the session
+      ID and version number to allow it to be indefinitely cached.  It
+      MUST also contain a random value that can not be predicted before
+      publication, to counter negative caching issues.
+
+   *  After generating a new Delta File, a mirror server SHOULD remove
+      all Delta Files older than 24 hours.
 
    *  The Update Notification File MUST be updated to include the new
       Delta File and update the database version.
@@ -378,14 +386,6 @@ Internet-Draft                   NRTM v4                        May 2025
    The Update Notification File MUST be updated when a new Delta or
    Snapshot File is published and, even if there have been no changes,
    at least every 24 hours.
-
-
-
-
-
-
-
-
 
 
 
@@ -1201,6 +1201,10 @@ Internet-Draft                   NRTM v4                        May 2025
               DOI 10.17487/RFC8182, July 2017,
               <https://www.rfc-editor.org/info/rfc8182>.
 
+   [NRTMv3]   RIPE NCC, "Access to NRTM(v3)", July 2024,
+              <https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-
+              NRTM/>.
+
 Authors' Addresses
 
    Sasha Romijn
@@ -1222,10 +1226,6 @@ Authors' Addresses
    Amsterdam
    Netherlands
    Email: eshryane@ripe.net
-
-
-
-
 
 
 
