@@ -221,6 +221,9 @@
     </section>
 
     <section title="Publishing updates">
+      <t>
+        After creating the initialization files, the mirror server processes updates by publishing Delta Files and, periodically, a new Snapshot File.
+      </t>
       <section title="Delta Files">
         <t>
           Changes to IRR objects MUST be recorded in Delta Files. One Delta File can contain multiple changes.
@@ -233,9 +236,6 @@
             A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.
           </li>
           <li>
-            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
-          </li>
-          <li>
             If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.
           </li>
           <li>
@@ -243,6 +243,7 @@
           </li>
           <li>
             The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
+            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.
           </li>
           <li>
             The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.

@@ -15,25 +15,24 @@
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.
        
     " name="description">
-<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="NRTM" name="keyword">
 <meta content="RPSL" name="keyword">
 <meta content="IRR" name="keyword">
 <meta content="draft-ietf-grow-nrtm-v4-06" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.21.0
-    Python 3.9.6
+  xml2rfc 3.28.1
+    Python 3.13.3
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 4.9.4
-    platformdirs 4.2.2
-    pycountry 23.12.11
-    PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 58.0.4
-    six 1.16.0
+    Jinja2 3.1.6
+    lxml 5.4.0
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.3
+    setuptools 80.4.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-grow-nrtm-v4.xml" rel="alternate" type="application/rfc+xml">
@@ -411,7 +410,7 @@ hr {
 /* Fix PDF info block run off issue */
 @media print {
   #identifiers dd {
-    float: none;
+    max-width: 100%;
   }
 }
 #identifiers .authors .author {
@@ -1087,7 +1086,7 @@ table {
 ol.type-a { list-style-type: lower-alpha; }
 ol.type-A { list-style-type: upper-alpha; }
 ol.type-i { list-style-type: lower-roman; }
-ol.type-I { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
 /* Apply the print table and row borders in general, on request from the RPC,
 and increase the contrast between border and odd row background slightly */
 table {
@@ -1167,7 +1166,7 @@ section .olCompact {
 tt, code {
   background-color: transparent;
 }
-p tt, p code, li tt, li code {
+p tt, p code, li tt, li code, dt tt, dt code {
   background-color: #f8f8f8;
 }
 /* Tweak the pre margin -- 0px doesn't come out well */
@@ -1219,11 +1218,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">April 2025</td>
+<td class="right">May 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 24 October 2025</td>
+<td class="center">Expires 15 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1234,12 +1233,12 @@ li > p:last-of-type:only-child {
 <dd class="workgroup">GROW</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-22" class="published">22 April 2025</time>
+<time datetime="2025-05-14" class="published">14 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-24">24 October 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-15">15 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1294,7 +1293,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 15 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1576,6 +1575,8 @@ li > p:last-of-type:only-child {
         <h3 id="name-publishing-updates">
 <a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-publishing-updates" class="section-name selfRef">Publishing updates</a>
         </h3>
+<p id="section-3.3-1">
+        After creating the initialization files, the mirror server processes updates by publishing Delta Files and, periodically, a new Snapshot File.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <section id="section-3.3.1">
           <h4 id="name-delta-files">
 <a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-delta-files" class="section-name selfRef">Delta Files</a>
@@ -1589,29 +1590,27 @@ li > p:last-of-type:only-child {
             A mirror server MUST publish a Delta File approximately every minute, if there have been changes to IRR objects in that time frame.<a href="#section-3.3.1-3.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.2">
-            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.<a href="#section-3.3.1-3.2" class="pilcrow">¶</a>
+            If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.<a href="#section-3.3.1-3.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.3">
-            If a mirror server is lagging in production of Delta Files, such as after an initialization or server downtime, it MUST generate one larger "catch up" Delta File, rather than individual Delta Files for every one minute window.<a href="#section-3.3.1-3.3" class="pilcrow">¶</a>
+            A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.<a href="#section-3.3.1-3.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.4">
-            A new Delta File MUST be generated with a new version, one greater than the last Delta File version, or one greater than the last Snapshot File version if there were no prior deltas at all.<a href="#section-3.3.1-3.4" class="pilcrow">¶</a>
+            The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.
+            If multiple changes have occurred within the time frame that would cancel each other out, like an addition and immediate deletion of the same object, the mirror server MUST still include all these changes.<a href="#section-3.3.1-3.4" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.5">
-            The Delta File MUST include all changes that happened during the time frame, in the order in which they occurred.<a href="#section-3.3.1-3.5" class="pilcrow">¶</a>
+            The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
+            It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.1-3.5" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.6">
-            The URL where the Delta File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
-            It MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.<a href="#section-3.3.1-3.6" class="pilcrow">¶</a>
+            After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.6" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.7">
-            After generating a new Delta File, a mirror server SHOULD remove all Delta Files older than 24 hours.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
+            The Update Notification File MUST be updated to include the new Delta File and update the database version.<a href="#section-3.3.1-3.7" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-3.3.1-3.8">
-            The Update Notification File MUST be updated to include the new Delta File and update the database version.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-3.3.1-3.9">
-            Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.<a href="#section-3.3.1-3.9" class="pilcrow">¶</a>
+            Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.<a href="#section-3.3.1-3.8" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
