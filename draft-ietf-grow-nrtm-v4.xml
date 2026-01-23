@@ -152,7 +152,7 @@
      <t>
        The Update Notification File MUST be in the JSON Web Signature <xref target="RFC7515" /> format, where the payload is in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
-       All files MUST use UTF-8 encoding and MAY be compressed with GZIP <xref target="RFC1952" />.
+       All files MUST use UTF-8 encoding <xref target="STD63" /> and MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
      <t>
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
@@ -845,6 +845,7 @@
 <back>
 
   <references title="Normative References">
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.STD.63.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2622.xml"/>
