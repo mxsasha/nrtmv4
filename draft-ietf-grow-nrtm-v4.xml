@@ -207,7 +207,7 @@
       <ul>
         <li>
           The mirror server MUST generate a new session ID.
-          This MUST be a Universally Unique Identifier version 4 (UUIDv4) (Section 5.4 of  <xref target="RFC4122"/>) and MUST be the same across all client sessions.
+          This MUST be a Universally Unique Identifier version 4 (UUIDv4) (Section 5.4 of  <xref target="RFC9562"/>) and MUST be the same across all client sessions.
           The session identifier is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session identifier for each.
         </li>
         <li>
@@ -505,7 +505,7 @@
           The source MUST be a valid IRR object name <xref target="RFC2622"/>.
         </li>
         <li>
-          The session_id attribute MUST be a UUIDv4 <xref target="RFC4122"/> unique to this session for this source.
+          The session_id attribute MUST be a UUIDv4 (Section 5.4 of <xref target="RFC9562"/>) unique to this session for this source.
         </li>
         <li>
           The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.
@@ -849,7 +849,7 @@
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2622.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4122.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9562.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7464.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
