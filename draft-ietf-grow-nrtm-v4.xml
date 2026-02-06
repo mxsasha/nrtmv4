@@ -185,7 +185,7 @@
       <t>
         When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
-        The published public key MUST be encoded in PEM.
+        The published public key MUST be encoded in Privacy-Enhanced Mail (PEM) <xref target="RFC1421"/>.
         The process for providing this is not in the scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <xref target="public_key_rotation" />.
       </t>
@@ -207,7 +207,7 @@
       <ul>
         <li>
           The mirror server MUST generate a new session ID.
-          This MUST be a Universally Unique Identifier version 4 (UUIDv4) (Section 5.4 of  <xref target="RFC4122"/>) and MUST be the same across all client sessions.
+          This MUST be a Universally Unique Identifier version 4 (UUIDv4) (Section 5.4 of  <xref target="RFC9562"/>) and MUST be the same across all client sessions.
           The session identifier is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session identifier for each.
         </li>
         <li>
@@ -300,7 +300,7 @@
       <section title="Publication Policy Restrictions">
         <t>
           A mirror server MAY have a policy that restricts the publication of certain IRR objects or attributes, or modifies these before publication.
-          Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like RPKI consistency.
+          Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like Resource Public Key Infrastructure (RPKI) consistency.
           It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example, by adding remark lines or comments.
         </t>
         <t>
@@ -505,7 +505,7 @@
           The source MUST be a valid IRR object name <xref target="RFC2622"/>.
         </li>
         <li>
-          The session_id attribute MUST be a UUIDv4 <xref target="RFC4122"/> unique to this session for this source.
+          The session_id attribute MUST be a UUIDv4 (Section 5.4 of <xref target="RFC9562"/>) unique to this session for this source.
         </li>
         <li>
           The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.
@@ -827,7 +827,7 @@
       This scales poorly, and there are no standard protections against denial-of-service available.
     </t>
     <t>
-      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="RFC9325"/>.
+      The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="BCP195"/>.
       Mirror clients MUST NOT use other protocols than HTTPS, such as HTTP or FTP.
     </t>
   </section>
@@ -846,11 +846,12 @@
 
   <references title="Normative References">
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.STD.97.xml"/>    
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1421.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2622.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"/>
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4122.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9562.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4012.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7464.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
@@ -858,7 +859,7 @@
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7518.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9325.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.BCP.195.xml"/>
     <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
