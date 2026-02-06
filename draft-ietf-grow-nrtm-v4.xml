@@ -112,7 +112,7 @@
 
     <t>
       NRTM version 4 (NRTMv4) is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
-      In NRTMv4, IRR Databases publish their records on an HTTPS endpoint, with periodic Snapshot Files and regular Delta Files.
+      In NRTMv4, IRR Databases publish their records on an HTTPS <xref target="STD97"/> endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is improved.
       NRTMv4 borrows some concepts in <xref target="RFC8182"/>, as there are overlaps between the two protocols.
@@ -845,6 +845,7 @@
 <back>
 
   <references title="Normative References">
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.STD.97.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1421.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
