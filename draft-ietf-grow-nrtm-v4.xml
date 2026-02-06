@@ -300,7 +300,7 @@
       <section title="Publication Policy Restrictions">
         <t>
           A mirror server MAY have a policy that restricts the publication of certain IRR objects or attributes, or modifies these before publication.
-          Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like RPKI consistency.
+          Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like Resource Public Key Infrastructure (RPKI) consistency.
           It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example, by adding remark lines or comments.
         </t>
         <t>
