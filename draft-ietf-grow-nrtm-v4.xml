@@ -185,7 +185,7 @@
       <t>
         When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>.
         The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
-        The published public key MUST be encoded in PEM.
+        The published public key MUST be encoded in Privacy-Enhanced Mail (PEM) <xref target="RFC1421"/>.
         The process for providing this is not in the scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <xref target="public_key_rotation" />.
       </t>
@@ -845,6 +845,7 @@
 <back>
 
   <references title="Normative References">
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1421.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2622.xml"/>
