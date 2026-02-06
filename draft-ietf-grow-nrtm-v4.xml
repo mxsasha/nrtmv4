@@ -100,7 +100,7 @@
 
   <section title="Introduction">
     <t>
-      The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL).
+      The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL) <xref target="RFC2622"/>.
       About a dozen larger IRR Databases are well known and widely used, operated by different organizations such as RIRs and some large network operators.
       IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
     </t>
