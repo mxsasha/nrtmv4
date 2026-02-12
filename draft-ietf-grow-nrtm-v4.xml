@@ -129,6 +129,7 @@
     <t>
       In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
       This can be retrieved by mirror clients, which then load the IRR objects into their local storage.
+      The IRR Database has a version, which the mirror server starts at 1, and increments every time it publishes a set of changes.
     </t>
     <t>
       Publication consists of three different files:
