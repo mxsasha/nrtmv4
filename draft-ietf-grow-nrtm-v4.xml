@@ -166,12 +166,12 @@
        Mirror clients are configured with the URL of an Update Notification File, name of the IRR Database, and a public signing key. This public key is used to verify the Update Notification File, which in turn contains hashes of all the Snapshot and Delta Files.
      </t>
      <t>
-       Upon initialization, the mirror server generates a session identifier (session_id) for the Database.
+       Upon initialization, the mirror server generates a session identifier (session_id) for the Database (<xref target="mirror_server_snapshot_initialization" />).
        This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
-       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session identifier change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
+       If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session_id change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
      </t>
      <t>
-       Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session identifier and version number.
+       Mirror servers can use caching to reduce their load, particularly because snapshots and deltas are immutable for a given session_id and version number.
        These are also the largest files. Update Notification Files may not be cached for longer than one minute, but are fairly small.
      </t>
      <t>
@@ -196,7 +196,7 @@
         All configuration options SHOULD be clearly named to indicate that they are private keys.
       </t>
     </section>
-    <section title="Snapshot Initialization">
+    <section title="Snapshot Initialization" anchor="mirror_server_snapshot_initialization">
       <t>
         A mirror server MUST follow the initialization steps upon the first export for an IRR Database by that mirror server, or if the server lost history and can not reliably produce a continuous set of deltas from a previous state.
       </t>
@@ -208,20 +208,20 @@
       </t>
       <ul>
         <li>
-          The mirror server MUST generate a new session ID.
+          The mirror server MUST generate a new session_id.
           This MUST be a Universally Unique Identifier version 4 (UUIDv4) (Section 5.4 of  <xref target="RFC9562"/>) and MUST be the same across all client sessions.
-          The session identifier is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session identifier for each.
+          The session_id is unique to the IRR Database, so an instance that serves multiple IRR Databases, will create a separate session_id for each.
         </li>
         <li>
           The server MUST generate a snapshot for version number one.
           This may contain an empty array of objects if the IRR Database is currently empty.
         </li>
         <li>
-          The server MUST generate a new Update Notification File with the new session identifier, a reference to the new snapshot, and no deltas.
+          The server MUST generate a new Update Notification File with the new session_id, a reference to the new snapshot, and no deltas.
         </li>
       </ul>
       <t>
-        Note that a publication, and its associated session identifiers and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
+        Note that a publication, and its associated session_ids and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
         For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.
       </t>
@@ -343,7 +343,7 @@
           In case of a mismatch of this hash, the file MUST be rejected.
         </li>
         <li>
-          The client MUST record the session identifier (session_id) and version of the loaded Snapshot File.
+          The client MUST record the session_id and version of the loaded Snapshot File.
         </li>
         <li>
           If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
@@ -363,7 +363,7 @@
           The client MUST verify that the source attribute in the Update Notification File matches the configured IRR Database name.
         </li>
         <li>
-          The client MUST verify that the session identifier matches the previously known session identifier.
+          The client MUST verify that the session_id matches the previously known session_id.
           If this does not match, the client MUST reinitialize from the snapshot.
         </li>
         <li>
