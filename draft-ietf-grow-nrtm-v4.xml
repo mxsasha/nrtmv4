@@ -395,7 +395,7 @@
           The client MUST update its records of the most recent version to the version of the Update Notification File.
         </li>
         <li>
-          If an Update Notification File or a Delta File has an invalid syntax, the file MUST be rejected.
+          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
           For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
         </li>
       </ul>
