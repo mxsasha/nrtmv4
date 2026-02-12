@@ -541,7 +541,7 @@
     <section title="Encoding and signature">
       <ul>
         <li>
-          The actual Update Notification File content content is a JSON Web Signature <xref target="RFC7515"/> using JWS Compact Serialization.
+          The actual Update Notification File content is a JSON Web Signature <xref target="RFC7515"/> using JWS Compact Serialization.
         </li>
         <li>
           The JWS Payload is the JSON <xref target="RFC8259"/> serialization of the structure described in the previous section.
