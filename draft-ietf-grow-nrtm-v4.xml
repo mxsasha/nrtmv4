@@ -845,8 +845,8 @@
 <back>
 
   <references title="Normative References">
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.STD.63.xml"/>    
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.STD.97.xml"/>    
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.STD.63.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.STD.97.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1421.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
@@ -860,7 +860,7 @@
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7518.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.BCP.195.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.BCP.195.xml"/>
     <reference anchor="SHS" target="https://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
       <front>
         <title>Secure Hash Standard</title>
