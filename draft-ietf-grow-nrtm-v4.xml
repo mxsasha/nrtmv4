@@ -344,7 +344,7 @@
           The client MUST record the session identifier (session_id) and version of the loaded Snapshot File.
         </li>
         <li>
-          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory paramters), the file MUST be rejected.
+          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
           For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
         </li>
       </ul>
