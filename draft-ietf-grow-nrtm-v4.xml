@@ -592,8 +592,8 @@
   "session_id": "ca128382-78d9-41d1-8927-1ecef15275be",
   "version": 3
 }
-␞{"object": "route: 192.0.2.0/24\norigin: AS65530\nsource: EXAMPLE"}
-␞{"object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"}
+␞{"object": "route: 192.0.2.0/24\norigin: AS64500\nsource: EXAMPLE"}
+␞{"object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"}
 ]]></sourcecode>
       <t>
         Note: IRR object texts in this example are shortened because of formatting.
@@ -666,11 +666,11 @@
 ␞{
   "action": "delete",
   "object_class": "route",
-  "primary_key": "192.0.2.0/24AS65530"
+  "primary_key": "192.0.2.0/24AS64500"
 }
 ␞{
   "action": "add_modify",
-  "object": "route: 2001:db8::/32\norigin: AS65530\nsource: EXAMPLE"
+  "object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"
 }
 ]]></sourcecode>
       <t>
