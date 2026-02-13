@@ -345,6 +345,10 @@
         <li>
           The client MUST record the session identifier (session_id) and version of the loaded Snapshot File.
         </li>
+        <li>
+          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
+          For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
+        </li>
       </ul>
     </section>
     <section title="Processing Delta Files">
@@ -391,6 +395,10 @@
         </li>
         <li>
           The client MUST update its records of the most recent version to the version of the Update Notification File.
+        </li>
+        <li>
+          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
+          For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
         </li>
       </ul>
       <t>
@@ -723,7 +731,7 @@
 
   <section title="Operational Considerations">
 
-    <section title="IRR Object Validation">
+    <section title="IRR Object Validation" anchor="irr_object_validation">
       <t>
         Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL.
         Implementations have introduced different new object classes, attributes and validation rules.
