@@ -456,6 +456,7 @@
         An example payload of an Update Notification File is provided below:
       </t>
 <sourcecode><![CDATA[
+# NOTE: '\' line wrapping per RFC 8792
 {
   "nrtm_version": 4,
   "timestamp": "2025-12-01T15:00:00Z",
@@ -466,23 +467,27 @@
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snap\
+shot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
   ],
