@@ -456,6 +456,7 @@
         An example payload of an Update Notification File is provided below:
       </t>
 <sourcecode><![CDATA[
+# NOTE: '\' line wrapping per RFC 8792
 {
   "nrtm_version": 4,
   "timestamp": "2025-12-01T15:00:00Z",
@@ -466,23 +467,27 @@
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snap\
+shot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
+lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       "hash": "b4..13"
     }
   ],
@@ -822,6 +827,14 @@
     </section>
   </section>
 
+  <section title="IANA Considerations" anchor="IANA">
+    <t>
+      NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
+      Solution requirements that arise in the future are likely best solved using either <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>.
+      From that perspective, the document does not define any IANA regitsry for protocol maintenance.
+    </t>
+  </section>
+
   <section title="Security Considerations" anchor="security_considerations">
     <t>
       IRR objects serve many purposes, including automated network configuration and filtering.
@@ -890,16 +903,20 @@
 
   <references title="Informative References">
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9082.xml"/>
+
     <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
       <front>
-        <title>Access to NRTM(v3)</title>
+        <title>Access to NRTM (v3)</title>
         <author>
         <organization>RIPE NCC</organization>
         </author>
         <date month="July" year="2024" />
       </front>
     </reference>
+
   </references>
 
 </back>
