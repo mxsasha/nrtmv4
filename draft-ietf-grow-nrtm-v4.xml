@@ -821,6 +821,14 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
     </section>
   </section>
 
+  <section title="IANA Considerations" anchor="IANA">
+    <t>
+      NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
+      Solution requirements that arise in the future are likely best solved using either <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>.
+      From that perspective, the document does not define any IANA regitsry for protocol maintenance.
+    </t>
+  </section>
+
   <section title="Security Considerations" anchor="security_considerations">
     <t>
       IRR objects serve many purposes, including automated network configuration and filtering.
@@ -888,16 +896,20 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
   </references>
 
   <references title="Informative References">
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9082.xml"/>
+
     <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
       <front>
-        <title>Access to NRTM(v3)</title>
+        <title>Access to NRTM (v3)</title>
         <author>
         <organization>RIPE NCC</organization>
         </author>
         <date month="July" year="2024" />
       </front>
     </reference>
+
   </references>
 
 </back>
