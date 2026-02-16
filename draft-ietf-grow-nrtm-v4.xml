@@ -731,6 +731,12 @@
 
   <section title="Operational Considerations">
 
+    <section title="Time">
+      <t>
+        IRR clients and servers are RECOMMENDED to use <xref target="RFC5905">NTP</xref> synchronisation to avoid timing discrepancies.
+      </t>
+    </section>
+
     <section title="IRR Object Validation" anchor="irr_object_validation">
       <t>
         Throughout the years, various implementations of IRR servers have taken liberties with the various RFCs regarding RPSL.
@@ -883,6 +889,7 @@
   </references>
 
   <references title="Informative References">
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
     <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
       <front>
