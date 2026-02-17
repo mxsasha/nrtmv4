@@ -583,8 +583,8 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
     <section title="Cache Concerns">
       <t>
         A snapshot reflects the content of the IRR Database at a specific point in time; for that reason, it can be considered immutable data.
-        Snapshot Files MUST be published at a URL that is unique to the specific session and version.
-        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
+        Snapshot Files are published at a URL that is unique to the specific session and version.
+        The URL also contains a random value that can not be predicted before publication, to counter negative caching issues.
       </t>
       <t>
         Because these files never change, they MAY be cached indefinitely.
@@ -653,8 +653,8 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
     <section title="Cache Concerns">
       <t>
         Deltas reflect the difference in content of the IRR Database from one version to another; for that reason, it can be considered immutable data.
-        Delta Files MUST be published at a URL that is unique to the specific session and version.
-        The URL MUST also contain a random value that can not be predicted before publication, to counter negative caching issues.
+        Delta Files are published at a URL that is unique to the specific session and version.
+        The URL also contains a random value that can not be predicted before publication, to counter negative caching issues.
       </t>
       <t>
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it's updated, mirror servers SHOULD retain old Delta Files for at least 5 minutes after a new Update Notification File is published that no longer contains these Delta Files.
