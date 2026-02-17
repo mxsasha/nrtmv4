@@ -129,7 +129,7 @@
   <section title="Overview">
     <t>
       In NRTMv4, a mirror server is an instance of IRR Database software that has a database of IRR objects and publishes them to allow mirroring by others.
-      This can be retrieved by mirror clients, which then load the IRR objects into their local storage.
+      These objects can be retrieved by mirror clients, which then load them into their local storage.
       The IRR Database has a version, which the mirror server starts at 1, and increments every time it publishes a set of changes.
     </t>
     <t>
@@ -167,7 +167,7 @@
      </t>
      <t>
        Upon initialization, the mirror server generates a session identifier (session_id) for the Database (<xref target="mirror_server_snapshot_initialization" />).
-       This allows long term caching and used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
+       This allows long term caching and is used by the client to determine that the Delta Files continue to form a full set of changes allowing an update to the latest version.
        If the mirror server loses partial history, or the mirror client starts mirroring from a different server, the session_id change will force a full reload from the latest Snapshot File, ensuring there are no accidental mirroring gaps.
      </t>
      <t>
@@ -538,7 +538,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
           Each snapshot and delta element MUST have a version, URL and hash attribute.
           The URL must be relative to the path of the Update Notification File.
           For example, if the Update Notification File example above is published on https://example.com/nrtm/update-notification-file.json, the full URL for the referred snapshot is https://example.com/nrtm/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz.
-          If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz". and the hash MUST match the compressed data.
+          If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz", and the hash MUST match the compressed data.
         </li>
         <li>
           The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
@@ -802,7 +802,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
           <li>
             The mirror server MUST include this key in the next_signing_key field in any Update Notification File generated while the new signing key is configured.
             Hence, the new signing key will start being propagated to the mirror clients with the next publication of the Notification File, which will take at most 24 hours.
-            Mirror server implementations MAY offer a method to cause the  Notification Update File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.
+            Mirror server implementations MAY offer a method to cause the Update Notification File to be refreshed earlier, with the new_signing_key included, and thus start the propagation earlier.
           </li>
           <li>
             When mirror clients next retrieve the Update Notification File, they MUST detect the next_signing_key field, and store the key in their configuration.
