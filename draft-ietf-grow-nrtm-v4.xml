@@ -842,13 +842,31 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
         In that scenario manual recovery is required, similar to a first time configuration of a new mirror client.
       </t>
     </section>
+
+    <section title="Scalability">
+      <t>
+        As NRTMv4 uses HTTPS for all file retrieval, mirror servers can use standard HTTP caching infrastructure, horizontal scaling, and CDN integration to handle load.
+        Caching considerations for each file type are discussed in the respective Cache Concerns sections.
+      </t>
+      <t>
+        Delta Files are typically small, as they only contain changes since the previous version.
+        Snapshot Files can be larger, but all files may be compressed with GZIP to reduce storage and bandwidth requirements.
+      </t>
+    </section>
+
+    <section title="NRTMv3 Compatibility">
+      <t>
+        NRTMv4 is a new protocol that is not backwards compatible with NRTMv3.
+        There is no migration path between the two protocols; operators wishing to support both can run them in parallel.
+      </t>
+    </section>
   </section>
 
   <section title="IANA Considerations" anchor="IANA">
     <t>
       NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
       Solution requirements that arise in the future are likely best solved using either <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>.
-      From that perspective, the document does not define any IANA regitsry for protocol maintenance.
+      From that perspective, the document does not define any IANA registry for protocol maintenance.
     </t>
   </section>
 
