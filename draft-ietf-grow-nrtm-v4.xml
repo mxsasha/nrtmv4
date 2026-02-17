@@ -158,7 +158,7 @@
      </t>
      <t>
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
-       After that, mirror clients only retrieve the Update Notification File periodically to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
+       After that, mirror clients only retrieve the Update Notification File periodically, typically every minute, to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
        This minimizes data transfer.
        Deltas have sequential versions.
      </t>
@@ -320,6 +320,13 @@
       <t>
         Mirror clients are configured with the name of the IRR Database, the URL of the Update Notification File, and the public key currently used for signing the Update Notification File.
         Key rotation is described in <xref target="public_key_rotation" />.
+      </t>
+    </section>
+
+    <section title="Update Notification File Retrieval">
+      <t>
+        Mirror clients may retrieve the Update Notification File to check for changes every minute.
+        Mirror clients MUST NOT check more than once per minute.
       </t>
     </section>
 
