@@ -273,13 +273,13 @@
         </t>
         <ul>
           <li>
+            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
+          </li>
+          <li>
             The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
           </li>
           <li>
             The version number of the new snapshot MUST be equal to the last Delta File version.
-          </li>
-          <li>
-            If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
           </li>
           <li>
             The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
