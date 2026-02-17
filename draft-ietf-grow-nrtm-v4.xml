@@ -132,6 +132,32 @@
       This can be retrieved by mirror clients, which then load the IRR objects into their local storage.
       The IRR Database has a version, which the mirror server starts at 1, and increments every time it publishes a set of changes.
     </t>
+    <figure>
+      <name>NRTMv4 Protocol Overview</name>
+      <artwork type="ascii-art"><![CDATA[
+                        Mirror Server
+                       +--------------+
+                       | IRR Database |
+                       +------+-------+
+                              |
+          +-------------------+-------------------+
+          |                   |                   |
+      periodic                |               on change
+          |                   |                   |
+          v                   v                   v
+    +------------+      +-----------+      +------------+
+    |  Snapshot  |      |  Update   |      |   Delta    |
+    |    File    | refs |   Notif.  | refs |  File(s)   |
+    |   (all     |<-----|   File    |----->| (changes   |
+    |  objects)  |      |  (index)  |      |   only)    |
+    +-----+------+      +-----------+      +-----+------+
+          |                   |                  |
+          |          +--------+--------+         |
+          +--------->+  Mirror Client  +<--------+
+            initial  | Local Database  |   update
+                     +-----------------+
+]]></artwork>
+    </figure>
     <t>
       Publication consists of three different files:
     </t>
