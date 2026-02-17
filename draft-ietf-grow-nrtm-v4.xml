@@ -120,7 +120,10 @@
     </t>
 
     <t>
-      Of earlier NRTM versions, particularly NRTMv3 <xref target="NRTMv3"/> was widely deployed, although there is no formal specification.
+      Reliable and secure distribution of IRR data is important for global routing operations, as network operators depend on IRR objects for route filtering and network configuration.
+      Prior mirroring protocols lack integrity verification, have no formal specification, and scale poorly.
+      NRTMv4 addresses these shortcomings by providing a formally specified, scalable, and integrity-protected mirroring protocol.
+      Of earlier NRTM versions, particularly NRTMv3 <xref target="NRTMv3"/> was widely deployed.
       Some comparisons are made in <xref target="security_considerations" />.
     </t>
 
