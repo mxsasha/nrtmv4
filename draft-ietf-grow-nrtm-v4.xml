@@ -564,7 +564,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
           The filename of the serialized data MUST be "update-notification-file.jose".
         </li>
         <li>
-          The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as defined in JSON Web Algorithms <xref target="RFC7518"/>
+          The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as listed in the IANA JOSE Algorithms registry <xref target="IANA_jose"/>.
         </li>
       </ul>
     </section>
@@ -886,7 +886,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7464.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7515.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7517.xml"/>
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7518.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml-iana/reference.IANA.jose.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.BCP.195.xml"/>
