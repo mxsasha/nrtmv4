@@ -260,7 +260,7 @@
             The Update Notification File MUST be updated to include the new Delta File.
           </li>
           <li>
-            References to Delta Files older than 24 hours SHOULD be removed from the Update Notification File.
+            References to Delta Files older than 24 hours SHOULD be removed from the Update Notification File. Refer also to <xref target="storage" />.
           </li>
           <li>
             Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.
