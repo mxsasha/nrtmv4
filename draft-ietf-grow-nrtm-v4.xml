@@ -227,6 +227,8 @@
       <dt>Version</dt>
       <dd>A incremental number that identifies the IRR Database at a particular point in time.</dd>
     </dl>
+
+    <t>The document uses the folding conventions defined in <xref target="RFC8792"/>.</t>
   </section>
   <section title="Mirror Server Use">
     <section title="Key Configuration">
@@ -510,6 +512,7 @@
       </t>
 <sourcecode><![CDATA[
 # NOTE: '\' line wrapping per RFC 8792
+
 {
   "nrtm_version": 4,
   "timestamp": "2025-12-01T15:00:00Z",
@@ -980,6 +983,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6480.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8792.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9082.xml"/>
 
     <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
