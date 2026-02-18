@@ -787,7 +787,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       </t>
     </section>
 
-    <section title="Storage Considerations">
+    <section title="Storage Considerations" anchor="storage">
       <t>
         After publishing a new Update Notification File, and absent local policy, a mirror server SHOULD remove any Snapshot and Delta Files that are no longer referenced.
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it is updated, mirror servers SHOULD retain unreferenced files for at least 5 minutes after a new Update Notification File is published.
