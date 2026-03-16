@@ -231,8 +231,8 @@
   <section title="Mirror Server Use">
     <section title="Key Configuration">
       <t>
-        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <xref target="RFC7517"/>.
-        The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate a JSON Web Key <xref target="RFC7517"/> pair and configure the private key in the mirror server.
+        The operator then provides the corresponding public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
         The published public key MUST be encoded in Privacy-Enhanced Mail (PEM) <xref target="RFC1421"/>.
         The process for providing this is not in the scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <xref target="public_key_rotation" />.
@@ -564,7 +564,7 @@
         </li>
         <li>
           The optional field next_signing_key is used for in-band key rotation.
-          If present, it MUST be an Elliptic Curve JWK <xref target="RFC7517"/> public key encoded in PEM, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
+          If present, it MUST be a JWK <xref target="RFC7517"/> public key encoded in PEM, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
           Key rotation is described in <xref target="public_key_rotation" />.
           If there is no next signing key, this key MUST be omitted.
         </li>
@@ -616,6 +616,7 @@
           The filename of the serialized data MUST be "update-notification-file.jose".
         </li>
         <li>
+          Implementations MUST support ES256 for interoperability.
           The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as listed in the IANA JOSE Algorithms registry <xref target="IANA_jose"/>.
         </li>
       </ul>
