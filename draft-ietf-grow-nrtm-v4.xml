@@ -938,8 +938,14 @@
   <section title="Acknowledgments">
     <t>
       The authors would like to thank
-        George Michaelson, Shon Huang, Tim Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, and Paul Etchells
+        George Michaelson, Shon Huang, Tim Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, Paul Etchells,
+        and Mohamed Boucadair
       for their helpful review of this document and/or work on implementations.
+    </t>
+    <t>
+      The authors would also like to thank
+        Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
+      for their reviews during IETF Last Call.
     </t>
   </section>
 
