@@ -225,7 +225,7 @@
       <dt>Mirror Client</dt>
       <dd>An instance of IRR Database software that retrieves IRR objects from a mirror server and loads them into its local storage.</dd>
       <dt>Version</dt>
-      <dd>A incremental number that identifies the IRR Database at a particular point in time.</dd>
+      <dd>An incremental number that identifies the IRR Database at a particular point in time.</dd>
     </dl>
   </section>
   <section title="Mirror Server Use">
@@ -268,7 +268,7 @@
       </ul>
       <t>
         Note that a publication, and its associated session_ids and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring to two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent of each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.
       </t>
     </section>
