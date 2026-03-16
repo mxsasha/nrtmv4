@@ -471,7 +471,8 @@
         Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.
       </t>
       <t>
-        If a file is rejected, the mirror client MUST NOT load any data from it and SHOULD retry, if the error may be transient.
+        If a file is rejected, the mirror client MUST NOT load any data from it.
+        If the error may be transient, the mirror client SHOULD retry.
         After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File.
         If the Snapshot File itself cannot be retrieved or is rejected after retries, as there is no further fallback, the client SHOULD alert the operator and stop until the issue is resolved.
       </t>
