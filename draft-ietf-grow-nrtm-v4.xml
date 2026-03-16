@@ -312,6 +312,10 @@
             Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.
           </li>
         </ul>
+        <t>
+          Mirror servers with high object churn are RECOMMENDED to generate new Snapshot Files more frequently than the required minimum, to limit the length of the delta chain that clients must traverse on initialization or after a gap.
+          Long delta chains increase initialization time and resource consumption for mirror clients.
+        </t>
       </section>
       <section title="Snapshot Files">
         <t>
@@ -399,7 +403,7 @@
           The client MUST record the session_id and version of the loaded Snapshot File.
         </li>
         <li>
-          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
+          If an Update Notification File or a Snapshot File has an invalid syntax (e.g. missing mandatory parameters), the file MUST be rejected.
           For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
         </li>
       </ul>
@@ -460,6 +464,19 @@
         Additionally, the changes in a specific Delta File MUST be processed either completely, or not at all, i.e., a Delta File must never be partially processed.
       </t>
     </section>
+    <section title="Error Recovery">
+      <t>
+        When a mirror client fails to retrieve any file due to a transient error, such as a network failure or an HTTP 5xx response, the client SHOULD retry before concluding the retrieval has failed.
+        It is RECOMMENDED that implementations use a bounded exponential backoff strategy, starting from a short initial interval (e.g., a few seconds) up to a capped maximum interval (e.g., several minutes), with a bounded total retry duration.
+        Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.
+      </t>
+      <t>
+        If a file is rejected, the mirror client MUST NOT load any data from it.
+        If the error may be transient, the mirror client SHOULD retry.
+        After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File.
+        If the Snapshot File itself cannot be retrieved or is rejected after retries, as there is no further fallback, the client SHOULD alert the operator and stop until the issue is resolved.
+      </t>
+    </section>
     <section title="Signature and Staleness Verification">
       <t>
         Every time a mirror client retrieves a new version of the Update Notification File, it MUST verify the included signature.
@@ -501,6 +518,11 @@
       <t>
         However, since this file is used by mirror clients to determine whether any updates are available, the mirror server SHOULD ensure that this file is not cached for longer than one minute.
         An exception to this rule is that it is better to serve a stale Update Notification File rather than no Update Notification File.
+      </t>
+      <t>
+        Mirror servers SHOULD set the HTTP <tt>Cache-Control</tt> response header on the Update Notification File to <tt>no-cache</tt> or <tt>max-age=60</tt>, consistent with the one-minute caching limit.
+        Mirror servers SHOULD set <tt>Cache-Control: immutable</tt> on responses for Snapshot Files and Delta Files, as these are immutable for a given session_id and version.
+        Mirror clients MAY use HTTP conditional requests (e.g., using <tt>If-None-Match</tt> with ETags or <tt>If-Modified-Since</tt>) when polling the Update Notification File, to reduce bandwidth consumption when no changes have occurred.
       </t>
     </section>
 
