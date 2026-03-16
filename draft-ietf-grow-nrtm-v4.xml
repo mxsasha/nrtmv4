@@ -550,6 +550,12 @@
         Note: hash and key values in this example are shortened because of formatting.
       </t>
       <t>
+        In this example, the overall version is 4, the snapshot is at version 3, and deltas are listed for versions 2, 3, and 4.
+        The deltas at versions 2 and 3 predate the snapshot but are still within the 24-hour retention window.
+        A new client would initialize from the snapshot at version 3 and then apply only delta 4.
+        An existing client already at version 1 can instead apply deltas 2, 3, and 4 without reinitializing from the snapshot.
+      </t>
+      <t>
         The following validation rules MUST be observed when creating or parsing Update Notification Files:
       </t>
       <ul>
@@ -903,8 +909,7 @@
 
   <section title="IANA Considerations" anchor="IANA">
     <t>
-      NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
-      Solution requirements that arise in the future are likely best solved using either <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>.
+      Most new development in this field takes place in <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>, and IRR has seen limited new development for a considerable time, and many potential IRR changes, such as changes to object definitions, can take place without changes to this protocol.
       From that perspective, the document does not define any IANA registry for protocol maintenance.
     </t>
   </section>
