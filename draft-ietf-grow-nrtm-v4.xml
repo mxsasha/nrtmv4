@@ -84,7 +84,7 @@
 
   <abstract>
     <t>
-      This document specifies a one-way synchronization HTTP-based protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4).
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4), in which files are distributed over HTTPS.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.
     </t>
   </abstract>
@@ -112,7 +112,7 @@
     </t>
 
     <t>
-      NRTM version 4 (NRTMv4) is an HTTP-based protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
+      NRTM version 4 (NRTMv4) is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on an HTTPS <xref target="STD97"/> endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is improved.
@@ -183,7 +183,7 @@
      <t>
        The Update Notification File MUST be in the JSON Web Signature <xref target="RFC7515" /> format, where the payload is in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
-       All files MUST use UTF-8 encoding <xref target="STD63" /> and MAY be compressed with GZIP <xref target="RFC1952" />.
+       Files MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
      <t>
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
@@ -954,7 +954,6 @@
 <back>
 
   <references title="Normative References">
-    <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.STD.63.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml-rfcsubseries/reference.STD.97.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1421.xml"/>    
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1952.xml"/>
