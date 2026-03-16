@@ -403,7 +403,7 @@
           The client MUST record the session_id and version of the loaded Snapshot File.
         </li>
         <li>
-          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
+          If an Update Notification File or a Snapshot File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
           For validating the IRR objects contained in the files, see <xref target="irr_object_validation" />.
         </li>
       </ul>
@@ -463,17 +463,17 @@
         If some Delta Files are rejected, it MAY process the valid Delta Files, but MUST NOT skip over any rejected Delta Files while doing so.
         Additionally, the changes in a specific Delta File MUST be processed either completely, or not at all, i.e., a Delta File must never be partially processed.
       </t>
+    </section>
+    <section title="Error Recovery">
       <t>
-        When a mirror client fails to retrieve the Update Notification File or a required Delta File due to a transient error, such as a network failure, an HTTP 5xx response, or a CDN propagation delay, the client SHOULD retry before concluding the retrieval has failed.
+        When a mirror client fails to retrieve any file due to a transient error, such as a network failure or an HTTP 5xx response, the client SHOULD retry before concluding the retrieval has failed.
         It is RECOMMENDED that implementations use a bounded exponential backoff strategy, starting from a short initial interval (e.g., a few seconds) up to a capped maximum interval (e.g., several minutes), with a bounded total retry duration.
-        Mirror clients SHOULD log retry events including the reason, to aid operator troubleshooting.
+        Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.
       </t>
       <t>
-        After exhausting retries, if the required Delta Files remain unavailable, the mirror client SHOULD reinitialize from the Snapshot File rather than waiting indefinitely.
-      </t>
-      <t>
-        Note that a CDN or caching layer may introduce a brief propagation delay before a newly published Update Notification File or Delta File becomes available at all distribution nodes.
-        A mirror client that receives an HTTP 404 for a Delta File referenced in an otherwise valid Update Notification File SHOULD treat this as a transient error subject to the retry strategy above, rather than immediately concluding that an irrecoverable gap has occurred.
+        If a file is rejected, the mirror client MUST NOT load any data from it and SHOULD retry, if the error may be transient.
+        After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File.
+        If the Snapshot File itself cannot be retrieved or is rejected after retries, as there is no further fallback, the client SHOULD alert the operator and stop until the issue is resolved.
       </t>
     </section>
     <section title="Signature and Staleness Verification">
