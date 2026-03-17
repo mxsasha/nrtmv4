@@ -11,7 +11,7 @@
 <meta content="Stavros Konstantaras" name="author">
 <meta content="
        
-      This document specifies a one-way synchronization HTTP-based protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4).
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4), in which files are distributed over HTTPS.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.
        
     " name="description">
@@ -19,7 +19,7 @@
 <meta content="NRTM" name="keyword">
 <meta content="RPSL" name="keyword">
 <meta content="IRR" name="keyword">
-<meta content="draft-ietf-grow-nrtm-v4-08" name="ietf.draft">
+<meta content="draft-ietf-grow-nrtm-v4-09" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.21.0
     Python 3.9.6
@@ -1219,11 +1219,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">NRTM v4</td>
-<td class="right">February 2026</td>
+<td class="right">March 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Romijn, et al.</td>
-<td class="center">Expires 22 August 2026</td>
+<td class="center">Expires 18 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1234,12 +1234,12 @@ li > p:last-of-type:only-child {
 <dd class="workgroup">GROW</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-18" class="published">18 February 2026</time>
+<time datetime="2026-03-17" class="published">17 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-22">22 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-18">18 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1265,7 +1265,7 @@ li > p:last-of-type:only-child {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
-      This document specifies a one-way synchronization HTTP-based protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4).
+      This document specifies a one-way synchronization protocol for Internet Routing Registry (IRR) records, called Near Real Time Mirroring version 4 (NRTMv4), in which files are distributed over HTTPS.
       The protocol allows instances of IRR database servers to mirror IRR records, specified in the Routing Policy Specification Language (RPSL), between each other.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note" id="section-note.1">
@@ -1294,7 +1294,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1376,10 +1376,13 @@ li > p:last-of-type:only-child {
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-processing-delta-files" class="internal xref">Processing Delta Files</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-signature-and-staleness-ver" class="internal xref">Signature and Staleness Verification</a></p>
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-error-recovery" class="internal xref">Error Recovery</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
-                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-policy-restrictions" class="internal xref">Policy Restrictions</a></p>
+                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-signature-and-staleness-ver" class="internal xref">Signature and Staleness Verification</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.7">
+                <p id="section-toc.1-1.5.2.7.1"><a href="#section-5.7" class="auto internal xref">5.7</a>.  <a href="#name-policy-restrictions" class="internal xref">Policy Restrictions</a></p>
 </li>
             </ul>
 </li>
@@ -1485,13 +1488,13 @@ li > p:last-of-type:only-child {
       </h2>
 <p id="section-1-1">
       The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL) <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.
-      About a dozen larger IRR Databases are well known and widely used, operated by different organizations such as RIRs and some large network operators.
+      About a dozen larger IRR Databases are well known and widely used, operated by different organizations such as Regional Internet Registries and some large network operators.
       IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
       Most of these well-known IRR Databases mirror IRR objects from some others, so that queries run against these instances provide a comprehensive view.
       Some parties also mirror IRR Databases to private IRR server instances, to reduce latency when replying to queries, analyze IRR objects, or other purposes.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">
-      NRTM version 4 (NRTMv4) is an HTTP-based protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
+      NRTM version 4 (NRTMv4) is a protocol for IRR mirroring, designed to address issues in existing IRR Database mirroring protocols.
       In NRTMv4, IRR Databases publish their records on an HTTPS <span>[<a href="#STD97" class="cite xref">STD97</a>]</span> endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is improved.
@@ -1561,7 +1564,7 @@ li > p:last-of-type:only-child {
 <p id="section-2-5">
        The Update Notification File MUST be in the JSON Web Signature <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span> format, where the payload is in the JavaScript Object Notation (JSON) format <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span>.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <span>[<a href="#RFC7464" class="cite xref">RFC7464</a>]</span> format, so that each object in large files can be parsed independently.
-       All files MUST use UTF-8 encoding <span>[<a href="#STD63" class="cite xref">STD63</a>]</span> and MAY be compressed with GZIP <span>[<a href="#RFC1952" class="cite xref">RFC1952</a>]</span>.<a href="#section-2-5" class="pilcrow">¶</a></p>
+       Files MAY be compressed with GZIP <span>[<a href="#RFC1952" class="cite xref">RFC1952</a>]</span>.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">
        Mirror clients initially retrieve the small Update Notification File and a Snapshot File, from which they initialize their local copy of the Database.
        After that, mirror clients only retrieve the Update Notification File periodically, typically every minute, to determine whether there are any changes, and then retrieve only the relevant Delta Files, if any.
@@ -1612,7 +1615,7 @@ li > p:last-of-type:only-child {
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-1.13">Version</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.14">A incremental number that identifies the IRR Database at a particular point in time.<a href="#section-3-1.14" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-3-1.14">An incremental number that identifies the IRR Database at a particular point in time.<a href="#section-3-1.14" class="pilcrow">¶</a>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1626,9 +1629,9 @@ li > p:last-of-type:only-child {
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-key-configuration" class="section-name selfRef">Key Configuration</a>
         </h3>
 <p id="section-4.1-1">
-        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate and configure a private Elliptic Curve JSON Web Key <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>.
-        The operator then provides this public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
-        The published public key MUST be encoded in Privacy-Enhanced Mail (PEM) <span>[<a href="#RFC1421" class="cite xref">RFC1421</a>]</span>.
+        When enabling NRTMv4 publication for an IRR Database, the operator MUST generate a JSON Web Key <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> pair and configure the private key in the mirror server.
+        The operator then provides the corresponding public key, the name of the IRR Database, and publication URL of the Update Notification File to any operators of mirror clients.
+        The published public key MUST be encapsulated following Textual Encoding of Subject Public Key Info <span><a href="https://rfc-editor.org/rfc/rfc7468#section-13" class="relref">Section 13</a> of [<a href="#RFC7468" class="cite xref">RFC7468</a>]</span>, sometimes referred to as "PEM encoding".
         The process for providing this is not in the scope of this protocol, but a typical case is publication on the operator's known website.
         Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 9.6</a>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.1-2">
@@ -1662,7 +1665,7 @@ li > p:last-of-type:only-child {
         </ul>
 <p id="section-4.2-5">
         Note that a publication, and its associated session_ids and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent to each other, with different session IDs, potentially at different times.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring to two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent of each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1708,6 +1711,9 @@ li > p:last-of-type:only-child {
             Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.<a href="#section-4.3.1-3.8" class="pilcrow">¶</a>
 </li>
           </ul>
+<p id="section-4.3.1-4">
+          Mirror servers with high object churn are RECOMMENDED to generate new Snapshot Files more frequently than the required minimum, to limit the length of the delta chain that clients must traverse on initialization or after a gap.
+          Long delta chains increase initialization time and resource consumption for mirror clients.<a href="#section-4.3.1-4" class="pilcrow">¶</a></p>
 </section>
 <section id="section-4.3.2">
           <h4 id="name-snapshot-files">
@@ -1805,7 +1811,7 @@ li > p:last-of-type:only-child {
           The client MUST record the session_id and version of the loaded Snapshot File.<a href="#section-5.3-2.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.3-2.6">
-          If an Update Notification File or a Delta File has an invalid syntax (including missing mandatory parameters), the file MUST be rejected.
+          If an Update Notification File or a Snapshot File has an invalid syntax (e.g. missing mandatory parameters), the file MUST be rejected.
           For validating the IRR objects contained in the files, see <a href="#irr_object_validation" class="auto internal xref">Section 9.2</a>.<a href="#section-5.3-2.6" class="pilcrow">¶</a>
 </li>
         </ul>
@@ -1868,25 +1874,39 @@ li > p:last-of-type:only-child {
         Additionally, the changes in a specific Delta File MUST be processed either completely, or not at all, i.e., a Delta File must never be partially processed.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-5.5">
-        <h3 id="name-signature-and-staleness-ver">
-<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-signature-and-staleness-ver" class="section-name selfRef">Signature and Staleness Verification</a>
+        <h3 id="name-error-recovery">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-error-recovery" class="section-name selfRef">Error Recovery</a>
         </h3>
 <p id="section-5.5-1">
-        Every time a mirror client retrieves a new version of the Update Notification File, it MUST verify the included signature.
-        The signature MUST be valid for the configured public key for the contents of the Update Notification File.
-        If the signature does not match, the mirror client MUST reject the Update Notification File, unless a key rotation is in progress as described in <a href="#public_key_rotation" class="auto internal xref">Section 9.6</a>.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+        When a mirror client fails to retrieve any file due to a transient error, such as a network failure or an HTTP 5xx response, the client SHOULD retry before concluding the retrieval has failed.
+        It is RECOMMENDED that implementations use a bounded exponential backoff strategy, starting from a short initial interval (e.g., a few seconds) up to a capped maximum interval (e.g., several minutes), with a bounded total retry duration.
+        Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <p id="section-5.5-2">
-        A mirror client can use the generation timestamp in the Update Notification File to check whether the file is stale, as the mirror server must update this file at least every 24 hours.
-        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages or other alerting, but MAY continue to process it otherwise.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
+        If a file is rejected, the mirror client MUST NOT load any data from it.
+        If the error may be transient, the mirror client SHOULD retry.
+        After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File.
+        If the Snapshot File itself cannot be retrieved or is rejected after retries, as there is no further fallback, the client SHOULD alert the operator and stop until the issue is resolved.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-5.6">
-        <h3 id="name-policy-restrictions">
-<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-policy-restrictions" class="section-name selfRef">Policy Restrictions</a>
+        <h3 id="name-signature-and-staleness-ver">
+<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-signature-and-staleness-ver" class="section-name selfRef">Signature and Staleness Verification</a>
         </h3>
 <p id="section-5.6-1">
-        A mirror client MAY have a policy that restricts the processing of objects to certain object classes, or other limitations on which objects it processes.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+        Every time a mirror client retrieves a new version of the Update Notification File, it MUST verify the included signature.
+        The signature MUST be valid for the configured public key for the contents of the Update Notification File.
+        If the signature does not match, the mirror client MUST reject the Update Notification File, unless a key rotation is in progress as described in <a href="#public_key_rotation" class="auto internal xref">Section 9.6</a>.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 <p id="section-5.6-2">
-        If a mirror client has a policy that restricts object processing, this MUST be applied consistently to Snapshot Files and Delta Files from the moment the policy is enacted or modified.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+        A mirror client can use the generation timestamp in the Update Notification File to check whether the file is stale, as the mirror server must update this file at least every 24 hours.
+        If the generation timestamp is more than 24 hours ago, the file is stale and the mirror client SHOULD warn the operator in log messages or other alerting, but MAY continue to process it otherwise.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+</section>
+<section id="section-5.7">
+        <h3 id="name-policy-restrictions">
+<a href="#section-5.7" class="section-number selfRef">5.7. </a><a href="#name-policy-restrictions" class="section-name selfRef">Policy Restrictions</a>
+        </h3>
+<p id="section-5.7-1">
+        A mirror client MAY have a policy that restricts the processing of objects to certain object classes, or other limitations on which objects it processes.<a href="#section-5.7-1" class="pilcrow">¶</a></p>
+<p id="section-5.7-2">
+        If a mirror client has a policy that restricts object processing, this MUST be applied consistently to Snapshot Files and Delta Files from the moment the policy is enacted or modified.<a href="#section-5.7-2" class="pilcrow">¶</a></p>
 </section>
 </section>
 <section id="section-6">
@@ -1913,6 +1933,10 @@ li > p:last-of-type:only-child {
 <p id="section-6.2-2">
         However, since this file is used by mirror clients to determine whether any updates are available, the mirror server SHOULD ensure that this file is not cached for longer than one minute.
         An exception to this rule is that it is better to serve a stale Update Notification File rather than no Update Notification File.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">
+        Mirror servers SHOULD set the HTTP <code>Cache-Control</code> response header on the Update Notification File to <code>no-cache</code> or <code>max-age=60</code>, consistent with the one-minute caching limit.
+        Mirror servers SHOULD set <code>Cache-Control: immutable</code> on responses for Snapshot Files and Delta Files, as these are immutable for a given session_id and version.
+        Mirror clients MAY use HTTP conditional requests (e.g., using <code>If-None-Match</code> with ETags or <code>If-Modified-Since</code>) when polling the Update Notification File, to reduce bandwidth consumption when no changes have occurred.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 </section>
 <section id="section-6.3">
         <h3 id="name-payload-format-and-validati">
@@ -1922,7 +1946,6 @@ li > p:last-of-type:only-child {
         An example payload of an Update Notification File is provided below:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <div class="sourcecode" id="section-6.3-2">
 <pre>
-# NOTE: '\' line wrapping per RFC 8792
 {
   "nrtm_version": 4,
   "timestamp": "2025-12-01T15:00:00Z",
@@ -1933,27 +1956,27 @@ li > p:last-of-type:only-child {
   "version": 4,
   "snapshot": {
     "version": 3,
-    "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snap\
-shot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz",
+    "url":
+"ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.04759.json.gz",
     "hash": "9a..86"
   },
   "deltas": [
     {
       "version": 2,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
-lta.1.784a2a65aba22e001fd25a1b9e8544e058fbc703.json",
+      "url":
+"ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.1.784a2a6.json",
       "hash": "62..a2"
     },
     {
       "version": 3,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
-lta.2.0f681f07cfab5611f3681bf030ec9f6fa3442fb0.json",
+      "url":
+"ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.2.0f681f0.json",
       "hash": "25..9a"
     },
     {
       "version": 4,
-      "url": "ca128382-78d9-41d1-8927-1ecef15275be/nrtm-de\
-lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
+      "url":
+"ca128382-78d9-41d1-8927-1ecef15275be/nrtm-delta.3.d9c194a.json",
       "hash": "b4..13"
     }
   ],
@@ -1964,56 +1987,61 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
 <p id="section-6.3-3">
         Note: hash and key values in this example are shortened because of formatting.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <p id="section-6.3-4">
-        The following validation rules MUST be observed when creating or parsing Update Notification Files:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+        In this example, the overall version is 4, the snapshot is at version 3, and deltas are listed for versions 2, 3, and 4.
+        The deltas at versions 2 and 3 predate the snapshot but are still within the 24-hour retention window.
+        A new client would initialize from the snapshot at version 3 and then apply only delta 4.
+        An existing client already at version 1 can instead apply deltas 2, 3, and 4 without reinitializing from the snapshot.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+<p id="section-6.3-5">
+        The following validation rules MUST be observed when creating or parsing Update Notification Files:<a href="#section-6.3-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.3-5.1">
-          The nrtm_version MUST be 4.<a href="#section-6.3-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.3-6.1">
+          The nrtm_version MUST be 4.<a href="#section-6.3-6.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.2">
-          The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp with the time-offset set to "Z".<a href="#section-6.3-5.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.2">
+          The timestamp MUST be an <span>[<a href="#RFC3339" class="cite xref">RFC3339</a>]</span> timestamp with the time-offset set to "Z".<a href="#section-6.3-6.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.3">
-          The type MUST be "notification".<a href="#section-6.3-5.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.3">
+          The type MUST be "notification".<a href="#section-6.3-6.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.4">
+          <li class="normal" id="section-6.3-6.4">
           The optional field next_signing_key is used for in-band key rotation.
-          If present, it MUST be an Elliptic Curve JWK <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> public key encoded in PEM, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
+          If present, it MUST be a JWK <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> public key encoded in PEM, which matches the private key the mirror server will start using to sign the Update Notification File in the near future.
           Key rotation is described in <a href="#public_key_rotation" class="auto internal xref">Section 9.6</a>.
-          If there is no next signing key, this key MUST be omitted.<a href="#section-6.3-5.4" class="pilcrow">¶</a>
+          If there is no next signing key, this key MUST be omitted.<a href="#section-6.3-6.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.5">
-          The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-6.3-5.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.5">
+          The source MUST be a valid IRR object name <span>[<a href="#RFC2622" class="cite xref">RFC2622</a>]</span>.<a href="#section-6.3-6.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.6">
-          The session_id attribute MUST be a UUIDv4 (Section 5.4 of <span>[<a href="#RFC9562" class="cite xref">RFC9562</a>]</span>) unique to this session for this source.<a href="#section-6.3-5.6" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.6">
+          The session_id attribute MUST be a UUIDv4 (Section 5.4 of <span>[<a href="#RFC9562" class="cite xref">RFC9562</a>]</span>) unique to this session for this source.<a href="#section-6.3-6.6" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.7">
-          The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-6.3-5.7" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.7">
+          The version MUST be an unsigned positive integer and be equal to the highest version of the deltas and snapshot.<a href="#section-6.3-6.7" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.8">
-          The file MUST contain exactly one snapshot.<a href="#section-6.3-5.8" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.8">
+          The file MUST contain exactly one snapshot.<a href="#section-6.3-6.8" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.9">
-          The file MAY contain one or more deltas.<a href="#section-6.3-5.9" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.9">
+          The file MAY contain one or more deltas.<a href="#section-6.3-6.9" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.10">
-          The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-6.3-5.10" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.3-6.10">
+          The deltas MUST have a sequential contiguous set of version numbers.<a href="#section-6.3-6.10" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.11">
+          <li class="normal" id="section-6.3-6.11">
           Each snapshot and delta element MUST have a version, URL and hash attribute.
           The URL must be relative to the path of the Update Notification File.
           For example, if the Update Notification File example above is published on https://example.com/nrtm/update-notification-file.json, the full URL for the referred snapshot is https://example.com/nrtm/ca128382-78d9-41d1-8927-1ecef15275be/nrtm-snapshot.2.047595d0fae972fbed0c51b4a41c7a349e0c47bb.json.gz.
-          If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz", and the hash MUST match the compressed data.<a href="#section-6.3-5.11" class="pilcrow">¶</a>
+          If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz", and the hash MUST match the compressed data.<a href="#section-6.3-6.11" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.12">
+          <li class="normal" id="section-6.3-6.12">
           The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <span>[<a href="#SHS" class="cite xref">SHS</a>]</span> of the referenced file.
-          The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-6.3-5.12" class="pilcrow">¶</a>
+          The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.<a href="#section-6.3-6.12" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-6.3-5.13">
+          <li class="normal" id="section-6.3-6.13">
           The metadata key MAY be present, used for metadata produced by the server to aid in tracing and debugging.
           This can contain information like the name of the host on which the file was generated or the name and version of the software used.
           Each mirror server may choose which fields to include, or choose to not include any metadata.
-          The mirror server SHOULD NOT cause excessive size increases by adding extensive metadata in the Update Notification File, as it is the most frequently retrieved file.<a href="#section-6.3-5.13" class="pilcrow">¶</a>
+          The mirror server SHOULD NOT cause excessive size increases by adding extensive metadata in the Update Notification File, as it is the most frequently retrieved file.<a href="#section-6.3-6.13" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2032,6 +2060,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
           The filename of the serialized data MUST be "update-notification-file.jose".<a href="#section-6.4-1.3" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-6.4-1.4">
+          Implementations MUST support ES256 for interoperability.
           The algorithm MUST NOT be Deprecated, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as listed in the IANA JOSE Algorithms registry <span>[<a href="#IANA_jose" class="cite xref">IANA_jose</a>]</span>.<a href="#section-6.4-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
@@ -2335,9 +2364,7 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-10-1">
-      NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
-      Solution requirements that arise in the future are likely best solved using either <span><a href="#RFC6480" class="internal xref">RPKI</a> [<a href="#RFC6480" class="cite xref">RFC6480</a>]</span> or <span><a href="#RFC9082" class="internal xref">RDAP</a> [<a href="#RFC9082" class="cite xref">RFC9082</a>]</span>.
-      From that perspective, the document does not define any IANA registry for protocol maintenance.<a href="#section-10-1" class="pilcrow">¶</a></p>
+      This document has no IANA actions.<a href="#section-10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security_considerations">
@@ -2371,22 +2398,19 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       </h2>
 <p id="section-12-1">
       The authors would like to thank
-        George Michaelson, Shon Huang, Tim Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, and Paul Etchells
+        George Michaelson, Shon Huang, Tim Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, Paul Etchells,
+        and Mohamed Boucadair
       for their helpful review of this document and/or work on implementations.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-2">
+      The authors would also like to thank
+        Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
+      for their reviews during IETF Last Call.<a href="#section-12-2" class="pilcrow">¶</a></p>
 </section>
 <section id="section-13">
       <h2 id="name-normative-references">
 <a href="#section-13" class="section-number selfRef">13. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
-<dt id="STD63">[STD63]</dt>
-      <dd>
-<div class="refInstance">Internet Standard 63, <span>&lt;<a href="https://www.rfc-editor.org/info/std63">https://www.rfc-editor.org/info/std63</a>&gt;</span>.<br><span>At the time of writing, this STD comprises the following:</span>
-</div>
-<div class="refInstance" id="RFC3629">
-          <span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3629">https://www.rfc-editor.org/info/rfc3629</a>&gt;</span>. </div>
-</dd>
-<dd class="break"></dd>
 <dt id="STD97">[STD97]</dt>
       <dd>
 <div class="refInstance">Internet Standard 97, <span>&lt;<a href="https://www.rfc-editor.org/info/std97">https://www.rfc-editor.org/info/std97</a>&gt;</span>.<br><span>At the time of writing, this STD comprises the following:</span>
@@ -2394,10 +2418,6 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
 <div class="refInstance" id="RFC9110">
           <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9110">https://www.rfc-editor.org/info/rfc9110</a>&gt;</span>. </div>
 </dd>
-<dd class="break"></dd>
-<dt id="RFC1421">[RFC1421]</dt>
-      <dd>
-<span class="refAuthor">Linn, J.</span>, <span class="refTitle">"Privacy Enhancement for Internet Electronic Mail: Part I: Message Encryption and Authentication Procedures"</span>, <span class="seriesInfo">RFC 1421</span>, <span class="seriesInfo">DOI 10.17487/RFC1421</span>, <time datetime="1993-02" class="refDate">February 1993</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc1421">https://www.rfc-editor.org/info/rfc1421</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1952">[RFC1952]</dt>
       <dd>
@@ -2426,6 +2446,10 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
 <dt id="RFC7464">[RFC7464]</dt>
       <dd>
 <span class="refAuthor">Williams, N.</span>, <span class="refTitle">"JavaScript Object Notation (JSON) Text Sequences"</span>, <span class="seriesInfo">RFC 7464</span>, <span class="seriesInfo">DOI 10.17487/RFC7464</span>, <time datetime="2015-02" class="refDate">February 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7464">https://www.rfc-editor.org/info/rfc7464</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7468">[RFC7468]</dt>
+      <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">S. Leonard</span>, <span class="refTitle">"Textual Encodings of PKIX, PKCS, and CMS Structures"</span>, <span class="seriesInfo">RFC 7468</span>, <span class="seriesInfo">DOI 10.17487/RFC7468</span>, <time datetime="2015-04" class="refDate">April 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7468">https://www.rfc-editor.org/info/rfc7468</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7515">[RFC7515]</dt>
       <dd>
@@ -2472,17 +2496,9 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
       <dd>
 <span class="refAuthor">Mills, D.</span>, <span class="refAuthor">Martin, J., Ed.</span>, <span class="refAuthor">Burbank, J.</span>, and <span class="refAuthor">W. Kasch</span>, <span class="refTitle">"Network Time Protocol Version 4: Protocol and Algorithms Specification"</span>, <span class="seriesInfo">RFC 5905</span>, <span class="seriesInfo">DOI 10.17487/RFC5905</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5905">https://www.rfc-editor.org/info/rfc5905</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC6480">[RFC6480]</dt>
-      <dd>
-<span class="refAuthor">Lepinski, M.</span> and <span class="refAuthor">S. Kent</span>, <span class="refTitle">"An Infrastructure to Support Secure Internet Routing"</span>, <span class="seriesInfo">RFC 6480</span>, <span class="seriesInfo">DOI 10.17487/RFC6480</span>, <time datetime="2012-02" class="refDate">February 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6480">https://www.rfc-editor.org/info/rfc6480</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8182">[RFC8182]</dt>
       <dd>
 <span class="refAuthor">Bruijnzeels, T.</span>, <span class="refAuthor">Muravskiy, O.</span>, <span class="refAuthor">Weber, B.</span>, and <span class="refAuthor">R. Austein</span>, <span class="refTitle">"The RPKI Repository Delta Protocol (RRDP)"</span>, <span class="seriesInfo">RFC 8182</span>, <span class="seriesInfo">DOI 10.17487/RFC8182</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8182">https://www.rfc-editor.org/info/rfc8182</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9082">[RFC9082]</dt>
-      <dd>
-<span class="refAuthor">Hollenbeck, S.</span> and <span class="refAuthor">A. Newton</span>, <span class="refTitle">"Registration Data Access Protocol (RDAP) Query Format"</span>, <span class="seriesInfo">STD 95</span>, <span class="seriesInfo">RFC 9082</span>, <span class="seriesInfo">DOI 10.17487/RFC9082</span>, <time datetime="2021-06" class="refDate">June 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9082">https://www.rfc-editor.org/info/rfc9082</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="NRTMv3">[NRTMv3]</dt>
     <dd>
@@ -2503,6 +2519,10 @@ lta.3.d9c194acbb2cb0d4088c9d8a25d5871cdd802c79.json",
 <div class="email">
 <span>Email:</span>
 <a href="mailto:sasha@reliablycoded.nl" class="email">sasha@reliablycoded.nl</a>
+</div>
+<div class="url">
+<span>URI:</span>
+<a href="https://www.reliablycoded.nl/" class="url">https://www.reliablycoded.nl/</a>
 </div>
 </address>
 <address class="vcard">
