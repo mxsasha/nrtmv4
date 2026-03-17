@@ -909,8 +909,7 @@
 
   <section title="IANA Considerations" anchor="IANA">
     <t>
-      Most new development in this field takes place in <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>, and IRR has seen limited new development for a considerable time, and many potential IRR changes, such as changes to object definitions, can take place without changes to this protocol.
-      From that perspective, the document does not define any IANA registry for protocol maintenance.
+      This document has no IANA actions.
     </t>
   </section>
 
