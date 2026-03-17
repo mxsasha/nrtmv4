@@ -909,7 +909,9 @@
 
   <section title="IANA Considerations" anchor="IANA">
     <t>
-      This document has no IANA actions.
+      NRTMv4 is expected to be the final revision of the protocol family used for IRR database replication.
+      Solution requirements that arise in the future are likely best solved using either <xref target="RFC6480">RPKI</xref> or <xref target="RFC9082">RDAP</xref>.
+      From that perspective, the document does not define any IANA registry for protocol maintenance.
     </t>
   </section>
 
