@@ -572,6 +572,12 @@
         Note: hash and key values in this example are shortened because of formatting.
       </t>
       <t>
+        In this example, the overall version is 4, the snapshot is at version 3, and deltas are listed for versions 2, 3, and 4.
+        The deltas at versions 2 and 3 predate the snapshot but are still within the 24-hour retention window.
+        A new client would initialize from the snapshot at version 3 and then apply only delta 4.
+        An existing client already at version 1 can instead apply deltas 2, 3, and 4 without reinitializing from the snapshot.
+      </t>
+      <t>
         The following validation rules MUST be observed when creating or parsing Update Notification Files:
       </t>
       <ul>
