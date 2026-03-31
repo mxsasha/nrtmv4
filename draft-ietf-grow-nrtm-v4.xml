@@ -469,6 +469,7 @@
       <t>
         When a mirror client fails to retrieve any file due to a transient error, such as a network failure or an HTTP 5xx response, the client SHOULD retry before concluding the retrieval has failed.
         It is RECOMMENDED that implementations use a bounded exponential backoff strategy, starting from a short initial interval (e.g., a few seconds) up to a capped maximum interval (e.g., several minutes), with a bounded total retry duration.
+        This prevents unnecessary Snapshot imports on clients, and can prevent clients overwhelming a server on transient failures.
         Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.
       </t>
       <t>
@@ -969,12 +970,10 @@
         George Michaelson, Shon Huang, Tim Bruijnzeels, Mahesh Aggarwal, Fedor Vompe, Paul Etchells,
         and Mohamed Boucadair
       for their helpful review of this document and/or work on implementations.
-    </t>
-    <t>
       The authors would also like to thank
         Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
       for their reviews during IETF Last Call.
-    </t>
+      The authors thank Gorry Fairhurst for the comments and feedback.
   </section>
 
 </middle>
