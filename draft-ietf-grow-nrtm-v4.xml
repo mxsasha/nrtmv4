@@ -879,7 +879,8 @@
 
     <section title="Public Key Rotation" anchor="public_key_rotation">
       <t>
-        It is RECOMMENDED that IRR Database operators rotate the signing key on their mirror server about once per year.
+        It is recommended that the IRR Database operators rotate the signing key on their mirror server with a frequency that is not disruptive to operations but preserves the familiarity of the practices to accomplish key rotation.
+        Many organizations have settled on annual cycles.
         The next_signing_key field in the Update Notification File supports in-band key rotation using the following process:
       </t>
         <ul>
