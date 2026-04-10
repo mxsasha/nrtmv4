@@ -102,7 +102,7 @@
 
   <section title="Introduction">
     <t>
-      The Internet Routing Registry (IRR) consists of several IRR Databases, each storing objects in the Routing Policy Specification Language (RPSL) <xref target="RFC2622"/>.
+      The Internet Routing Registry (IRR) consists of several IRR Databases, each representing objects in the Routing Policy Specification Language (RPSL) <xref target="RFC2622"/>.
       About a dozen larger IRR Databases are well known and widely used, operated by different organizations such as Regional Internet Registries and some large network operators.
       IRR objects serve many purposes, ranging from manual research by operators to automated network configuration and filtering.
     </t>
@@ -269,7 +269,7 @@
       </ul>
       <t>
         Note that a publication, and its associated session_ids and versions, always relates to a single specific IRR Database, even if multiple databases are published from one instance.
-        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH, will generate two Update Notification Files, referring to two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent of each other, with different session IDs, potentially at different times.
+        For example, a mirror server publishing NRTMv4 for RIPE and RIPE-NONAUTH (two separate IRR Databases), will generate two Update Notification Files, referring to two Snapshot Files, and two sets of Delta Files each with contiguous version numbers - all completely independent of each other, with different session IDs, potentially at different times.
         This applies even if the same IRR server instance produces both.
       </t>
     </section>
@@ -354,7 +354,7 @@
         <t>
           A mirror server MAY have a policy that restricts the publication of certain IRR objects or attributes, or modifies these before publication.
           Typical scenarios for this include preventing the distribution of certain personal data or password hashes, or excluding objects which do not meet validation rules like Resource Public Key Infrastructure (RPKI) consistency.
-          It is RECOMMENDED to modify objects in such a way that this change is evident to humans reading the object text, for example, by adding remark lines or comments.
+          If objects are modified, it is RECOMMENDED that the mirror server makes it evident to humans reading the object text that the object was modified, for example, by adding remark lines or comments.
         </t>
         <t>
           Mirror servers are RECOMMENDED to remove password hashes from the auth lines in mntner objects, as they have little use beyond the authoritative server, and their publication may be a security risk.
@@ -842,7 +842,7 @@
         These cases create an inconsistency between the IRR objects of the server and client, and logs facilitate later analysis.
       </t>
       <t>
-        It is RECOMMENDED for mirror clients to be flexible where possible and reasonable when applying their own validation rules to IRR objects retrieved from mirror servers.
+        It is recommended for mirror clients to be flexible where possible and reasonable when applying their own validation rules to IRR objects retrieved from mirror servers.
         For example, a route object with an origin attribute that is not a valid AS number can't be usefully interpreted.
         There is no way for an IRR server to correctly parse and index such an object.
         However, a route-set object whose name does not start with "RS-" <xref target="RFC2622"/>, or an inetnum with an unknown extra "org" attribute, still allows the mirror client to interpret it unambiguously even if it does not meet the mirror client's own validation rules for authoritative records.
@@ -973,7 +973,7 @@
       The authors would also like to thank
         Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
       for their reviews during IETF Last Call.
-      The authors thank Gorry Fairhurst for the comments and feedback.
+      The authors thank Gorry Fairhurst and Andy Newton for the comments and feedback.
     </t>
   </section>
 
