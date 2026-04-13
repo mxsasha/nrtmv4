@@ -240,7 +240,7 @@
       </t>
       <t>
         It is RECOMMENDED that implementations provide easily accessible tools for operators to generate new signing keys to enter into their configuration and assist with key rotation.
-        All configuration options SHOULD be clearly named to indicate that they are private keys.
+        All configuration options SHOULD be clearly named to indicate that they are private keys, to reduce the risk of operator error causing accidental exposure.
       </t>
     </section>
     <section title="Snapshot Initialization" anchor="mirror_server_snapshot_initialization">
@@ -307,7 +307,9 @@
             The Update Notification File MUST be updated to include the new Delta File.
           </li>
           <li>
-            References to Delta Files older than 24 hours SHOULD be removed from the Update Notification File. Refer also to <xref target="storage" />.
+            References to Delta Files older than 24 hours SHOULD be removed from the Update Notification File.
+            This limits the potential length of the Delta chain that clients must process, where a Snapshot refresh may be more efficient, while also preventing overly frequent Snapshot reloads.
+            Refer also to <xref target="storage" />.
           </li>
           <li>
             Note that, as Delta Files always contain changes compared to a previous state, there can never be a Delta File with version 1.
@@ -341,7 +343,8 @@
           </li>
           <li>
             Snapshot generation may take some time, and in that time newer changes may occur that are not part of the snapshot in progress.
-            The mirror server SHOULD continue to produce Delta Files during this window, which means that the server may publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.
+            The mirror server SHOULD continue to produce Delta Files during this window, as pausing delta production would leave mirror clients without updates until the snapshot is complete.
+            This means that the server may publish a Snapshot File with a version number older than the most recent Delta File at the time of publication.
           </li>
         </ul>
       </section>
@@ -470,12 +473,12 @@
         When a mirror client fails to retrieve any file due to a transient error, such as a network failure or an HTTP 5xx response, the client SHOULD retry before concluding the retrieval has failed.
         It is RECOMMENDED that implementations use a bounded exponential backoff strategy, starting from a short initial interval (e.g., a few seconds) up to a capped maximum interval (e.g., several minutes), with a bounded total retry duration.
         This prevents unnecessary Snapshot imports on clients, and can prevent clients overwhelming a server on transient failures.
-        Mirror clients SHOULD log retry and recovery events including the reason, to aid operator troubleshooting.
+        Mirror clients SHOULD log retry and recovery events including the reason to assist operators in diagnosing mirroring failures.
       </t>
       <t>
         If a file is rejected, the mirror client MUST NOT load any data from it.
         If the error may be transient, the mirror client SHOULD retry.
-        After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File.
+        After exhausting retries, if the required Delta Files remain unavailable or are still rejected, the mirror client SHOULD reinitialize from the Snapshot File to prevent using stale data.
         If the Snapshot File itself cannot be retrieved or is rejected after retries, as there is no further fallback, the client SHOULD alert the operator and stop until the issue is resolved.
       </t>
     </section>
@@ -524,6 +527,7 @@
       <t>
         Mirror servers SHOULD set the HTTP <tt>Cache-Control</tt> response header on the Update Notification File to <tt>no-cache</tt> or <tt>max-age=60</tt>, consistent with the one-minute caching limit.
         Mirror servers SHOULD set <tt>Cache-Control: immutable</tt> on responses for Snapshot Files and Delta Files, as these are immutable for a given session_id and version.
+        Otherwise, clients and intermediaries may unnecessarily refetch large files.
         Mirror clients MAY use HTTP conditional requests (e.g., using <tt>If-None-Match</tt> with ETags or <tt>If-Modified-Since</tt>) when polling the Update Notification File, to reduce bandwidth consumption when no changes have occurred.
       </t>
     </section>
@@ -866,13 +870,13 @@
       <t>
         In the typical use case for NRTMv4, a mirror client retrieves files from an HTTPS endpoint.
         However, implementations MAY also support reading from files on the local filesystem instead, for when operators want to use a different method to retrieve or distribute the files.
-        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes.
+        When reading from local files, mirror clients SHOULD still follow all validation rules, including the validation of the signature and hashes, to prevent corrupted or tampered data from being loaded.
       </t>
     </section>
 
     <section title="Storage Considerations" anchor="storage">
       <t>
-        After publishing a new Update Notification File, and absent local policy, a mirror server SHOULD remove any Snapshot and Delta Files that are no longer referenced.
+        After publishing a new Update Notification File, and absent local policy, a mirror server SHOULD remove any Snapshot and Delta Files that are no longer referenced, as unreferenced files consume storage unnecessarily.
         To avoid race conditions where a mirror client retrieves an Update Notification File moments before it is updated, mirror servers SHOULD retain unreferenced files for at least 5 minutes after a new Update Notification File is published.
       </t>
     </section>
@@ -974,7 +978,7 @@
       The authors would also like to thank
         Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
       for their reviews during IETF Last Call.
-      The authors thank Gorry Fairhurst and Andy Newton for the comments and feedback.
+      The authors thank Gorry Fairhurst, Andy Newton and Éric Vyncke for the comments and feedback.
     </t>
   </section>
 
