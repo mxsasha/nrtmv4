@@ -399,7 +399,7 @@
           The client MUST retrieve the Snapshot File and load the objects into its local storage.
         </li>
         <li>
-          The mirror client MUST verify that the SHA-256 hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
+          The mirror client MUST verify that the calculated SHA-256 <xref target="SHS"/> hash of the Snapshot File matches the hash in the Update Notification File that referenced it.
           If the Snapshot File was compressed with GZIP, the hash MUST match the compressed data.
           As the Update Notification File is signed, this hash verification proves the integrity and authenticity for the Snapshot File.
           In case of a mismatch of this hash, the file MUST be rejected.
@@ -448,7 +448,7 @@
           The client MUST retrieve all Delta Files for versions since the client's last known version, if there are any.
         </li>
         <li>
-          The mirror client MUST verify that the SHA-256 hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
+          The mirror client MUST verify that the calculated SHA-256 hash of each newly downloaded Delta File matches the hash in the Update Notification File that referenced it.
           If the Delta File was compressed with GZIP, the hash MUST match the compressed file.
           As the Update Notification File is signed, this hash verification proves the integrity and authenticity for the Delta File.
           In case of a mismatch of this hash, the Delta File MUST be rejected.
@@ -629,7 +629,7 @@
           If the snapshot or delta file was compressed with GZIP, the filename MUST end in ".gz", and the hash MUST match the compressed data.
         </li>
         <li>
-          The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash <xref target="SHS"/> of the referenced file.
+          The hash attribute in snapshot and delta elements MUST be the hexadecimal encoding of the SHA-256 hash of the referenced file.
           This hash algorithm is fixed and independent of the JWS signing algorithm used for the Update Notification File, to verify the integrity of the Snapshot and Delta Files.
           The mirror client MUST verify this hash when the file is retrieved and reject the file if the hash does not match.
         </li>
@@ -668,7 +668,7 @@
         The Snapshot File reflects the complete and current contents of all IRR objects in an IRR Database.
         Mirror clients MUST use this to initialize their local copy of the IRR Database.
         Snapshot Files are not individually signed.
-        Their integrity is verified through their SHA-256 hash in the signed Update Notification File (see <xref target="encoding_and_signature"/>).
+        Their integrity is verified by comparing the calculated SHA-256 hash with the hash listed in the signed Update Notification File (see <xref target="encoding_and_signature"/>).
       </t>
     </section>
 
@@ -737,7 +737,7 @@
         A Delta File contains all changes for exactly one incremental update of the IRR Database.
         It may include new, modified and deleted objects. Delta Files can contain multiple alterations to multiple objects.
         Delta Files are not individually signed.
-        Their integrity is verified through their SHA-256 hash in the signed Update Notification File (see <xref target="encoding_and_signature"/>).
+        Their integrity is verified by comparing the calculated SHA-256 hash with the hash listed in the signed Update Notification File (see <xref target="encoding_and_signature"/>).
       </t>
     </section>
 
@@ -962,8 +962,8 @@
     </t>
     <t>
       NRTMv4 requires integrity verification.
-      The Update Notification File is signed, and clients must verify this signature.
-      The signed Update Notification File contains SHA-256 hashes of all Delta and Snapshot Files, which clients must verify on retrieval.
+      The Update Notification File is signed, and clients must verify its signature.
+      The signed Update Notification File contains SHA-256 hashes of all Delta and Snapshot Files, which clients must verify through calculating and comparing hashes on retrieval.
       Together, the signature and hash verification form a chain of trust from the signing key to each individual file.
       Additionally, the channel security offered by HTTPS further limits security risks.
     </t>
@@ -975,6 +975,7 @@
     <t>
       Since Snapshot and Delta Files may be compressed with GZIP, a maliciously crafted compressed file could expand to a much larger size than expected, potentially exhausting memory or disk resources.
       Implementations SHOULD enforce limits on the decompressed size of files relative to the compressed size or the expected data volume for the IRR Database.
+      See also the security considerations of <xref target="RFC6713"/>.
     </t>
     <t>
       The HTTPS endpoint used for NRTMv4 MUST be configured according to the best practices in <xref target="BCP195"/>.
@@ -1028,6 +1029,7 @@
 
   <references title="Informative References">
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml"/>
+    <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6713.xml"/>
     <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8182.xml"/>
 
     <reference anchor="NRTMv3" target="https://docs.db.ripe.net/RIPE-Database-Mirror/Access-to-NRTM/">
