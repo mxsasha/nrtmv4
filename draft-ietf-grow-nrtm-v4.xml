@@ -117,7 +117,7 @@
       In NRTMv4, IRR Databases publish their records on an HTTPS <xref target="STD97"/> endpoint, with periodic Snapshot Files and regular Delta Files.
       Signing allows integrity checks.
       By only generating files once and publishing them over HTTPS, scalability is improved.
-      NRTMv4 borrows some concepts in <xref target="RFC8182"/>, as there are overlaps between the two protocols.
+      NRTMv4 borrows some concepts from the RPKI Repository Delta Protocol <xref target="RFC8182"/>, as there are overlaps between the two protocols.
     </t>
 
     <t>
@@ -182,7 +182,7 @@
       </li>
      </ul>
      <t>
-       The Update Notification File MUST be in the JSON Web Signature <xref target="RFC7515" /> format, where the payload is in the JavaScript Object Notation (JSON) format <xref target="RFC8259" />.
+       The Update Notification File MUST be in the JSON Web Signature <xref target="RFC7515" /> format, where the payload is in JSON format <xref target="RFC8259" />.
        The Snapshot File and Delta Files MUST be in the JSON Text Sequences <xref target="RFC7464" /> format, so that each object in large files can be parsed independently.
        Files MAY be compressed with GZIP <xref target="RFC1952" />.
      </t>
@@ -309,6 +309,7 @@
           <li>
             References to Delta Files older than 24 hours SHOULD be removed from the Update Notification File.
             This limits the potential length of the Delta chain that clients must process, where a Snapshot refresh may be more efficient, while also preventing overly frequent Snapshot reloads.
+            However, a mirror server MUST NOT remove references to Delta Files with a version higher than the current Snapshot File version, as this would leave clients with no path from the snapshot to the current state.
             Refer also to <xref target="storage" />.
           </li>
           <li>
@@ -329,10 +330,11 @@
             If there have been no changes to the IRR objects since the last snapshot, the mirror server MUST NOT generate a new snapshot.
           </li>
           <li>
-            The mirror server MUST generate a new Snapshot File between once per hour and once per day, if there have been changes to the IRR objects.
+            The mirror server MUST generate a new Snapshot File at least once per day, if there have been changes to the IRR objects.
+            Mirror servers should not generate new Snapshot Files more than once per hour, as snapshot generation can be resource-intensive.
           </li>
           <li>
-            The version number of the new snapshot MUST be equal to the last Delta File version.
+            The version number of the new snapshot MUST be equal to the last Delta File version at the time the server begins generating the snapshot.
           </li>
           <li>
             The URL where the Snapshot File is published MUST contain the session ID and version number to allow it to be indefinitely cached.
@@ -815,7 +817,7 @@
           For objects that are listed in <xref target="RFC2622"/> and <xref target="RFC4012"/> the primary key is the value of the RPSL field defined as "class key".
           For object classes that define a pair of attributes as class key, e.g. route, the values of the individual attributes are appended together without separators.
           For any other objects, the primary key is the value of the RPSL field with the same name as the object class name.
-          The primary key and object class name are not case sensitive and therefore mirror clients MUST use case insensitive matching against their local database.
+          The primary key and object class name are not case-sensitive and therefore mirror clients MUST use case-insensitive matching against their local database.
         </li>
         <li>
           If action is "add_modify": an object attribute with the RPSL text of the new version of the object.
@@ -829,7 +831,7 @@
 
     <section title="Time">
       <t>
-        IRR clients and servers are RECOMMENDED to use <xref target="RFC5905">NTP</xref> synchronisation to avoid timing discrepancies.
+        IRR clients and servers are RECOMMENDED to use <xref target="RFC5905">NTP</xref> synchronization to avoid timing discrepancies.
       </t>
     </section>
 
@@ -992,7 +994,7 @@
       The authors would also like to thank
         Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
       for their reviews during IETF Last Call.
-      The authors thank Gorry Fairhurst, Andy Newton, Éric Vyncke, Deb Cooley and Roman Danyliw for the comments and feedback.
+      The authors thank Gorry Fairhurst, Andy Newton, Éric Vyncke, Mike Bishop, Deb Cooley, and Roman Danyliw for the comments and feedback.
     </t>
   </section>
 
