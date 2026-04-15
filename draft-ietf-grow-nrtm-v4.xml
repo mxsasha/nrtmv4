@@ -214,7 +214,7 @@
   <section title="Terminology">
     <dl>
       <dt>IRR Database</dt>
-      <dd>An Internet Routing Registry database that stores objects in the Routing Policy Specification Language (RPSL).</dd>
+      <dd>A logical collection of Internet Routing Registry objects represented in the Routing Policy Specification Language (RPSL), is often termed an IRR Database. This does not imply any particular storage technology.</dd>
       <dt>Snapshot File</dt>
       <dd>A file that reflects the complete contents of the IRR objects in an IRR Database, at a particular point in time.</dd>
       <dt>Delta File</dt>
@@ -226,7 +226,7 @@
       <dt>Mirror Client</dt>
       <dd>An instance of IRR Database software that retrieves IRR objects from a mirror server and loads them into its local storage.</dd>
       <dt>Version</dt>
-      <dd>An incremental number that identifies the IRR Database at a particular point in time.</dd>
+      <dd>A monotonically increasing positive integer, scoped to a session_id, that identifies a particular state of the IRR Database.</dd>
     </dl>
   </section>
   <section title="Mirror Server Use">
@@ -655,8 +655,10 @@
           The filename of the serialized data MUST be "update-notification-file.jose".
         </li>
         <li>
-          Implementations MUST support ES256 for interoperability.
-          The algorithm MUST NOT be Deprecated or Prohibited, and it is RECOMMENDED to use Recommended or Recommended+ algorithms, as listed in the IANA JOSE Algorithms registry <xref target="IANA_jose"/>.
+          Mirror clients MUST implement ES256.
+          Mirror servers MAY use ES256 or other digital signature algorithms from the IANA JOSE Algorithms registry <xref target="IANA_jose"/>; the algorithm MUST NOT be "none", a MAC algorithm, or <tt>Deprecated</tt> or <tt>Prohibited</tt>.
+          It is RECOMMENDED to use ES256 or other Recommended or Recommended+ algorithms.
+          If a server uses an algorithm other than ES256, it is the server operator's responsibility to ensure their mirror clients support that algorithm.
         </li>
       </ul>
     </section>
@@ -994,7 +996,7 @@
       The authors would also like to thank
         Daniele Ceccarelli, Claudio Allocchio, Menachem Dodge, Julian Reschke, Watson Ladd and Paul Kyzivat,
       for their reviews during IETF Last Call.
-      The authors thank Gorry Fairhurst, Andy Newton, Éric Vyncke, Mike Bishop, Deb Cooley, Roman Danyliw, and Mahesh Jethanandani for the comments and feedback.
+      The authors thank Gorry Fairhurst, Andy Newton, Éric Vyncke, Mike Bishop, Deb Cooley, Roman Danyliw, Mahesh Jethanandani, and Christopher Inacio for the comments and feedback.
     </t>
   </section>
 
