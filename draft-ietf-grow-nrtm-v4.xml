@@ -701,7 +701,7 @@
   "version": 3
 }
 ␞{"object": "route: 192.0.2.0/24\norigin: AS64500\nsource: EXAMPLE"}
-␞{"object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"}
+␞{"object": "route6: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"}
 ]]></sourcecode>
       <t>
         Note: IRR object texts in this example are shortened because of formatting.
@@ -780,7 +780,7 @@
 }
 ␞{
   "action": "add_modify",
-  "object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"
+  "object": "route6: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"
 }
 ]]></sourcecode>
       <t>
