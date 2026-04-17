@@ -5,16 +5,16 @@
 GROW                                                           S. Romijn
 Internet-Draft                                            Reliably Coded
 Intended status: Standards Track                             J. Snijders
-Expires: 17 October 2026                                             BSD
+Expires: 19 October 2026                                             BSD
                                                               E. Shryane
                                                                 RIPE NCC
                                                          S. Konstantaras
                                                                   AMS-IX
-                                                           15 April 2026
+                                                           17 April 2026
 
 
                Near Real Time Mirroring (NRTM) version 4
-                       draft-ietf-grow-nrtm-v4-10
+                       draft-ietf-grow-nrtm-v4-11
 
 Abstract
 
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 October 2026.
+   This Internet-Draft will expire on 19 October 2026.
 
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 1]
+Romijn, et al.           Expires 19 October 2026                [Page 1]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 2]
+Romijn, et al.           Expires 19 October 2026                [Page 2]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -165,7 +165,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 3]
+Romijn, et al.           Expires 19 October 2026                [Page 3]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -221,7 +221,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 4]
+Romijn, et al.           Expires 19 October 2026                [Page 4]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -277,7 +277,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 5]
+Romijn, et al.           Expires 19 October 2026                [Page 5]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -333,7 +333,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 6]
+Romijn, et al.           Expires 19 October 2026                [Page 6]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -389,7 +389,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 7]
+Romijn, et al.           Expires 19 October 2026                [Page 7]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -445,7 +445,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 8]
+Romijn, et al.           Expires 19 October 2026                [Page 8]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -501,7 +501,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026                [Page 9]
+Romijn, et al.           Expires 19 October 2026                [Page 9]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -557,7 +557,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 10]
+Romijn, et al.           Expires 19 October 2026               [Page 10]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -613,7 +613,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 11]
+Romijn, et al.           Expires 19 October 2026               [Page 11]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -669,7 +669,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 12]
+Romijn, et al.           Expires 19 October 2026               [Page 12]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -725,7 +725,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 13]
+Romijn, et al.           Expires 19 October 2026               [Page 13]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -781,7 +781,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 14]
+Romijn, et al.           Expires 19 October 2026               [Page 14]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -837,7 +837,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 15]
+Romijn, et al.           Expires 19 October 2026               [Page 15]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -893,7 +893,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 16]
+Romijn, et al.           Expires 19 October 2026               [Page 16]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -949,7 +949,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 17]
+Romijn, et al.           Expires 19 October 2026               [Page 17]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -980,7 +980,7 @@ Internet-Draft                   NRTM v4                      April 2026
      "version": 3
    }
    ␞{"object": "route: 192.0.2.0/24\norigin: AS64500\nsource: EXAMPLE"}
-   ␞{"object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"}
+   ␞{"object": "route6: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"}
 
    Note: IRR object texts in this example are shortened because of
    formatting.
@@ -1005,7 +1005,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 18]
+Romijn, et al.           Expires 19 October 2026               [Page 18]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1061,7 +1061,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 19]
+Romijn, et al.           Expires 19 October 2026               [Page 19]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1085,7 +1085,7 @@ Internet-Draft                   NRTM v4                      April 2026
    }
    ␞{
      "action": "add_modify",
-     "object": "route: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"
+     "object": "route6: 2001:db8::/32\norigin: AS64500\nsource: EXAMPLE"
    }
 
    Note: IRR object texts in this example are shortened because of
@@ -1117,7 +1117,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 20]
+Romijn, et al.           Expires 19 October 2026               [Page 20]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1173,7 +1173,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 21]
+Romijn, et al.           Expires 19 October 2026               [Page 21]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1229,7 +1229,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 22]
+Romijn, et al.           Expires 19 October 2026               [Page 22]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1285,7 +1285,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 23]
+Romijn, et al.           Expires 19 October 2026               [Page 23]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1341,7 +1341,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 24]
+Romijn, et al.           Expires 19 October 2026               [Page 24]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1397,7 +1397,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 25]
+Romijn, et al.           Expires 19 October 2026               [Page 25]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1453,7 +1453,7 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 26]
+Romijn, et al.           Expires 19 October 2026               [Page 26]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1509,7 +1509,7 @@ Authors' Addresses
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 27]
+Romijn, et al.           Expires 19 October 2026               [Page 27]
 
 Internet-Draft                   NRTM v4                      April 2026
 
@@ -1565,4 +1565,4 @@ Internet-Draft                   NRTM v4                      April 2026
 
 
 
-Romijn, et al.           Expires 17 October 2026               [Page 28]
+Romijn, et al.           Expires 19 October 2026               [Page 28]
